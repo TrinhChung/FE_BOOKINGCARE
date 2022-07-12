@@ -4,6 +4,7 @@ import { Route, Switch } from "react-router-dom";
 import { ConnectedRouter as Router } from "connected-react-router";
 import { history } from "../redux";
 import { ToastContainer } from "react-toastify";
+import HomePage from "./HomePage/HomePage";
 
 import {
   userIsAuthenticated,
@@ -58,6 +59,7 @@ class App extends Component {
                   path={path.SYSTEM}
                   component={userIsAuthenticated(System)}
                 />
+                <Route path={path.HOMEPAGE} component={HomePage} />
               </Switch>
             </span>
 

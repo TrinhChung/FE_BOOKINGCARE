@@ -1,0 +1,190 @@
+.home-header-container {
+    height: 60px;
+    width: 100%;
+    padding: 0 20px;
+
+    .home-header-content {
+        width: 100%;
+        height: 100%;
+        display: flex;
+
+        .left-content {
+            width: 25%;
+            display: flex;
+            align-items: center;
+            margin: 0 auto;
+            justify-content: center;
+
+            .header-logo {
+                background: url('../../assets/logo.svg') center no-repeat;
+                height: 40px;
+                width: 160px;
+                cursor: pointer;
+                margin-left: 10px;
+            }
+
+            i {
+                font-size: 25px;
+                color: gray;
+                cursor: pointer;
+
+            }
+        }
+
+        .center-content {
+            width: 50%;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .subs-title {
+                font-weight: 400;
+                font-size: 12px;
+
+            }
+        }
+
+        .right-content {
+            width: 25%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            .support {
+                padding-right: 50px;
+                display: flex;
+                align-items: center;
+
+                i {
+                    font-size: 16px;
+                    margin-right: 5px;
+                }
+            }
+
+            .language-vi {
+                cursor: pointer;
+
+                &.active {
+                    color: orange;
+                }
+            }
+
+            .language-en {
+                margin-left: 10px;
+                cursor: pointer;
+
+                &.active {
+                    color: blue;
+                }
+            }
+        }
+    }
+}
+
+.home-header-banner {
+    background: url('../../assets/headerbackground.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+
+
+
+
+    .content-up {
+        padding-top: 30px;
+        height: 60%;
+        background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(255, 255, 255, 0.1));
+
+
+        .title1 {
+            text-align: center;
+            font-size: 30px;
+            text-shadow: 1px 1px 1px #333;
+            margin-bottom: 5px;
+            color: white;
+        }
+
+        .title2 {
+            text-align: center;
+            font-size: 30px;
+            text-shadow: 1px 1px 1px #333;
+            color: white;
+            margin-bottom: 30px;
+
+        }
+
+        .search {
+            display: flex;
+            margin: 0 auto;
+            align-items: center;
+            padding: 7px 10px;
+            width: 400px;
+            border-radius: 50px;
+            background: #f7d800;
+
+
+            i {
+                margin: 0 5px;
+            }
+
+            input {
+                height: 30px;
+                width: 360px;
+                border: none;
+                outline: none;
+                background-color: transparent;
+            }
+        }
+
+    }
+
+    .content-down {
+        height: 40%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-image: linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 1));
+
+        .options {
+
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+
+            .option-child {
+                width: 150px;
+                height: 110px;
+
+                text-align: center;
+                padding: 5px;
+                cursor: pointer;
+
+                .icon-child {
+                    background: white;
+                    width: 50px;
+                    height: 50px;
+                    border-radius: 50%;
+                    box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.5);
+                    font-size: 30px;
+                    text-align: center;
+                    margin: 0 auto;
+                }
+
+                .text-child {
+                    font-weight: bold;
+                    font-size: 16px;
+
+                }
+
+                &:hover {
+                    color: #49bce2;
+                }
+            }
+
+        }
+    }
+
+}
