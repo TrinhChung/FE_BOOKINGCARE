@@ -1,0 +1,171 @@
+.section-share {
+    height: 330px;
+
+    &.section-specialty {
+        background: #f5f5f5;
+    }
+
+    &.section-medical-facility {
+        background: #f5f5f5;
+    }
+
+    &.outstanding-doctor-section {
+        background: rgb(230, 229, 229);
+    }
+
+    &.section-about {
+        height: 500px !important;
+    }
+
+
+    .section-container {
+        margin: 0 100px;
+        display: flex;
+        flex-direction: column;
+
+        .section-header {
+            padding-top: 10px;
+            margin: 20px 0 5px 0;
+            height: 60px;
+
+            span {
+                font-weight: bold;
+                font-size: 22px;
+            }
+
+            button {
+                float: right;
+                padding: 10px 15px;
+                outline: none;
+                border: none;
+                display: block;
+                background: #ebebeb;
+                color: black;
+                cursor: pointer;
+
+                &:hover {
+                    background: #f7d800;
+                }
+
+                font-weight: 400;
+            }
+        }
+
+        .section-body {
+
+
+            .section-customize {
+
+                .bg-image {
+                    background-repeat: no-repeat;
+                    background-size: cover;
+                    background-color: #eee;
+                    background-position: center;
+                    height: 150px;
+                    width: 330px;
+
+                    &.specialty-section {
+                        background-image: url('../../assets/specialty/co-xuong-khop.jpg');
+                    }
+
+                    &.medical-facility-section {
+                        background-image: url('../../assets/medical-facility/benh-vien-cho-ray.jpg');
+                    }
+
+                    &.outstanding-doctor-section {
+                        background-image: url('../../assets/outstanding-doctor/anh-dai-dien-bs.jpg');
+                        width: 120px;
+                        height: 120px;
+                        border-radius: 50%;
+                        box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.5);
+                    }
+                }
+
+
+            }
+
+
+        }
+
+    }
+
+
+}
+
+
+.outstanding-doctor-section {
+
+    .outer-bg {
+        display: flex;
+        justify-content: center;
+
+    }
+
+    .section-customize {
+        padding: 5px;
+
+        .customize-border {
+            border: 1px solid #333;
+            padding: 20px;
+            background: white;
+        }
+    }
+}
+
+.home-footer {
+    text-align: center;
+
+    a {
+        text-decoration: none;
+    }
+
+}
+
+
+.section-about {
+    margin: 0 100px;
+
+    .section-about-header {
+        padding: 15px;
+        font-size: 20px;
+        font-weight: 600;
+    }
+
+    .section-about-content {
+        display: flex;
+        gap: 10px;
+
+        .content-left {
+            width: 60%;
+        }
+
+        .content-right {}
+    }
+}
+
+
+
+.slick-prev {
+    left: -20 !important;
+    top: 50% !important;
+    z-index: 100 !important;
+    height: 48px !important;
+    width: 44px !important;
+}
+
+.slick-next {
+
+    right: 20 !important;
+    top: 50% !important;
+    height: 48px !important;
+    width: 44px !important;
+}
+
+.slick-prev::before,
+.slick-next::before {
+    font-size: 44px !important;
+    color: gray !important;
+
+}
+
+.slick-prev::before {}

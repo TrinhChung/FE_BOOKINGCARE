@@ -2,6 +2,10 @@
     height: 60px;
     width: 100%;
     padding: 0 20px;
+    top: 0;
+    position: fixed;
+    z-index: 100;
+    background: white;
 
     .home-header-content {
         width: 100%;
@@ -59,23 +63,38 @@
                 i {
                     font-size: 16px;
                     margin-right: 5px;
+                    color: #49bce2;
                 }
             }
 
             .language-vi {
                 cursor: pointer;
+                opacity: 0.2;
 
                 &.active {
                     color: orange;
+                    opacity: 1;
+                }
+
+                &:hover {
+                    color: orange;
+                    opacity: 0.5;
                 }
             }
 
             .language-en {
                 margin-left: 10px;
                 cursor: pointer;
+                opacity: 0.2;
 
                 &.active {
                     color: blue;
+                    opacity: 1;
+                }
+
+                &:hover {
+                    color: blue;
+                    opacity: 0.5;
                 }
             }
         }
@@ -83,6 +102,7 @@
 }
 
 .home-header-banner {
+    margin-top: 60px;
     background: url('../../assets/headerbackground.jpg');
     background-repeat: no-repeat;
     background-size: cover;
