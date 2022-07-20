@@ -55,6 +55,12 @@
 
 
             .section-customize {
+                cursor: pointer;
+
+                &:hover {
+                    color: rgb(58, 233, 253)
+                }
+
 
                 .bg-image {
                     background-repeat: no-repeat;
@@ -73,7 +79,6 @@
                     }
 
                     &.outstanding-doctor-section {
-                        background-image: url('../../assets/outstanding-doctor/anh-dai-dien-bs.jpg');
                         width: 120px;
                         height: 120px;
                         border-radius: 50%;
@@ -159,6 +164,10 @@
     top: 50% !important;
     height: 48px !important;
     width: 44px !important;
+}
+
+.slick-disabled {
+    display: none !important;
 }
 
 .slick-prev::before,

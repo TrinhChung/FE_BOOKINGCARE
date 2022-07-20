@@ -14,18 +14,20 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 class HomePage extends Component {
+  handleAfterChange = () => {};
   render() {
     let settings = {
       dots: false,
-      infinite: true,
+      infinite: false,
       speed: 400,
       slidesToShow: 4,
       slidesToScroll: 4,
       centerPadding: "100px",
+      afterChange: this.handleAfterChange,
     };
     return (
       <div className="home-page">
-        <HomeHeader />
+        <HomeHeader isShowBanner={true} />
         <Specialty settings={settings} />
         <MedicalFacility settings={settings} />
         <OutStandingDoctor settings={settings} />

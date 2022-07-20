@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./TableManageUser.scss";
 import * as actions from "../../../store/actions";
+
 class TableManageUser extends Component {
   constructor(props) {
     super(props);
@@ -24,47 +25,53 @@ class TableManageUser extends Component {
     this.props.deleteUserRedux(user.id);
   };
 
+  handleEditUser = (user) => {
+    this.props.handleEditUser(user);
+  };
+
   render() {
     let arrUsers = this.state.usersRedux;
     return (
-      <table id="TableManageUser">
-        <tbody>
-          <tr>
-            <th>Email</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Address</th>
-            <th>Action</th>
-          </tr>
+      <>
+        <table id="TableManageUser">
+          <tbody>
+            <tr>
+              <th>Email</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Address</th>
+              <th>Action</th>
+            </tr>
 
-          {arrUsers &&
-            arrUsers.length > 0 &&
-            arrUsers.map((user, index) => {
-              return (
-                <tr key={index}>
-                  <td>{user.email}</td>
-                  <td>{user.firstName}</td>
-                  <td>{user.lastName}</td>
-                  <td>{user.address}</td>
-                  <td>
-                    <button className="btn-edit">
-                      <i
-                        className="fas fa-pencil-alt"
-                        //   onClick={() => this.handleEditUser(user)}
-                      ></i>
-                    </button>
-                    <button
-                      className="btn-delete"
-                      onClick={() => this.handleDeleteUser(user)}
-                    >
-                      <i className="fas fa-trash"></i>
-                    </button>
-                  </td>
-                </tr>
-              );
-            })}
-        </tbody>
-      </table>
+            {arrUsers &&
+              arrUsers.length > 0 &&
+              arrUsers.map((user, index) => {
+                return (
+                  <tr key={index}>
+                    <td>{user.email}</td>
+                    <td>{user.firstName}</td>
+                    <td>{user.lastName}</td>
+                    <td>{user.address}</td>
+                    <td>
+                      <button className="btn-edit">
+                        <i
+                          className="fas fa-pencil-alt"
+                          onClick={() => this.handleEditUser(user)}
+                        ></i>
+                      </button>
+                      <button
+                        className="btn-delete"
+                        onClick={() => this.handleDeleteUser(user)}
+                      >
+                        <i className="fas fa-trash"></i>
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
+          </tbody>
+        </table>
+      </>
     );
   }
 }

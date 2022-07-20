@@ -17,7 +17,7 @@ class MedicalFacility extends Component {
             <Slider {...this.props.settings}>
               {arr.map((item, index) => {
                 return (
-                  <div className="section-customize">
+                  <div className="section-customize" key={index}>
                     <div className="bg-image medical-facility-section" />
                     <div>{index + 1}</div>
                   </div>

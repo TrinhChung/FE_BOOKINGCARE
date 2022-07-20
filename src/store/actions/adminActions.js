@@ -5,6 +5,10 @@ import {
   createNewUserService,
   getAllUsers,
   deleteUserService,
+  editUserService,
+  getTopDoctorHomeService,
+  getAllDoctorsServices,
+  saveDetailInfoDoctorService,
 } from "../../services/userService";
 
 export const fetchGenderStart = () => {
@@ -112,6 +116,8 @@ export const fetchAllUserStart = () => {
   return async (dispatch, getState) => {
     try {
       let res = await getAllUsers("All");
+      let res1 = await getTopDoctorHomeService(3);
+      console.log("res get top docter: ", res1);
       if (res && res.errCode === 0) {
         dispatch(fetchAllUserSuccess(res.users.reverse()));
       } else {
@@ -160,3 +166,102 @@ export const deleteUserSuccess = () => ({
 export const deleteUserFailed = () => ({
   type: actionTypes.DELETE_USER_FAILED,
 });
+
+export const EditAUser = (data) => {
+  return async (dispatch, getState) => {
+    try {
+      let res = await editUserService(data);
+      if (res && res.errCode === 0) {
+        toast.success("Update A USER SUCCESS");
+        dispatch(editAUserSuccess());
+        dispatch(fetchAllUserStart());
+      } else {
+        toast.error("Update A USER FAILED");
+        dispatch(EditAUserFailed());
+      }
+    } catch (err) {
+      toast.error("Update A USER FAILED");
+      dispatch(EditAUserFailed());
+      console.log("Update A User failed: ", err);
+    }
+  };
+};
+
+export const editAUserSuccess = () => ({
+  type: actionTypes.UPDATE_USER_SUCCESS,
+});
+
+export const EditAUserFailed = () => ({
+  type: actionTypes.UPDATE_USER_FAILED,
+});
+
+export const fetchTopDoctor = () => {
+  return async (dispatch, getState) => {
+    try {
+      let res = await getTopDoctorHomeService("");
+
+      if (res && res.errCode === 0) {
+        dispatch({
+          type: actionTypes.FETCH_TOP_DOCTOR_SUCCESS,
+          dataDoctors: res.data,
+        });
+      } else {
+        dispatch({
+          type: actionTypes.FETCH_TOP_DOCTOR_FAILED,
+        });
+      }
+    } catch (err) {
+      console.log("FETCH TOP DOCTOR FAILED ", err);
+      dispatch({ type: actionTypes.FETCH_TOP_DOCTOR_FAILED });
+    }
+  };
+};
+
+export const fetchAllDoctor = () => {
+  return async (dispatch, getState) => {
+    try {
+      let res = await getAllDoctorsServices();
+
+      if (res && res.errCode === 0) {
+        dispatch({
+          type: actionTypes.FETCH_ALL_DOCTOR_SUCCESS,
+          dataDoctors: res.data,
+        });
+      } else {
+        dispatch({
+          type: actionTypes.FETCH_ALL_DOCTOR_FAILED,
+        });
+      }
+    } catch (err) {
+      console.log("FETCH ALL DOCTOR FAILED ", err);
+      dispatch({ type: actionTypes.FETCH_ALL_DOCTOR_FAILED });
+    }
+  };
+};
+
+export const saveDetailDoctor = (data) => {
+  return async (dispatch, getState) => {
+    try {
+      let res = await saveDetailInfoDoctorService(data);
+
+      if (res && res.errCode === 0) {
+        toast.success("SAVE DETAIL DOCTOR SUCCESS");
+        dispatch({
+          type: actionTypes.SAVE_DETAIL_DOCTOR_SUCCESS,
+          dataDoctors: res.data,
+        });
+      } else {
+        toast.error("SAVE DETAIL DOCTOR FAIL");
+
+        dispatch({
+          type: actionTypes.SAVE_DETAIL_DOCTOR_FAILED,
+        });
+      }
+    } catch (err) {
+      toast.error("SAVE DETAIL DOCTOR FAIL");
+
+      console.log("SAVE_DETAIL_DOCTOR_FAILED", err);
+      dispatch({ type: actionTypes.SAVE_DETAIL_DOCTOR_FAILED });
+    }
+  };
+};
