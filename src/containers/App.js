@@ -9,7 +9,7 @@ import HomePage from "./HomePage/HomePage";
 import DetailDoctor from "./Patient/Doctor/DetailDoctor";
 import Doctor from "../routes/Doctor";
 import VerifyEmailBooking from "../containers/Patient/VerifyEmailBooking";
-
+import DetailSpecialty from "./Patient/Specialty/DetailSpecialty";
 import {
   userIsAuthenticated,
   userIsNotAuthenticated,
@@ -74,6 +74,10 @@ class App extends Component {
                   <Route
                     path={path.VERIFY_EMAIL_BOOKING}
                     component={VerifyEmailBooking}
+                  />
+                  <Route
+                    path={path.DETAILSPECIALTY}
+                    component={DetailSpecialty}
                   />
                 </Switch>
               </div>

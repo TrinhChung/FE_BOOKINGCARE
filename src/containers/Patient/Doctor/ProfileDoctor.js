@@ -52,23 +52,26 @@ class ProfileDoctor extends Component {
       nameEn = `${dataProfile.positionData.valueEn}, ${dataProfile.firstName} ${dataProfile.lastName}`;
     }
 
-    if (dataTime && dataTime.date) {
-      date =
-        language === LANGUAGES.VI
-          ? this.LetterCapitalize(
-              moment(new Date(+dataTime.date)).format("dddd-DD/MM/YYYY")
-            )
-          : moment(new Date(+dataTime.date))
-              .locale("en")
-              .format("dddd-DD/MM/YYYY");
+    if (!isShowDescription) {
+      if (dataTime && dataTime.date) {
+        date =
+          language === LANGUAGES.VI
+            ? this.LetterCapitalize(
+                moment(new Date(+dataTime.date)).format("dddd-DD/MM/YYYY")
+              )
+            : moment(new Date(+dataTime.date))
+                .locale("en")
+                .format("dddd-DD/MM/YYYY");
+      }
+
+      if (dataTime && dataTime.timeTypeData) {
+        time =
+          language === LANGUAGES.VI
+            ? dataTime.timeTypeData.valueVi + " " + date
+            : dataTime.timeTypeData.valueEn + " " + date;
+      }
     }
 
-    if (dataTime && dataTime.timeTypeData) {
-      time =
-        language === LANGUAGES.VI
-          ? dataTime.timeTypeData.valueVi + " " + date
-          : dataTime.timeTypeData.valueEn + " " + date;
-    }
     return (
       <div>
         <div className="intro-doctor mg-100">

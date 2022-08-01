@@ -11,6 +11,7 @@ const initialState = {
   prices: [],
   payments: [],
   provinces: [],
+  specialties: [],
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -111,6 +112,8 @@ const adminReducer = (state = initialState, action) => {
       copyState.prices = action.data.resPrice;
       copyState.payments = action.data.resPayment;
       copyState.provinces = action.data.resProvince;
+      copyState.specialties = action.data.resSpecialty;
+
       return {
         ...copyState,
       };
@@ -119,6 +122,7 @@ const adminReducer = (state = initialState, action) => {
       copyState.prices = [];
       copyState.payments = [];
       copyState.provinces = [];
+      copyState.specialties = [];
       return {
         ...copyState,
       };

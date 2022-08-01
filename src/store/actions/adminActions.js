@@ -9,6 +9,7 @@ import {
   getTopDoctorHomeService,
   getAllDoctorsServices,
   saveDetailInfoDoctorService,
+  getAllSpecialty,
 } from "../../services/userService";
 
 export const fetchGenderStart = () => {
@@ -294,11 +295,14 @@ export const getRequiredDoctorInfo = () => {
       let resPrice = await getAllCodeService("PRICE");
       let resPayment = await getAllCodeService("PAYMENT");
       let resProvince = await getAllCodeService("PROVINCE");
+      let resSpecialty = await getAllSpecialty();
 
       if (
         resPrice &&
         resPayment &&
         resProvince &&
+        resSpecialty &&
+        resSpecialty.errCode === 0 &&
         resPrice.errCode === 0 &&
         resPayment.errCode === 0 &&
         resProvince.errCode === 0
@@ -307,6 +311,7 @@ export const getRequiredDoctorInfo = () => {
           resPrice: resPrice.data,
           resPayment: resPayment.data,
           resProvince: resProvince.data,
+          resSpecialty: resSpecialty.data,
         };
         dispatch(getRequiredDoctorInfoSuccess(data));
       } else {

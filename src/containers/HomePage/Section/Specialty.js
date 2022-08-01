@@ -3,26 +3,60 @@ import { connect } from "react-redux";
 import "./Specialty.scss";
 import { FormattedMessage } from "react-intl";
 import Slider from "react-slick";
+import { getAllSpecialty } from "../../../services/userService";
+import { withRouter } from "react-router";
+
 class Specialty extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      dataSpecialty: [],
+    };
+  }
+
+  async componentDidMount() {
+    let res = await getAllSpecialty();
+    if (res && res.errCode === 0) {
+      this.setState({ dataSpecialty: res.data });
+    }
+  }
+
+  handleViewDetailSpecialty = (item) => {
+    this.props.history.push(`/detail-specialty/${item.id}`);
+  };
+
   render() {
-    const arr = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+    let dataSpecialty = this.state.dataSpecialty;
     return (
       <div className="section-share">
         <div className="section-container">
           <div className="section-header">
-            <span>Chuyen khoa pho bien</span>
-            <button>Xem them</button>
+            <span>
+              <FormattedMessage id="homepage.specialty-popular" />
+            </span>
+            <button>
+              <FormattedMessage id="homepage.more-info" />
+            </button>
           </div>
           <div className="section-body">
             <Slider {...this.props.settings}>
-              {arr.map((item, index) => {
-                return (
-                  <div className="section-customize" key={index}>
-                    <div className="bg-image specialty-section" />
-                    <div>{index + 1}</div>
-                  </div>
-                );
-              })}
+              {dataSpecialty &&
+                dataSpecialty.length > 0 &&
+                dataSpecialty.map((item, index) => {
+                  return (
+                    <div
+                      className="section-customize"
+                      key={index}
+                      onClick={() => this.handleViewDetailSpecialty(item)}
+                    >
+                      <div
+                        className="bg-image specialty-section"
+                        style={{ backgroundImage: `url(${item.image})` }}
+                      ></div>
+                      <div className="name-section">{item.name}</div>
+                    </div>
+                  );
+                })}
             </Slider>
           </div>
         </div>
@@ -42,4 +76,6 @@ const mapDispatchToProps = (dispatch) => {
   return {};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Specialty);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(Specialty)
+);

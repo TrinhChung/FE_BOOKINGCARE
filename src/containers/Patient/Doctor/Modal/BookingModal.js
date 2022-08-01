@@ -13,7 +13,7 @@ import { LANGUAGES } from "../../../../utils";
 import DatePicker from "../../../../components/Input/DatePicker";
 import * as actions from "../../../../store/actions";
 import Select from "react-select";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FormattedMessage } from "react-intl";
 import moment from "moment";
@@ -40,8 +40,30 @@ class BookingModal extends Component {
   }
 
   async componentDidMount() {
-    this.getInfoDoctor(this.props.dataTime.doctorId);
+    this.getInfoDoctor(this.props.doctorId);
+    this.setState({
+      timeType: this.props.dataTime.timeType,
+      timeData: this.props.dataTime.timeData,
+      genders: this.buildData(this.props.genders),
+    });
     this.props.fetchGender();
+  }
+
+  async componentDidUpdate(prevProps, prevState, snapshot) {
+    if (this.props.doctorId !== prevProps.doctorId) {
+      this.getInfoDoctor(this.props.doctorId);
+    }
+
+    if (this.props.dataTime !== prevProps.dataTime) {
+      this.setState({
+        timeData: this.props.dataTime.timeTypeData,
+        timeType: this.props.dataTime.timeType,
+      });
+    }
+
+    if (this.props.genders !== prevProps.genders) {
+      this.setState({ genders: this.buildData(this.props.genders) });
+    }
   }
 
   getInfoDoctor = async (id) => {
@@ -56,20 +78,6 @@ class BookingModal extends Component {
   handleOnChangeDatePicker = (date) => {
     this.setState({ birthDay: date[0] });
   };
-
-  async componentDidUpdate(prevProps, prevState, snapshot) {
-    if (this.props.dataTime !== prevProps.dataTime) {
-      this.getInfoDoctor(this.props.dataTime.doctorId);
-      this.setState({
-        timeType: this.props.dataTime.timeType,
-        timeData: this.props.dataTime.timeTypeData,
-      });
-    }
-
-    if (this.props.genders !== prevProps.genders) {
-      this.setState({ genders: this.buildData(this.props.genders) });
-    }
-  }
 
   handleOnChangeInput = (e) => {
     let valueInput = e.target.value;
@@ -153,9 +161,8 @@ class BookingModal extends Component {
   };
 
   render() {
-    let { isOpenModal, closeModalBooking, dataTime, nameDoctor, language } =
-      this.props;
-    let { infoDoctor, genders } = this.state;
+    let { isOpenModal, closeModalBooking, dataTime, language } = this.props;
+    let { infoDoctor, genders, doctorId } = this.state;
     return (
       <Modal
         isOpen={isOpenModal}
@@ -176,7 +183,7 @@ class BookingModal extends Component {
           <div className="booking-modal-body">
             <div className="doctor-info">
               <ProfileDoctor
-                doctorId={dataTime.doctorId}
+                doctorId={doctorId}
                 isShowDescription={false}
                 dataTime={dataTime}
               />

@@ -18,6 +18,7 @@ class DoctorSchedule extends Component {
       isOpenModalBooking: false,
       dataScheduleModal: {},
       nameDoctor: "",
+      doctorId: "",
     };
   }
 
@@ -25,7 +26,11 @@ class DoctorSchedule extends Component {
     this.getDaySchedule();
     let allDay = this.getDaySchedule();
     this.handleOnChangeDate(allDay[0].value);
-    this.setState({ arrDays: allDay });
+    this.setState({
+      arrDays: allDay,
+      nameDoctor: this.props.nameDoctor,
+      doctorId: this.props.detailDoctorId,
+    });
   }
   LetterCapitalize = (str) => {
     return str
@@ -79,6 +84,7 @@ class DoctorSchedule extends Component {
       });
     }
     if (this.props.detailDoctorId !== prevProps.detailDoctorId) {
+      this.setState({ doctorId: this.props.detailDoctorId });
       this.handleOnChangeDate(this.state.arrDays[0].value);
     }
     if (this.props.nameDoctor !== prevProps.nameDoctor) {
@@ -147,6 +153,7 @@ class DoctorSchedule extends Component {
   render() {
     let { language } = this.props;
     let { arrDays, allAvailableTime } = this.state;
+
     return (
       <>
         <div className="doctor-schedule-container">
@@ -180,7 +187,9 @@ class DoctorSchedule extends Component {
           isOpenModal={this.state.isOpenModalBooking}
           closeModalBooking={this.closeModalBooking}
           dataTime={this.state.dataScheduleModal}
+          doctorId={this.state.dataScheduleModal.doctorId}
           nameDoctor={this.state.nameDoctor}
+          time={true}
         />
       </>
     );

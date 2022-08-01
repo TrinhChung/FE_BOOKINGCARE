@@ -16,20 +16,27 @@ class DoctorExtraInfo extends Component {
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.getInfoDoctor(this.props.detailDoctorId);
+  }
 
   async componentDidUpdate(prevProps, prevState, snapshot) {
     if (prevProps.language !== this.props.language) {
     }
 
     if (this.props.detailDoctorId !== prevProps.detailDoctorId) {
-      let res = await getInfoDoctorByIdService(this.props.detailDoctorId);
-      if (res && res.errCode === 0) {
-        this.setState({ extraInfo: res.data });
-      }
+      this.getInfoDoctor(this.props.detailDoctorId);
     }
   }
 
+  getInfoDoctor = async (doctorId) => {
+    let res = await getInfoDoctorByIdService(doctorId);
+    if (res && res.errCode === 0) {
+      this.setState({ extraInfo: res.data });
+    }
+  };
+
+  //hidden  more
   setHiddenTrue = () => {
     this.setState({ hiddenInfo: true });
   };
@@ -115,7 +122,6 @@ class DoctorExtraInfo extends Component {
 
   hiddenInfo = (language) => {
     let extraInfo = this.state.extraInfo;
-
     return (
       <div className="wrap-info">
         <div className="content-up">
@@ -168,11 +174,9 @@ class DoctorExtraInfo extends Component {
 
   render() {
     let { language } = this.props;
-    console.log(this.state.extraInfo);
 
     return (
       <div className="doctor-extra-info-container">
-        <div style={{ height: "31px" }}></div>
         {!this.state.hiddenInfo
           ? this.fullInfo(language)
           : this.hiddenInfo(language)}

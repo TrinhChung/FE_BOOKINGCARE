@@ -1,0 +1,35 @@
+.detail-specialty-container {
+    padding: 60px 0;
+    background-color: #ccc;
+
+    .detail-specialty-wrap {
+        margin: 40px 150px 0px 150px;
+
+        .schedule-doctor {
+            background-color: white;
+            border-radius: 10px;
+            display: flex;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(#333, 0.8);
+            padding-bottom: 10px;
+
+            .content-left-schedule {
+                border-right: 2px solid #ddd;
+                width: 50%;
+
+                .specialty-schedule-wrap {
+                    padding: 10px 20px;
+                }
+            }
+
+            .content-right-schedule {
+                display: flex;
+                flex-direction: column;
+                width: 50%;
+            }
+
+        }
+    }
+
+
+}

@@ -74,7 +74,9 @@
     },
     "homepage": {
         "out-standing-doctor": "Outstanding doctor",
-        "more-info": "More info"
+        "more-info": "More info",
+        "specialty-popular": "Dissemination of specialties"
+
     },
     "manage-schedule":{
         "title": "Manage doctor's examination plan",
@@ -122,6 +124,8 @@
             "price": "Price",
             "payment": "Payment",
             "province": "Province",
+            "specialty": "Specialty",
+            "clinic":"Clinic",
             "name-clinic": "Clinic's name",
             "address-clinic": "Clinic's address",
             "Note": "Note"

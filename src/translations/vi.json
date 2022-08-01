@@ -72,10 +72,10 @@
         "save": "Lưu user",
         "edit": "Lưu thay đổi"
     },
-
     "homepage": {
         "out-standing-doctor": "Bác sĩ nổi bật",
-        "more-info": "Xem thêm"
+        "more-info": "Xem thêm",
+        "specialty-popular": "Chuyên khoa phổ biến"
     },
     "manage-schedule":{
         "title": "Quản lý kế hoạch khám bệnh của bác sĩ",
@@ -123,6 +123,8 @@
             "price": "Giá khám bệnh",
             "payment": "Phương thức thanh toán",
             "province": "Tỉnh thành",
+            "specialty": "Chuyên khoa",
+            "clinic":"Phòng khám",
             "name-clinic": "Tên phòng khám",
             "address-clinic": "Địa chỉ phòng khám",
             "Note": "Chú thích"
