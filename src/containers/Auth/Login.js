@@ -28,7 +28,7 @@ class Login extends Component {
     this.setState({ password: e.target.value });
   };
 
-  handleLogin = async (e) => {
+  handleLogin = async () => {
     this.setState({ errorMessage: "" });
     try {
       let data = await handleLoginApi(this.state.username, this.state.password);
@@ -45,6 +45,13 @@ class Login extends Component {
           this.setState({ errorMessage: error.response.data.message });
         }
       }
+    }
+  };
+
+  handleKeyDownLogin = (e) => {
+    console.log(e);
+    if (e.key === "Enter") {
+      this.handleLogin();
     }
   };
 
@@ -79,6 +86,7 @@ class Login extends Component {
                   placeholder="Enter your password"
                   value={this.state.password}
                   onChange={(e) => this.handleOnChangePassword(e)}
+                  onKeyDown={(e) => this.handleKeyDownLogin(e)}
                 ></input>
                 <span onClick={() => this.handleShowHiddenPassword()}>
                   <i
@@ -95,8 +103,9 @@ class Login extends Component {
             </div>
             <div className="col-12">
               <button
+                tabIndex={0}
                 className="btn-login"
-                onClick={(e) => this.handleLogin(e)}
+                onClick={() => this.handleLogin()}
               >
                 Login
               </button>

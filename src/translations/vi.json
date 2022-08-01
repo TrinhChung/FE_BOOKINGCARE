@@ -22,6 +22,10 @@
         "dental-examination": "Khám nha khoa"
     },
     "menu": {
+        "home": {
+            "header": "Home",
+            "home-page": "Home Page"
+        },
         "system": {
             "header": "Quản lý người dùng",
             "system-administrator": {
@@ -46,6 +50,11 @@
             "manage-specialty": "Quản lí chuyên khoa",
             "handbook": "Cẩm nang",
             "manage-handbook":"Quản lí cẩm nang"
+        },
+        "doctor": {
+            "manage-schedule": "Quản lí kế hoạch",
+            "schedule": "Kế hoạch",
+            "user": "Người dùng"
         }
     },
     "manage-user": {
@@ -67,6 +76,57 @@
     "homepage": {
         "out-standing-doctor": "Bác sĩ nổi bật",
         "more-info": "Xem thêm"
+    },
+    "manage-schedule":{
+        "title": "Quản lý kế hoạch khám bệnh của bác sĩ",
+        "choose-doctor": "Chọn bác sĩ",
+        "choose-date": "Chọn ngày",
+        "save": "Lưu thông tin"
+    },
+    "patient" : {
+        "detail-doctor": {
+            "schedule": "Lịch Khám",
+            "schedule-null": "Không có lịch hẹn trong thời gian này. Vui lòng chọn thời gian khác!",
+            "label-book": "Chọn và đặt lịch miễn phí!"
+        },
+        "extra-info-doctor": {
+            "address-clinic":"Địa chỉ phòng khám",
+            "price-test": "Giá khám",
+            "hiddenInfo": "Ẩn chi tiết",
+            "payment":"Người bệnh có thể thanh toán chi phí bằng hình thức ",
+            "moreInfo": "Xem thêm "
+        },
+        "booking-modal": {
+            "header": "Thông tin khám bệnh",
+            "nameClinic": "Tên phòng khám",
+            "addressClinic": "Địa chỉ phòng khám",
+            "time": "Thời gian",
+            "priceBook": "Giá khám",
+            "fullName": "Họ tên",
+            "numberPhone": "Số điện thoại",
+            "email": "Địa chỉ email",
+            "address": "Địa chỉ liên hệ",
+            "birthDay": "Ngày sinh",
+            "gender": "Giới tính",
+            "reason": "Lý do khám bệnh",
+            "confirm": "Xác nhận",
+            "cancel": "Hủy"
+        }
+    },
+    "admin":  {
+        "manage-doctor": {
+            "title":"Tạo thông tin bác sĩ",
+            "select-doctor": "Chọn bác sĩ",
+            "info-doctor": "Thông tin giới thiệu",
+            "save-info": "Lưu thông tin",
+            "create-info": "Tạo thông tin",
+            "price": "Giá khám bệnh",
+            "payment": "Phương thức thanh toán",
+            "province": "Tỉnh thành",
+            "name-clinic": "Tên phòng khám",
+            "address-clinic": "Địa chỉ phòng khám",
+            "Note": "Chú thích"
+        }
+        
     }
-
 }

@@ -11,25 +11,17 @@
 
     .more-info {
         display: flex;
+        flex-direction: column;
         gap: 15px;
-
-
-        .content-left {
-            width: 40%;
-        }
-
-        .content-right {
-            width: 60%;
-        }
+        padding-bottom: 20px;
     }
 
     .manage-doctor-editor {}
 
-    .save-infor-doctor {
+    .btn-detail-doctor {
         margin: 10px 0;
         outline: none;
         border-radius: 5px;
-        background-color: orange;
         color: white;
         border: none;
         cursor: pointer;
@@ -38,5 +30,13 @@
         &:hover {
             opacity: 0.8;
         }
+    }
+
+    .create-content-doctor {
+        background-color: rgb(57, 47, 255);
+    }
+
+    .save-content-doctor {
+        background-color: green;
     }
 }

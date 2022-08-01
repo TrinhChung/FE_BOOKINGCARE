@@ -1,5 +1,15 @@
 export const adminMenu = [
   {
+    //Quan li cam nang
+    name: "menu.home.header",
+    menus: [
+      {
+        name: "menu.home.home-page",
+        link: "/home",
+      },
+    ],
+  },
+  {
     //Quan li nguoi dung
     name: "menu.admin.manage-user",
     menus: [
@@ -18,6 +28,11 @@ export const adminMenu = [
       {
         name: "menu.admin.manage-admin",
         link: "/system/user-admin",
+      },
+      {
+        //Quan li ke hoach
+        name: "menu.doctor.manage-schedule",
+        link: "/doctor/manage-schedule",
       },
     ],
   },
@@ -48,6 +63,19 @@ export const adminMenu = [
       {
         name: "menu.admin.manage-handbook",
         link: "/system/manage-handbook",
+      },
+    ],
+  },
+];
+
+export const doctorMenu = [
+  {
+    name: "menu.doctor.user",
+    menus: [
+      {
+        //Quan li ke hoach
+        name: "menu.doctor.manage-schedule",
+        link: "/doctor/manage-schedule",
       },
     ],
   },

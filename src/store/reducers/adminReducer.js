@@ -7,6 +7,10 @@ const initialState = {
   users: [],
   topDoctors: [],
   allDoctors: [],
+  allScheduleTime: [],
+  prices: [],
+  payments: [],
+  provinces: [],
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -86,7 +90,35 @@ const adminReducer = (state = initialState, action) => {
       };
 
     case actionTypes.FETCH_ALL_DOCTOR_FAILED:
-      copyState.users = [];
+      copyState.allDoctors = [];
+      return {
+        ...copyState,
+      };
+
+    case actionTypes.FETCH_ALLCODE_SCHEDULE_TIME_SUCCESS:
+      copyState.allScheduleTime = action.dataTime;
+      return {
+        ...copyState,
+      };
+
+    case actionTypes.FETCH_ALLCODE_SCHEDULE_TIME_FAILED:
+      copyState.allScheduleTime = [];
+      return {
+        ...copyState,
+      };
+
+    case actionTypes.GET_REQUIRED_DOCTOR_SUCCESS:
+      copyState.prices = action.data.resPrice;
+      copyState.payments = action.data.resPayment;
+      copyState.provinces = action.data.resProvince;
+      return {
+        ...copyState,
+      };
+
+    case actionTypes.GET_REQUIRED_DOCTOR_FAILED:
+      copyState.prices = [];
+      copyState.payments = [];
+      copyState.provinces = [];
       return {
         ...copyState,
       };

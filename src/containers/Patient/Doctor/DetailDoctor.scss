@@ -1,17 +1,14 @@
 .doctor-detail-container {
-
-    margin: 0 100px;
+    margin: 0;
     margin-top: 60px;
-    border: 1px solid black;
-
 
     .intro-doctor {
+        padding: 20px 100px;
         display: flex;
         height: 150px;
 
         .content-left {
-            width: 25%;
-            border: 1px red solid;
+            width: 150px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -19,15 +16,16 @@
             .avatar-doctor {
                 width: 130px;
                 height: 130px;
-                // background-position: center center;
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-position: center;
                 border-radius: 50%;
                 box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.5);
             }
         }
 
         .content-right {
-            width: 75%;
-            border: 1px green solid;
+            width: auto;
             display: flex;
             flex-direction: column;
             padding: 5px 10px 10px 15px;
@@ -42,9 +40,34 @@
         }
     }
 
-    .schedule-doctor {}
+    .schedule-doctor {
+        padding: 10px 100px;
+        display: flex;
+        min-height: 200px;
+
+
+        .content-left {
+            border-right: 2px solid #ddd;
+            width: 50%;
+        }
+
+        .content-right {
+            width: 50%;
+        }
+
+    }
 
     .detail-info-doctor {
-        margin-left: 10px;
+        line-height: 1.4;
+        background-color: rgb(205, 201, 201);
+        padding: 20px 100px;
+
+        img {
+            width: 100%;
+        }
+
+        p {
+            margin: 0;
+        }
     }
 }
