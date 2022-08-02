@@ -6,6 +6,7 @@ import "./ProfileDoctor.scss";
 import moment from "moment";
 import localization from "moment/locale/vi";
 import { FormattedMessage } from "react-intl";
+import { withRouter } from "react-router";
 
 class ProfileDoctor extends Component {
   constructor(props) {
@@ -38,6 +39,10 @@ class ProfileDoctor extends Component {
       .split(" ")
       .map((item) => item.substring(0, 1).toUpperCase() + item.substring(1))
       .join(" ");
+  };
+
+  handleInfoDoctor = () => {
+    this.props.history.push(`/detail-doctor/${this.props.doctorId}`);
   };
 
   render() {
@@ -82,6 +87,16 @@ class ProfileDoctor extends Component {
                 backgroundImage: `url(${dataProfile.image})`,
               }}
             ></div>
+            {isShowDescription ? (
+              <div
+                className="more-info"
+                onClick={() => this.handleInfoDoctor()}
+              >
+                Xem them
+              </div>
+            ) : (
+              ""
+            )}
           </div>
           <div className="content-right">
             <div className="doctor-title">
@@ -133,4 +148,6 @@ const mapDispatchToProps = (dispatch) => {
   return {};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProfileDoctor);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(ProfileDoctor)
+);

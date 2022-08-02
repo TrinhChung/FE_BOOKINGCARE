@@ -1,9 +1,33 @@
 .detail-specialty-container {
     padding: 60px 0;
-    background-color: #ccc;
+    background-color: rgb(227, 227, 227);
+
+    .detail-specialty-description {
+        background-image: url("../../../assets/specialty/co-xuong-khop.jpg");
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        min-height: 500px;
+
+
+        .detail-specialty-content {
+            background-image: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.95), white);
+            padding: 20px 150px 40px 150px;
+
+        }
+    }
 
     .detail-specialty-wrap {
-        margin: 40px 150px 0px 150px;
+        margin: 10px 150px 0px 150px;
+
+        .detail-specialty-selected {
+            outline: none;
+            border: 1px solid #ccc;
+            background-color: white;
+            padding: 10px 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
 
         .schedule-doctor {
             background-color: white;
@@ -12,6 +36,32 @@
             margin-bottom: 20px;
             box-shadow: 0 4px 10px rgba(#333, 0.8);
             padding-bottom: 10px;
+
+            .list-doctor-null {
+                min-height: 300px;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+
+                .text-doctor-null {
+                    font-size: 18px;
+                    font-weight: bold;
+                    text-transform: uppercase;
+                    text-align: center;
+                    color: #45c3d2;
+                }
+
+                .icon-x {
+                    font-weight: bold;
+                    text-transform: uppercase;
+                    text-align: center;
+                    color: #45c3d2;
+                    font-size: 50px;
+                    margin-bottom: 10px;
+                }
+            }
 
             .content-left-schedule {
                 border-right: 2px solid #ddd;

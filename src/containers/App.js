@@ -10,6 +10,7 @@ import DetailDoctor from "./Patient/Doctor/DetailDoctor";
 import Doctor from "../routes/Doctor";
 import VerifyEmailBooking from "../containers/Patient/VerifyEmailBooking";
 import DetailSpecialty from "./Patient/Specialty/DetailSpecialty";
+
 import {
   userIsAuthenticated,
   userIsNotAuthenticated,

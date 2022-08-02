@@ -80,6 +80,10 @@ const getAllSpecialty = () => {
   return axios.get(`/api/get-specialty`);
 };
 
+const getDetailSpecialty = (id, province) => {
+  return axios.get(`/api/get-detail-specialty/?id=${id}&province=${province}`);
+};
+
 export {
   handleLoginApi,
   getAllUsers,
@@ -99,4 +103,5 @@ export {
   fetchVerifyEmailBooking,
   createSpecialty,
   getAllSpecialty,
+  getDetailSpecialty,
 };
