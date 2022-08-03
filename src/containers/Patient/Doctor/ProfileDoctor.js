@@ -92,7 +92,7 @@ class ProfileDoctor extends Component {
                 className="more-info"
                 onClick={() => this.handleInfoDoctor()}
               >
-                Xem them
+                <FormattedMessage id="patient.extra-info-doctor.moreInfo" />
               </div>
             ) : (
               ""

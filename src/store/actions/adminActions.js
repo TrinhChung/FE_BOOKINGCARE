@@ -10,6 +10,7 @@ import {
   getAllDoctorsServices,
   saveDetailInfoDoctorService,
   getAllSpecialty,
+  getAllClinic,
 } from "../../services/userService";
 
 export const fetchGenderStart = () => {
@@ -330,4 +331,28 @@ export const getRequiredDoctorInfoSuccess = (data) => ({
 });
 export const getRequiredDoctorInfoFailed = () => ({
   type: actionTypes.GET_REQUIRED_DOCTOR_FAILED,
+});
+
+export const getListClinic = () => {
+  return async (dispatch, getState) => {
+    try {
+      let res = await getAllClinic("name");
+      if (res && res.data) {
+        dispatch(getListClinicSuccess(res.data));
+      } else {
+        dispatch(getListClinicFailed());
+      }
+    } catch (err) {
+      dispatch(getListClinicFailed());
+      console.log("GET_LIST_CLINIC_FAILED: ", err);
+    }
+  };
+};
+
+export const getListClinicSuccess = (data) => ({
+  type: actionTypes.GET_LIST_CLINIC_SUCCESS,
+  data: data,
+});
+export const getListClinicFailed = () => ({
+  type: actionTypes.GET_LIST_CLINIC_FAILED,
 });

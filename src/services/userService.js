@@ -84,6 +84,18 @@ const getDetailSpecialty = (id, province) => {
   return axios.get(`/api/get-detail-specialty/?id=${id}&province=${province}`);
 };
 
+const createClinic = (data) => {
+  return axios.post(`/api/create-new-clinic`, data);
+};
+
+const getAllClinic = (field) => {
+  return axios.get(`/api/get-clinic/?field=${field}`);
+};
+
+const getDetailClinic = (id) => {
+  return axios.get(`/api/get-detail-clinic/?id=${id}`);
+};
+
 export {
   handleLoginApi,
   getAllUsers,
@@ -102,6 +114,9 @@ export {
   postBookAppointment,
   fetchVerifyEmailBooking,
   createSpecialty,
+  createClinic,
   getAllSpecialty,
   getDetailSpecialty,
+  getAllClinic,
+  getDetailClinic,
 };

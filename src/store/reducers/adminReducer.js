@@ -12,6 +12,7 @@ const initialState = {
   payments: [],
   provinces: [],
   specialties: [],
+  clinics: [],
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -126,6 +127,13 @@ const adminReducer = (state = initialState, action) => {
       return {
         ...copyState,
       };
+
+    case actionTypes.GET_LIST_CLINIC_SUCCESS:
+      copyState.clinics = action.data;
+      return { ...copyState };
+    case actionTypes.GET_LIST_CLINIC_FAILED:
+      copyState.clinics = [];
+      return { ...copyState };
 
     default:
       return state;

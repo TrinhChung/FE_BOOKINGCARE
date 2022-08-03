@@ -1,40 +1,49 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import HomeHeader from "../../HomePage/HomeHeader";
-import "./DetailSpecialty.scss";
+import "./DetailClinic.scss";
 import DoctorSchedule from "../Doctor/DoctorSchedule";
 import DoctorExtraInfo from "../Doctor/DoctorExtraInfor";
 import * as actions from "../../../store/actions/adminActions";
 import { LANGUAGES } from "../../../utils";
 import ProfileDoctor from "../Doctor/ProfileDoctor";
 import { FormattedMessage } from "react-intl";
+import Footer from "../../Footer/Footer";
 
-import { getDetailSpecialty } from "../../../services/userService";
+import { getDetailClinic } from "../../../services/userService";
 
-class DetailSpecialty extends Component {
+class DetailClinic extends Component {
   constructor(props) {
     super(props);
+    this.myRef = React.createRef();
     this.state = {
       allDoctors: [],
-      provinces: [],
       descriptionHtml: "",
-      selectedProvince: "all",
-      specialtyId: "",
+      clinicId: "",
+      name: "",
+      address: "",
+      avatar: "",
     };
   }
 
+  scrollToTestDiv = (id) => {
+    const divElement = this.myRef.current.querySelector(id);
+
+    divElement.scrollIntoView({
+      top: +110,
+      behavior: "smooth",
+      block: "start",
+    });
+  };
+
   async componentDidMount() {
-    this.props.getRequiredDoctorInfo();
     if (
       this.props.match &&
       this.props.match.params &&
       this.props.match.params.id
     ) {
-      this.setState({ specialtyId: this.props.match.params.id });
-      this.fetchDetailSpecialty(
-        this.props.match.params.id,
-        this.state.selectedProvince
-      );
+      this.setState({ clinicId: this.props.match.params.id });
+      this.fetchDetailClinic(this.props.match.params.id);
     }
   }
 
@@ -44,28 +53,25 @@ class DetailSpecialty extends Component {
         allDoctors: this.props.allDoctors,
       });
     }
-
-    if (this.props.provinces !== prevProps.provinces) {
-      this.setState({ provinces: this.props.provinces });
-    }
   }
 
-  fetchDetailSpecialty = async (id, province) => {
-    let res = await getDetailSpecialty(id, province);
+  fetchDetailClinic = async (id) => {
+    let res = await getDetailClinic(id);
     if (res && res.errCode === 0) {
       if (res.data && res.data.descriptionHtml) {
         this.setState({ descriptionHtml: res.data.descriptionHtml });
       }
-      if (res.data && res.data.specialtyData) {
-        this.setState({ allDoctors: res.data.specialtyData });
+      if (res.data && res.data.clinicData) {
+        this.setState({ allDoctors: res.data.clinicData });
+      }
+      if (res.data && res.data.image && res.data.name && res.data.address) {
+        this.setState({
+          name: res.data.name,
+          address: res.data.address,
+          avatar: res.data.image,
+        });
       }
     }
-  };
-
-  handleOnChangeProvince = (e) => {
-    console.log(e.target.value);
-    this.setState({ selectedProvince: e.target.value });
-    this.fetchDetailSpecialty(this.state.specialtyId, e.target.value);
   };
 
   renderListDoctor = (allDoctors) => {
@@ -80,7 +86,7 @@ class DetailSpecialty extends Component {
       return (
         <div className="schedule-doctor mg-100" key={index}>
           <div className="content-left-schedule">
-            <div className="specialty-schedule-wrap">
+            <div className="clinic-schedule-wrap">
               <ProfileDoctor
                 doctorId={doctor.doctorId}
                 isShowDescription={true}
@@ -106,7 +112,7 @@ class DetailSpecialty extends Component {
         <div className="list-doctor-null">
           <i className="far fa-window-close icon-x"></i>
           <p className="text-doctor-null">
-            <FormattedMessage id="patient.specialty.special-doctor-null" />
+            <FormattedMessage id="patient.clinic.special-doctor-null" />
           </p>
         </div>
       </div>
@@ -114,15 +120,43 @@ class DetailSpecialty extends Component {
   };
 
   render() {
-    let { allDoctors, descriptionHtml, provinces } = this.state;
+    let { allDoctors, descriptionHtml, address, name, avatar } = this.state;
     let language = this.props.language;
 
     return (
       <>
         <HomeHeader />
-        <div className="detail-specialty-container">
-          <div className="detail-specialty-description">
-            <div className="detail-specialty-content">
+        <div className="detail-clinic-container" ref={this.myRef}>
+          <div className="clinic-banner">
+            <div className="wrap-banner">
+              <div
+                className="clinic-img"
+                style={{
+                  backgroundImage: `url(${this.state.avatar})`,
+                }}
+              ></div>
+              <div className="clinic-text">
+                <div className="clinic-name">{name}</div>
+                <div className="clinic-address">Địa chỉ: {address}</div>
+              </div>
+            </div>
+            <div className="clinic-header">
+              <div
+                className="clinic-header-text"
+                onClick={() => this.scrollToTestDiv("#introduce")}
+              >
+                giới thiệu
+              </div>
+              <div
+                className="clinic-header-text"
+                onClick={() => this.scrollToTestDiv("#doctor")}
+              >
+                bác sĩ chuyên khoa
+              </div>
+            </div>
+          </div>
+          <div className="detail-clinic-description" id="introduce">
+            <div className="detail-clinic-content">
               {descriptionHtml && (
                 <div
                   dangerouslySetInnerHTML={{
@@ -132,30 +166,10 @@ class DetailSpecialty extends Component {
               )}
             </div>
           </div>
-          <div className="detail-specialty-wrap">
-            <div>
-              <select
-                className="detail-specialty-selected"
-                value={this.state.selectedProvince}
-                onChange={(e) => this.handleOnChangeProvince(e)}
-              >
-                <option value="all">
-                  {language === LANGUAGES.VI ? "Tất cả" : "All"}
-                </option>
-                {provinces &&
-                  provinces.length > 0 &&
-                  provinces.map((province, index) => {
-                    return (
-                      <option value={province.keyMap}>
-                        {language === LANGUAGES.VI
-                          ? province.valueVi
-                          : province.valueEn}
-                      </option>
-                    );
-                  })}
-              </select>
+          <div className="detail-clinic-wrap" id="doctor">
+            <div className="detail-clinic-doctor">
+              Đặt lịch khám với bác sĩ chuyên khoa
             </div>
-
             <div>
               {allDoctors && allDoctors.length > 0
                 ? this.renderListDoctor(allDoctors)
@@ -163,6 +177,7 @@ class DetailSpecialty extends Component {
             </div>
           </div>
         </div>
+        <Footer />
       </>
     );
   }
@@ -172,14 +187,11 @@ const mapStateToProps = (state) => {
   return {
     isLoggedIn: state.user.isLoggedIn,
     language: state.app.language,
-    provinces: state.admin.provinces,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {
-    getRequiredDoctorInfo: () => dispatch(actions.getRequiredDoctorInfo()),
-  };
+  return {};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DetailSpecialty);
+export default connect(mapStateToProps, mapDispatchToProps)(DetailClinic);

@@ -1,0 +1,168 @@
+.detail-clinic-container {
+    padding: 60px 0;
+    background-color: rgba(255, 255, 255, 0.895);
+    scroll-behavior: smooth;
+
+    .clinic-banner {
+        display: contents;
+
+        .wrap-banner {
+            padding: 0 110px;
+
+            .clinic-img {
+                height: 400px;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: cover;
+            }
+
+            .clinic-text {
+                padding: 5px;
+
+                .clinic-name {
+                    font-size: 25px;
+                    font-weight: bold;
+                }
+
+                .clinic-address {
+                    font-weight: 300;
+                }
+            }
+        }
+
+        .clinic-header {
+            padding: 0 110px;
+            height: 50px;
+            background-color: white;
+            width: 100%;
+            border-top: 1px solid #ccc;
+            border-bottom: 1px solid #ccc;
+            display: flex;
+            text-transform: uppercase;
+            gap: 15px;
+            position: sticky;
+            position: -webkit-sticky;
+            top: 60px;
+            scroll-margin-top: 100px;
+
+            .clinic-header-text {
+                height: 100%;
+                font-size: 16px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+                text-decoration: none;
+                color: black;
+                cursor: pointer;
+
+                &:hover {
+                    color: #45c3d2;
+                }
+            }
+        }
+
+    }
+
+
+    .detail-clinic-description {
+        background-image: url("../../../assets/specialty/co-xuong-khop.jpg");
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        min-height: 500px;
+        width: auto;
+        display: flex;
+        flex-direction: column;
+        border-bottom: 1px solid #ccc;
+
+
+        .detail-clinic-content {
+            background-image: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.95), white);
+            padding: 20px 150px 40px 150px;
+
+            img {
+                width: 100%;
+            }
+
+        }
+    }
+
+    .detail-clinic-wrap {
+        margin: 0 150px 0px 150px;
+        padding-top: 20px;
+
+        .detail-clinic-doctor {
+            font-size: 16px;
+            padding-bottom: 10px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+
+        #doctor {}
+
+
+        .detail-clinic-selected {
+            outline: none;
+            border: 1px solid #ccc;
+            background-color: white;
+            padding: 10px 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+
+        .schedule-doctor {
+            background-color: white;
+            border-radius: 10px;
+            display: flex;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(#333, 0.8);
+            padding-bottom: 10px;
+
+            .list-doctor-null {
+                min-height: 300px;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+
+                .text-doctor-null {
+                    font-size: 18px;
+                    font-weight: bold;
+                    text-transform: uppercase;
+                    text-align: center;
+                    color: #45c3d2;
+                }
+
+                .icon-x {
+                    font-weight: bold;
+                    text-transform: uppercase;
+                    text-align: center;
+                    color: #45c3d2;
+                    font-size: 50px;
+                    margin-bottom: 10px;
+                }
+            }
+
+            .content-left-schedule {
+                border-right: 2px solid #ddd;
+                width: 50%;
+
+                .clinic-schedule-wrap {
+                    padding: 10px 20px;
+                }
+            }
+
+            .content-right-schedule {
+                display: flex;
+                flex-direction: column;
+                width: 50%;
+            }
+
+        }
+    }
+
+
+}

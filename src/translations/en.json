@@ -75,7 +75,9 @@
     "homepage": {
         "out-standing-doctor": "Outstanding doctor",
         "more-info": "More info",
-        "specialty-popular": "Dissemination of specialties"
+        "specialty-popular": "Dissemination of specialties",
+        "medical-popular": "Outstanding medical facility"
+
 
     },
     "manage-schedule":{
@@ -112,6 +114,10 @@
             "reason": "Reasons for medical examination",
             "confirm": "Confirm",
             "cancel": "Cancel"
+        },
+        "specialty": {
+            "allOption": "All",
+            "special-doctor-null": "There are currently no doctors in this province!"
         }
     },
     "admin":  {
@@ -130,6 +136,15 @@
             "address-clinic": "Clinic's address",
             "Note": "Note"
 
+        }
+        ,
+        "manage-clinic": {
+            "manage-clinic": "Manage Clinic",
+            "name-clinic": "Name Clinic",
+            "address-clinic": "Address clinic",
+            "image-clinic": "Clinic's image'",
+            "up-load": "Up load image",
+            "save": "Save info"
         }
     }
 }

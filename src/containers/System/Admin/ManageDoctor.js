@@ -43,15 +43,10 @@ class ManageDoctor extends Component {
   }
 
   //markdown change
-  handleEditorChange = ({ html, text }) => {
-    this.setState({
-      contentMarkdown: text,
-      contentHtml: html,
-    });
-  };
 
   componentDidMount() {
     this.props.fetchAllDoctor();
+    this.props.getListClinic();
     this.props.getRequiredDoctorInfo();
   }
 
@@ -98,6 +93,18 @@ class ManageDoctor extends Component {
     }
 
     if (
+      prevProps.clinics !== this.props.clinics ||
+      prevProps.language !== this.props.language
+    ) {
+      let dataSelect = this.buildDataInputSelectRequired(
+        this.props.clinics,
+        "CLINIC"
+      );
+
+      this.setState({ listClinic: dataSelect });
+    }
+
+    if (
       prevProps.provinces !== this.props.provinces ||
       prevProps.language !== this.props.language
     ) {
@@ -130,6 +137,13 @@ class ManageDoctor extends Component {
       note: this.state.note,
     });
     console.log("saveContentMarkDown ", this.state);
+  };
+
+  handleEditorChange = ({ html, text }) => {
+    this.setState({
+      contentMarkdown: text,
+      contentHtml: html,
+    });
   };
 
   buildResSelect = (key, data, name) => {
@@ -176,6 +190,11 @@ class ManageDoctor extends Component {
         value: res.data.DoctorInfo.specialtyData.id,
       };
 
+      let selectedClinic = {
+        label: res.data.DoctorInfo.clinicData.name,
+        value: res.data.DoctorInfo.clinicData.id,
+      };
+
       this.setState({
         addressClinic: res.data.DoctorInfo.addressClinic,
         nameClinic: res.data.DoctorInfo.nameClinic,
@@ -184,6 +203,7 @@ class ManageDoctor extends Component {
         selectedPayment: selectPayment,
         selectedProvince: selectProvince,
         selectedSpecialty: selectedSpecialty,
+        selectedClinic: selectedClinic,
         hasOldData: true,
       });
     } else {
@@ -197,6 +217,7 @@ class ManageDoctor extends Component {
         selectedProvince: "",
 
         selectedSpecialty: "",
+        selectedClinic: "",
         hasOldData: false,
       });
     }
@@ -251,7 +272,7 @@ class ManageDoctor extends Component {
           object.value = item.keyMap;
           return object;
         });
-      } else if (type === "SPECIALTY") {
+      } else if (type === "SPECIALTY" || type === "CLINIC") {
         result = data.map((item, index) => {
           let object = {};
           object.label = item.name;
@@ -475,6 +496,7 @@ const mapStateToProps = (state) => {
     payments: state.admin.payments,
     provinces: state.admin.provinces,
     specialties: state.admin.specialties,
+    clinics: state.admin.clinics,
   };
 };
 
@@ -483,6 +505,7 @@ const mapDispatchToProps = (dispatch) => {
     fetchAllDoctor: () => dispatch(actions.fetchAllDoctor()),
     saveDetailDoctor: (data) => dispatch(actions.saveDetailDoctor(data)),
     getRequiredDoctorInfo: () => dispatch(actions.getRequiredDoctorInfo()),
+    getListClinic: () => dispatch(actions.getListClinic()),
   };
 };
 
