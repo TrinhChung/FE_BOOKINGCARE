@@ -49,7 +49,6 @@ class Login extends Component {
   };
 
   handleKeyDownLogin = (e) => {
-    console.log(e);
     if (e.key === "Enter") {
       this.handleLogin();
     }

@@ -53,6 +53,7 @@
         },
         "doctor": {
             "manage-schedule": "Manage schedule",
+            "manage-patient": "Manage patient",
             "schedule": "Schedule",
             "user": "User"
         }
@@ -85,6 +86,17 @@
         "choose-doctor": "Choose doctor",
         "choose-date": "Choose date",
         "save": "Save"
+    },
+    "manage-patient": {
+        "manage-patient": "Manage medical examination plan",
+        "choose-day" : "Choose a date of examination",
+        "od": "ODN",
+        "full-name": "Full Name",
+        "email": "Email",
+        "address": "Address",
+        "gender":"Gender",
+        "time": "Time",
+        "confirm": "Confirm"
     },
     "patient" : {
         "detail-doctor": {

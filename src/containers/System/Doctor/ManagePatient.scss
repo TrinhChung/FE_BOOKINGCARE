@@ -1,0 +1,33 @@
+.manage-patient-container {
+    margin-top: 15px;
+
+    .manage-patient-title {
+        font-size: 18px;
+        text-transform: uppercase;
+        text-align: center;
+        color: blue;
+        font-weight: bold;
+    }
+
+    .manage-patient-body {
+        border-top: 1px solid red;
+        padding: 40px 120px;
+
+        .table-manage-patient {
+            margin-top: 20px;
+
+            .btn-edit {
+                min-width: 100px;
+                border: none;
+                outline: none;
+                background-color: transparent;
+                color: rgb(5, 121, 253);
+
+                &:hover {
+                    background-color: transparent !important;
+                    color: rgb(249, 60, 60);
+                }
+            }
+        }
+    }
+}

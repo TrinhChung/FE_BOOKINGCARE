@@ -53,6 +53,7 @@
         },
         "doctor": {
             "manage-schedule": "Quản lí kế hoạch",
+            "manage-patient": "Quản lí kế bệnh nhân",
             "schedule": "Kế hoạch",
             "user": "Người dùng"
         }
@@ -83,6 +84,17 @@
         "choose-doctor": "Chọn bác sĩ",
         "choose-date": "Chọn ngày",
         "save": "Lưu thông tin"
+    },
+    "manage-patient": {
+        "manage-patient": "Quản lý kế hoạch khám bệnh",
+        "choose-day" : "Chọn ngày khám",
+        "od": "STT",
+        "full-name": "Họ và tên",
+        "email": "Email",
+        "address": "Địa chỉ",
+        "gender":"Giới tính",
+        "time": "Thời gian",
+        "confirm": "Xác nhận"
     },
     "patient" : {
         "detail-doctor": {
