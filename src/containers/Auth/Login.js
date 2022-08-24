@@ -7,7 +7,7 @@ import * as actions from "../../store/actions";
 import "./Login.scss";
 import { FormattedMessage } from "react-intl";
 import { handleLoginApi } from "../../services/userService";
-import { userLoginSuccess } from "../../store/actions";
+import { Link, withRouter } from "react-router-dom";
 
 class Login extends Component {
   constructor(props) {
@@ -28,6 +28,10 @@ class Login extends Component {
     this.setState({ password: e.target.value });
   };
 
+  handleRegister = () => {
+    this.props.history.push("/register");
+  };
+
   handleLogin = async () => {
     this.setState({ errorMessage: "" });
     try {
@@ -37,7 +41,6 @@ class Login extends Component {
       }
       if (data && data.errCode === 0) {
         this.props.userLoginSuccess(data.user);
-        console.log("login success");
       }
     } catch (error) {
       if (error.response) {
@@ -61,9 +64,16 @@ class Login extends Component {
   render() {
     return (
       <div className="login-background">
+        <div className="login-header-text">
+          <p>Welcome to booking care</p>
+        </div>
         <div className="login-container">
-          <div className="login-content">
-            <div className="col-12 text-center fs-3 fw-bold pt-3">Login</div>
+          <div className="login-content-left"></div>
+          <div className="login-content-right">
+            <div className="logo"></div>
+            <div className="col-12 login-header fs-3 fw-bold pt-3">
+              Login NOW
+            </div>
             <div className="col-12 form-group login-input">
               <label>Email</label>
               <input
@@ -97,10 +107,15 @@ class Login extends Component {
               </div>
             </div>
 
-            <div className="col-12" styles={{ color: "red" }}>
+            <div className="col-12" style={{ color: "red" }}>
               {this.state.errorMessage}
             </div>
-            <div className="col-12">
+            <div className="textLink">
+              <div className="forgot-password">
+                <Link>Forgot your password?</Link>
+              </div>
+            </div>
+            <div className="col-12 d-flex justify-content-center">
               <button
                 tabIndex={0}
                 className="btn-login"
@@ -109,17 +124,16 @@ class Login extends Component {
                 Login
               </button>
             </div>
-            <div className="col-12 forgot-password">
-              <span>Forgot your password?</span>
-            </div>
 
-            <div className="col-12 text-center">
-              <span className="text-other-login">Or login with: </span>
-            </div>
-
-            <div className="col-12 social-login">
-              <i className="fab fa-google-plus-g icon-google"></i>
-              <i className="fab fa-facebook icon-facebook"></i>
+            <div className="switch-register">
+              <div className="text-switch">
+                Tao tai khoan moi tai day
+                <i
+                  className="mx-2 fa fa-long-arrow-right"
+                  aria-hidden="true"
+                ></i>
+              </div>
+              <button onClick={() => this.handleRegister()}>Click here</button>
             </div>
           </div>
         </div>
@@ -143,4 +157,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Login));

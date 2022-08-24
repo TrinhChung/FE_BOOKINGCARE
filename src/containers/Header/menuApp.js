@@ -18,10 +18,6 @@ export const adminMenu = [
         link: "/system/user-redux",
       },
       {
-        name: "menu.admin.crud",
-        link: "/system/user-manage",
-      },
-      {
         name: "menu.admin.manage-doctor",
         link: "/system/manage-doctor",
       },

@@ -16,3 +16,12 @@ export const userLoginFail = () => ({
 export const processLogout = () => ({
   type: actionTypes.PROCESS_LOGOUT,
 });
+
+export const userRegisterSuccess = (userInfo) => ({
+  type: actionTypes.USER_REGISTER_SUCCESS,
+  userInfo: userInfo,
+});
+
+export const userRegisterFail = () => ({
+  type: actionTypes.USER_REGISTER_FAIL,
+});

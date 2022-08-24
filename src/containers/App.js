@@ -21,6 +21,7 @@ import { path } from "../utils";
 
 import Home from "../routes/Home";
 import Login from "./Auth/Login";
+import Register from "./Auth/Register";
 import System from "../routes/System";
 
 // import { CustomToastCloseButton } from "../components/CustomToast";
@@ -53,7 +54,6 @@ class App extends Component {
         <Router history={history}>
           <div className="main-container">
             <ConfirmModal />
-
             <CustomScrollbars style={{ height: "100vh", width: "100%" }}>
               <div className="content-container">
                 <Switch>
@@ -63,16 +63,23 @@ class App extends Component {
                     component={userIsNotAuthenticated(Login)}
                   />
                   <Route
+                    path={path.REGISTER}
+                    component={userIsNotAuthenticated(Register)}
+                  />
+                  <Route
                     path={path.SYSTEM}
                     component={userIsAuthenticated(System)}
                   />
+
+                  <Route path={path.HOMEPAGE} component={HomePage} />
+
+                  <Route path={path.DETAILDOCTOR} component={DetailDoctor} />
                   <Route
                     path={path.DOCTOR}
                     component={userIsAuthenticated(Doctor)}
                   />
-                  <Route path={path.HOMEPAGE} component={HomePage} />
 
-                  <Route path={path.DETAILDOCTOR} component={DetailDoctor} />
+                  {/* user confirm schedule */}
                   <Route
                     path={path.VERIFY_EMAIL_BOOKING}
                     component={VerifyEmailBooking}

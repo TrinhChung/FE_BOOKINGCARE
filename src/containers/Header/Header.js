@@ -8,6 +8,7 @@ import "./Header.scss";
 import { LANGUAGES, USER_ROLE } from "../../utils";
 import { FormattedMessage } from "react-intl";
 import _ from "lodash";
+import { withRouter } from "react-router";
 
 import { changeLanguageApp } from "../../store/actions";
 
@@ -32,6 +33,9 @@ class Header extends Component {
       } else if (role === USER_ROLE.DOCTOR) {
         menu = doctorMenu;
       }
+      if (role === USER_ROLE.USER) {
+        console.log(this.props.history);
+      }
     }
     this.setState({ menuApp: menu });
   }
@@ -47,27 +51,29 @@ class Header extends Component {
         </div>
 
         <div className="languages">
-          <span className="welcome">
-            <FormattedMessage id="homeheader.welcome" />
-            {userInfo && userInfo.firstName && userInfo.lastName
-              ? userInfo.firstName + " " + userInfo.lastName
-              : "User"}
-            !
-          </span>
-          <span
-            className={language === "vi" ? "language-vi active" : "language-vi"}
-            onClick={() => this.handleOnChangeLanguage(LANGUAGES.VI)}
-          >
-            VI
-          </span>
-          <span
-            className={language === "en" ? "language-en active" : "language-en"}
-            onClick={() => this.handleOnChangeLanguage(LANGUAGES.EN)}
-          >
-            EN
-          </span>
-          <div className="btn btn-logout" onClick={processLogout}>
-            <i className="fas fa-sign-out-alt"></i>
+          <div className="content-right">
+            <div className="welcome">
+              <FormattedMessage id="homeheader.welcome" />
+              {userInfo && userInfo.firstName && userInfo.lastName
+                ? userInfo.firstName + " " + userInfo.lastName
+                : "User"}
+              !
+            </div>
+            <select
+              className="form-select select-language"
+              value={language}
+              onChange={(e) => this.changeLanguage(e.target.value)}
+            >
+              <option value="en">EN</option>
+              <option value="vi">VI</option>
+              <option value="jp">JP</option>
+            </select>
+            <div
+              className="btn btn-logout"
+              onClick={() => this.props.processLogout()}
+            >
+              <i className="fas fa-sign-out-alt"></i>
+            </div>
           </div>
         </div>
       </div>
@@ -90,4 +96,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header));

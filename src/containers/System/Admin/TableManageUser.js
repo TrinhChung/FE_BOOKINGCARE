@@ -2,34 +2,54 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./TableManageUser.scss";
 import * as actions from "../../../store/actions";
+import ReactPaginate from "react-paginate";
 
 class TableManageUser extends Component {
   constructor(props) {
     super(props);
     this.state = {
       usersRedux: [],
+      itemOffset: 3,
     };
   }
 
   componentDidMount() {
-    this.props.fetchUserRedux();
+    if (this.props.currentPage) {
+      this.props.fetchUserRedux(this.props.currentPage);
+    }
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevProps.currentPage !== this.props.currentPage) {
+      if (this.props.currentPage) {
+        this.props.fetchUserRedux(this.props.currentPage);
+      }
+    }
+
     if (prevProps.users !== this.props.users) {
-      this.setState({ usersRedux: this.props.users });
+      this.setState({
+        usersRedux: this.props.users,
+      });
     }
   }
 
   handleDeleteUser = (user) => {
     this.props.deleteUserRedux(user.id);
+    if (this.props.currentPage) {
+      this.props.fetchUserRedux(this.props.currentPage);
+    }
   };
 
   handleEditUser = (user) => {
     this.props.handleEditUser(user);
   };
 
+  handleChangePage = (e) => {
+    this.props.handleChangePage(e.selected + 1);
+  };
+
   render() {
+    let { countPage, currentPage } = this.props;
     let arrUsers = this.state.usersRedux;
     return (
       <>
@@ -71,6 +91,28 @@ class TableManageUser extends Component {
               })}
           </tbody>
         </table>
+        <div className="d-flex justify-content-center mt-2">
+          <ReactPaginate
+            pageCount={countPage}
+            marginPagesDisplayed={1}
+            pageRangeDisplayed={3}
+            onPageChange={(e) => this.handleChangePage(e)}
+            forcePage={currentPage - 1}
+            pageClassName="page-item"
+            activeClassName="active"
+            nextLinkClassName="page-link"
+            previousLinkClassName="page-link"
+            previousClassName="page-item"
+            pageLinkClassName="page-link"
+            nextClassName="page-item"
+            containerClassName="pagination"
+            breakLinkClassName="page-link"
+            breakClassName="page-item"
+            breakLabel="..."
+            nextLabel="Next"
+            previousLabel="Previous"
+          />
+        </div>
       </>
     );
   }
@@ -79,12 +121,14 @@ class TableManageUser extends Component {
 const mapStateToProps = (state) => {
   return {
     users: state.admin.users,
+    countPage: state.admin.countPage,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchUserRedux: () => dispatch(actions.fetchAllUserStart()),
+    fetchUserRedux: (currentPage) =>
+      dispatch(actions.fetchAllUserStart(currentPage)),
     deleteUserRedux: (id) => dispatch(actions.deleteUser(id)),
   };
 };

@@ -3,12 +3,13 @@ import { connect } from "react-redux";
 import "./HomeHeader.scss";
 import { FormattedMessage } from "react-intl";
 import { LANGUAGES } from "../../utils";
-import { withRouter } from "react-router";
-
+import { Link, withRouter } from "react-router-dom";
+import * as actions from "../../store/actions";
 import { changeLanguageApp } from "../../store/actions";
 
 class HomeHeader extends Component {
   changeLanguage = (language) => {
+    console.log(language);
     this.props.changeLanguageAppRedux(language);
   };
 
@@ -16,9 +17,61 @@ class HomeHeader extends Component {
     this.props.history.push("/home");
   };
 
-  render() {
+  pageLogin = () => {
+    this.props.history.push("/login");
+  };
+
+  UserInfo = (user) => {
     let language = this.props.language;
-    let isShowBanner = this.props.isShowBanner;
+    console.log(user);
+    let nameUser =
+      language === LANGUAGES.VI
+        ? user.firstName + " " + user.lastName
+        : user.lastName + " " + user.firstName;
+    return (
+      <div className="user-info">
+        <div className="name-user" htmlFor="dropdownMenuButton1">
+          {nameUser}
+        </div>
+        <div className="dropdown">
+          <button
+            className="avatar-user btn btn-secondary "
+            type="button"
+            id="dropdownMenuButton1"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          ></button>
+          <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <li>
+              <Link className="dropdown-item" href="/profile">
+                Profile
+              </Link>
+              <Link
+                className="dropdown-item"
+                onClick={() => this.props.processLogout()}
+              >
+                Logout
+              </Link>
+            </li>
+          </ul>
+        </div>
+      </div>
+    );
+  };
+
+  SingIn = () => {
+    return (
+      <div className="user-info">
+        <div className="text-singin" onClick={() => this.pageLogin()}>
+          Login <i className="fa fa-sign-in mx-2" aria-hidden="true"></i>
+        </div>
+      </div>
+    );
+  };
+
+  render() {
+    let { userInfo, isShowBanner, language } = this.props;
+    console.log(userInfo);
     return (
       <>
         <div className="home-header-container">
@@ -73,28 +126,17 @@ class HomeHeader extends Component {
               </div>
             </div>
             <div className="right-content">
-              <div className="support">
-                <i className="fas fa-question-circle"></i>
-                <FormattedMessage id="homeheader.support" />
-              </div>
-              <div
-                className={
-                  language === "vi" ? "language-vi active" : "language-vi"
-                }
+              {userInfo ? this.UserInfo(userInfo) : this.SingIn()}
+
+              <select
+                className="form-select select-language"
+                value={language}
+                onChange={(e) => this.changeLanguage(e.target.value)}
               >
-                <span onClick={() => this.changeLanguage(LANGUAGES.VI)}>
-                  VN
-                </span>
-              </div>
-              <div
-                className={
-                  language === "en" ? "language-en active" : "language-en"
-                }
-              >
-                <span onClick={() => this.changeLanguage(LANGUAGES.EN)}>
-                  EN
-                </span>
-              </div>
+                <option value="en">EN</option>
+                <option value="vi">VI</option>
+                <option value="jp">JP</option>
+              </select>
             </div>
           </div>
         </div>
@@ -183,11 +225,13 @@ const mapStateToProps = (state) => {
   return {
     isLoggedIn: state.user.isLoggedIn,
     language: state.app.language,
+    userInfo: state.user.userInfo,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    processLogout: () => dispatch(actions.processLogout()),
     changeLanguageAppRedux: (language) => dispatch(changeLanguageApp(language)),
   };
 };

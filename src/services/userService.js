@@ -4,8 +4,12 @@ const handleLoginApi = (email, password) => {
   return axios.post("/api/login", { email, password });
 };
 
-const getAllUsers = (id) => {
-  return axios.get(`/api/get-allUsers?id=${id}`);
+const getAllUsers = (page) => {
+  return axios.get(`/api/get-all-users?page=${page}`);
+};
+
+const getUserByIdService = (id) => {
+  return axios.get(`/api/get-user-by-id?id=${id}`);
 };
 
 const createNewUserService = (data) => {
@@ -126,4 +130,5 @@ export {
   getAllClinic,
   getDetailClinic,
   getAllPatientAllDoctor,
+  getUserByIdService,
 };

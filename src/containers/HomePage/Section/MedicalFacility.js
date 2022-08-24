@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import "./MedicalFacility.scss";
 import Slider from "react-slick";
 import { FormattedMessage } from "react-intl";
 import { getAllClinic } from "../../../services/userService";

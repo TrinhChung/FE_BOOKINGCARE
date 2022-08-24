@@ -114,14 +114,12 @@ export const createUserFailed = () => ({
   type: actionTypes.CREATE_USER_FAILED,
 });
 
-export const fetchAllUserStart = () => {
+export const fetchAllUserStart = (currentPage) => {
   return async (dispatch, getState) => {
     try {
-      let res = await getAllUsers("All");
-      let res1 = await getTopDoctorHomeService(3);
-      console.log("res get top docter: ", res1);
+      let res = await getAllUsers(currentPage);
       if (res && res.errCode === 0) {
-        dispatch(fetchAllUserSuccess(res.users.reverse()));
+        dispatch(fetchAllUserSuccess(res.data));
       } else {
         dispatch(fetchAllUserFailed());
       }
@@ -148,7 +146,6 @@ export const deleteUser = (id) => {
       if (res && res.errCode === 0) {
         toast.success("DELETE USER SUCCESS");
         dispatch(deleteUserSuccess());
-        dispatch(fetchAllUserStart());
       } else {
         toast.error("DELETE USER FAILED");
         dispatch(deleteUserFailed());
@@ -176,7 +173,6 @@ export const EditAUser = (data) => {
       if (res && res.errCode === 0) {
         toast.success("Update A USER SUCCESS");
         dispatch(editAUserSuccess());
-        dispatch(fetchAllUserStart());
       } else {
         toast.error("Update A USER FAILED");
         dispatch(EditAUserFailed());

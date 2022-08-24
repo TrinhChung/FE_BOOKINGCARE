@@ -20,6 +20,8 @@ class UserManage extends Component {
       isOpenModal: false,
       isOpenEditModal: false,
       userEdit: {},
+      currentPage: 1,
+      countPage: 10,
     };
   }
 
@@ -28,10 +30,11 @@ class UserManage extends Component {
   }
 
   getAllUsersFromReact = async () => {
-    let response = await getAllUsers("All");
+    let response = await getAllUsers(this.state.currentPage);
     if (response && response.errCode === 0) {
       this.setState({
-        arrUsers: response.users,
+        arrUsers: response.data.users,
+        countPage: response.data.countPage,
       });
     }
   };

@@ -2,6 +2,7 @@ export const path = {
   HOME: "/",
   HOMEPAGE: "/home",
   LOGIN: "/login",
+  REGISTER: "/register",
   LOG_OUT: "/logout",
   SYSTEM: "/system",
   DETAILDOCTOR: "/detail-doctor/:id",
@@ -36,4 +37,8 @@ export const USER_ROLE = {
   ADMIN: "R1",
   DOCTOR: "R2",
   USER: "R3",
+};
+
+export const pagination = {
+  LIMIT: 10,
 };

@@ -1,4 +1,4 @@
-.login-background {
+.register-background {
     background-image: url(../../assets/background-login.jpg);
     background-size: cover;
     background-repeat: no-repeat;
@@ -7,7 +7,7 @@
 
     height: 100vh;
 
-    .login-header-text {
+    .register-header-text {
         padding-top: 40px;
         text-align: center;
         text-transform: uppercase;
@@ -18,7 +18,7 @@
         color: white;
     }
 
-    .login-container {
+    .register-container {
         display: flex;
         position: absolute;
         right: 0;
@@ -31,7 +31,7 @@
 
         background-color: white;
 
-        .login-content-left {
+        .register-content-left {
             background-image: url(../../assets/background-login2.jpg);
             background-size: cover;
             background-repeat: no-repeat;
@@ -40,28 +40,39 @@
             width: 60%;
         }
 
-        .login-content-right {
+        .register-content-right {
             background-color: white;
             width: 40%;
             padding: 15px 40px;
 
-            .logo {
-                background-image: url(../../assets/logo.svg);
-                background-size: cover;
-                background-repeat: no-repeat;
-                background-position: center;
-                height: 44px;
-                width: 200px;
-                margin-top: 20px;
+            .register-header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin: 15px 0;
+
+                .logo {
+                    background-image: url(../../assets/logo.svg);
+                    background-size: cover;
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    height: 30px;
+                    width: 140px;
+                    margin: 0 10px;
+                }
+
+                .register-header-text {
+                    margin: 0;
+                    padding: 0;
+                    color: #49bce2;
+                    text-transform: uppercase;
+                }
             }
 
-            .login-header {
-                color: #49bce2;
-                text-transform: uppercase;
-            }
 
-            .login-input {
-                margin: 10px 0px;
+
+            .register-input {
+                padding: 4px 0;
 
                 .custom-input-password {
                     position: relative;
@@ -88,7 +99,7 @@
             }
         }
 
-        .btn-login {
+        .btn-register {
             outline: none;
             border: none;
             width: 40%;
@@ -130,7 +141,7 @@
             }
         }
 
-        .social-login {
+        .social-register {
             margin-top: 10px;
             display: flex;
             justify-content: center;

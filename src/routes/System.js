@@ -9,7 +9,7 @@ import ManageSpecialty from "../containers/System/Specialty/ManageSpecialty";
 import ManageClinic from "../containers/System/Clinic/ManageClinic";
 class System extends Component {
   render() {
-    const { systemMenuPath, isLoggedIn } = this.props;
+    const { systemMenuPath, isLoggedIn, userInfo } = this.props;
     return (
       <>
         {isLoggedIn && <Header />}
@@ -42,6 +42,7 @@ const mapStateToProps = (state) => {
   return {
     systemMenuPath: state.app.systemMenuPath,
     isLoggedIn: state.user.isLoggedIn,
+    userInfo: state.user.userInfo,
   };
 };
 

@@ -13,6 +13,7 @@ const initialState = {
   provinces: [],
   specialties: [],
   clinics: [],
+  countPage: 10,
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -62,7 +63,8 @@ const adminReducer = (state = initialState, action) => {
       };
 
     case actionTypes.FETCH_ALL_USERS_SUCCESS:
-      copyState.users = action.data;
+      copyState.users = action.data.users;
+      copyState.countPage = action.data.countPage;
       return {
         ...copyState,
       };

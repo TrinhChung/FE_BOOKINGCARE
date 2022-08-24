@@ -59,6 +59,46 @@
             justify-content: center;
             align-items: center;
 
+            .user-info {
+                margin-right: 15px;
+                display: flex;
+                gap: 10px;
+                font-size: 16px;
+
+                .text-singin {
+                    cursor: pointer;
+                    font-weight: 500;
+
+                    &:hover {
+                        color: #49bce2;
+                    }
+                }
+
+                .dropdown {
+
+                    .avatar-user {
+                        width: 40px;
+                        height: 40px;
+                        background-image: url('../../assets/images/user.svg');
+                        border-radius: 50%;
+                        border: 1px solid #ccc;
+                        background-color: #49bce2;
+                        background-position: center center;
+                        cursor: pointer;
+                    }
+
+
+                }
+
+                .name-user {
+                    display: flex;
+                    align-items: center;
+                    font-weight: 500;
+                }
+
+
+            }
+
             .support {
                 padding-right: 50px;
                 display: flex;
@@ -70,6 +110,8 @@
                     color: #49bce2;
                 }
             }
+
+
 
             .language-vi {
                 cursor: pointer;
@@ -86,9 +128,16 @@
                 }
             }
 
+            .select-language {
+                width: 20%;
+                outline: none !important;
+                font-weight: 500;
+            }
+
             .language-en {
                 margin-left: 10px;
                 cursor: pointer;
+
                 opacity: 0.2;
 
                 &.active {
