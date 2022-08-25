@@ -9,6 +9,7 @@ import { LANGUAGES, USER_ROLE } from "../../utils";
 import { FormattedMessage } from "react-intl";
 import _ from "lodash";
 import { withRouter } from "react-router";
+import LogoutModal from "./LogoutModal";
 
 import { changeLanguageApp } from "../../store/actions";
 
@@ -17,9 +18,10 @@ class Header extends Component {
     super(props);
     this.state = {
       menuApp: [],
+      isOpenModal: false,
     };
   }
-  handleOnChangeLanguage = (language) => {
+  changeLanguage = (language) => {
     this.props.changeLanguageAppRedux(language);
   };
 
@@ -40,8 +42,12 @@ class Header extends Component {
     this.setState({ menuApp: menu });
   }
 
+  toggleUserModal = () => {
+    this.setState({ isOpenModal: false });
+  };
+
   render() {
-    const { processLogout, userInfo } = this.props;
+    const { userInfo } = this.props;
     let language = this.props.language;
 
     return (
@@ -49,6 +55,12 @@ class Header extends Component {
         <div className="header-tabs-container">
           <Navigator menus={this.state.menuApp} />
         </div>
+
+        <LogoutModal
+          isOpen={this.state.isOpenModal}
+          toggleFormParent={this.toggleUserModal}
+          homeHeader={false}
+        />
 
         <div className="languages">
           <div className="content-right">
@@ -70,7 +82,7 @@ class Header extends Component {
             </select>
             <div
               className="btn btn-logout"
-              onClick={() => this.props.processLogout()}
+              onClick={() => this.setState({ isOpenModal: true })}
             >
               <i className="fas fa-sign-out-alt"></i>
             </div>

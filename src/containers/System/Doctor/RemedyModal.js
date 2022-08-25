@@ -4,11 +4,19 @@ import { connect } from "react-redux";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { emitter } from "../../../utils/emitter";
 import "./RemedyModal.scss";
+import { LANGUAGES, CRUDACTIONS, CommonUtils } from "../../../utils";
+import { sendBillAccept } from "../../../services/userService";
+import { toast } from "react-toastify";
 
 class RemedyModal extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      email: "",
+      id: 1,
+      file: "",
+      previewIgmUrl: "",
+    };
 
     this.listenToEmitter();
   }
@@ -17,7 +25,23 @@ class RemedyModal extends Component {
     emitter.on("EVENT_CLEAR_MODAL_DATA", () => this.setState({}));
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    if (this.props.email) {
+      this.setState({ email: this.props.email });
+    }
+    if (this.props.id) {
+      this.setState({ id: this.props.id });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevProps.email !== this.props.email) {
+      this.setState({ email: this.props.email });
+    }
+    if (prevProps.id !== this.props.id) {
+      this.setState({ id: this.props.id });
+    }
+  }
 
   toggle = () => {
     this.props.toggleFormParent();
@@ -31,14 +55,36 @@ class RemedyModal extends Component {
     });
   };
 
-  //   handleAddNewUser = () => {
-  //     let isValid = this.checkValidateInput();
-  //     if (isValid) {
-  //       this.props.createNewUser(this.state);
-  //     }
-  //   };
+  handleOnChangeImg = async (event) => {
+    let data = event.target.files;
+    let file = data[0];
+    if (file) {
+      let objectUrl = URL.createObjectURL(file);
+      let base64 = await CommonUtils.getBase64(file);
+      this.setState({ previewIgmUrl: objectUrl, file: base64 });
+    }
+  };
+
+  handleAddNewUser = async () => {
+    let data = {
+      id: this.state.id,
+      file: this.state.file,
+      language: this.props.language,
+    };
+
+    let res = await sendBillAccept(data);
+    if (res && res.errCode === 0) {
+      toast.success("Accept success");
+      this.toggle();
+      this.props.reloadList();
+    } else {
+      console.log(res.errMessage);
+      toast.error(`Accept error: ${res.errMessage}`);
+    }
+  };
 
   render() {
+    let { email } = this.state;
     return (
       <Modal
         isOpen={this.props.isOpen}
@@ -56,11 +102,24 @@ class RemedyModal extends Component {
           <div className="container row">
             <div className="form-group col-12">
               <label>Email benh nhan</label>
-              <input type="text" className="form-control"></input>
+              <input
+                type="text"
+                className="form-control"
+                name="email"
+                value={email}
+                disabled
+                onChange={(e) => this.onChange(e)}
+              ></input>
             </div>
             <div className="form-group col-12">
-              <label>Email benh nhan</label>
-              <input type="file" className="form-control"></input>
+              <label>Hóa đơn cho bệnh nhân</label>
+              <input
+                type="file"
+                name="file"
+                accept="image/png, image/gif, image/jpeg, pdf,.xlsx, xls, csv"
+                className="form-control"
+                onChange={(e) => this.handleOnChangeImg(e)}
+              ></input>
             </div>
           </div>
         </ModalBody>
@@ -68,7 +127,7 @@ class RemedyModal extends Component {
           <Button
             color="primary"
             className="px-3"
-            // onClick={() => this.handleAddNewUser()}
+            onClick={() => this.handleAddNewUser()}
           >
             Add new
           </Button>{" "}
@@ -86,7 +145,9 @@ class RemedyModal extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return {};
+  return {
+    language: state.app.language,
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {

@@ -16,6 +16,12 @@ import "slick-carousel/slick/slick-theme.css";
 
 class HomePage extends Component {
   handleAfterChange = () => {};
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (this.props.location !== prevProps.location) {
+      window.scrollTo(0, 0);
+    }
+  }
   render() {
     let settings = {
       dots: false,
@@ -26,6 +32,7 @@ class HomePage extends Component {
       centerPadding: "100px",
       afterChange: this.handleAfterChange,
     };
+
     return (
       <div className="home-page">
         <HomeHeader isShowBanner={true} />

@@ -77,6 +77,7 @@
 
                         &:hover {
                             box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+                            cursor: pointer;
                         }
                     }
 
@@ -85,6 +86,8 @@
 
                         &:hover {
                             box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+                            cursor: pointer;
+
                         }
                     }
 
@@ -95,6 +98,8 @@
 
                         &:hover {
                             box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+                            cursor: pointer !important;
+
                         }
                     }
                 }
@@ -133,6 +138,7 @@
 
             &:hover {
                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+                cursor: pointer;
             }
         }
 
@@ -178,6 +184,7 @@
     z-index: 10 !important;
     height: 48px !important;
     width: 44px !important;
+    cursor: pointer;
 }
 
 .slick-next {
@@ -186,6 +193,8 @@
     top: 50% !important;
     height: 48px !important;
     width: 44px !important;
+    cursor: pointer;
+
 }
 
 .slick-disabled {

@@ -66,6 +66,16 @@ export const adminMenu = [
 
 export const doctorMenu = [
   {
+    //Quan li cam nang
+    name: "menu.home.header",
+    menus: [
+      {
+        name: "menu.home.home-page",
+        link: "/home",
+      },
+    ],
+  },
+  {
     name: "menu.doctor.user",
     menus: [
       {

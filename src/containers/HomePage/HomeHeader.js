@@ -2,14 +2,20 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./HomeHeader.scss";
 import { FormattedMessage } from "react-intl";
-import { LANGUAGES } from "../../utils";
+import { LANGUAGES, USER_ROLE } from "../../utils";
 import { Link, withRouter } from "react-router-dom";
 import * as actions from "../../store/actions";
 import { changeLanguageApp } from "../../store/actions";
+import LogoutModal from "../Header/LogoutModal";
 
 class HomeHeader extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isOpenModal: false,
+    };
+  }
   changeLanguage = (language) => {
-    console.log(language);
     this.props.changeLanguageAppRedux(language);
   };
 
@@ -21,15 +27,24 @@ class HomeHeader extends Component {
     this.props.history.push("/login");
   };
 
+  toggleUserModal = () => {
+    this.setState({ isOpenModal: false });
+  };
+
   UserInfo = (user) => {
     let language = this.props.language;
-    console.log(user);
+    let roleId = this.props.userInfo.roleId;
     let nameUser =
       language === LANGUAGES.VI
         ? user.firstName + " " + user.lastName
         : user.lastName + " " + user.firstName;
     return (
       <div className="user-info">
+        <LogoutModal
+          isOpen={this.state.isOpenModal}
+          toggleFormParent={this.toggleUserModal}
+          homeHeader={true}
+        />
         <div className="name-user" htmlFor="dropdownMenuButton1">
           {nameUser}
         </div>
@@ -43,12 +58,24 @@ class HomeHeader extends Component {
           ></button>
           <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
             <li>
-              <Link className="dropdown-item" href="/profile">
+              <Link className="dropdown-item" to="/profile">
                 Profile
               </Link>
+              {roleId !== USER_ROLE.USER && (
+                <Link
+                  className="dropdown-item"
+                  to={
+                    roleId === USER_ROLE.DOCTOR
+                      ? "/doctor/manage-patient"
+                      : "/system/user-redux"
+                  }
+                >
+                  Manage
+                </Link>
+              )}
               <Link
                 className="dropdown-item"
-                onClick={() => this.props.processLogout()}
+                onClick={() => this.setState({ isOpenModal: true })}
               >
                 Logout
               </Link>
@@ -71,7 +98,7 @@ class HomeHeader extends Component {
 
   render() {
     let { userInfo, isShowBanner, language } = this.props;
-    console.log(userInfo);
+    console.log(this.props.userInfo);
     return (
       <>
         <div className="home-header-container">

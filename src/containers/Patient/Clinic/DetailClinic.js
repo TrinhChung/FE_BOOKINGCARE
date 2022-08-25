@@ -37,6 +37,7 @@ class DetailClinic extends Component {
   };
 
   async componentDidMount() {
+    window.scrollTo(0, 0);
     if (
       this.props.match &&
       this.props.match.params &&
@@ -52,6 +53,9 @@ class DetailClinic extends Component {
       this.setState({
         allDoctors: this.props.allDoctors,
       });
+    }
+    if (this.props.location.pathname !== prevProps.location.pathname) {
+      window.scrollTo(0, 0);
     }
   }
 

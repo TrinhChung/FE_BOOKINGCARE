@@ -2,10 +2,12 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./ManagePatient.scss";
 import DatePicker from "../../../components/Input/DatePicker";
-import { getAllPatientAllDoctor } from "../../../services/userService";
+import { getAllPatientAllDoctorService } from "../../../services/userService";
 import { FormattedMessage } from "react-intl";
 import { LANGUAGES } from "../../../utils";
 import RemedyModal from "../Doctor/RemedyModal";
+import * as actions from "../../../store/actions";
+import ReactPaginate from "react-paginate";
 
 class ManagePatient extends Component {
   constructor(props) {
@@ -14,6 +16,10 @@ class ManagePatient extends Component {
       currentDate: new Date().setHours(0, 0, 0, 0),
       listPatients: [],
       isOpenModal: false,
+      currentPage: 0,
+      countPage: 1,
+      email: "",
+      id: 1,
     };
   }
 
@@ -25,16 +31,19 @@ class ManagePatient extends Component {
     let { user } = this.props;
     let { currentDate } = this.state;
     let formattedDate = new Date(currentDate).getTime();
-    let res = await getAllPatientAllDoctor(user.id, formattedDate);
+    let res = await getAllPatientAllDoctorService(user.id, formattedDate, 1);
     if (res && res.errCode === 0 && res.data) {
-      this.setState({ listPatients: res.data });
+      this.setState({
+        listPatients: res.data.patientData,
+        countPage: res.data.countPage,
+      });
     }
   };
 
   async componentDidUpdate(prevProps, prevState, snapshot) {
-    if (this.state.listPatients !== prevState.listPatients) {
-      this.getAllPatientAllDoctor();
-    }
+    // if (this.state.listPatients !== prevState.listPatients) {
+    //   this.getAllPatientAllDoctor();
+    // }
   }
 
   handleOnChangeDatePicker = (date) => {
@@ -45,9 +54,13 @@ class ManagePatient extends Component {
     this.setState({ isOpenModal: false });
   };
 
-  handleConfirm = () => {
-    console.log(1);
-    this.setState({ isOpenModal: true });
+  handleConfirm = (email, id) => {
+    console.log(id);
+    this.setState({ email: email, id: id, isOpenModal: true });
+  };
+
+  handleChangePage = (e) => {
+    this.setState({ currentPage: e.target.value });
   };
 
   render() {
@@ -57,8 +70,9 @@ class ManagePatient extends Component {
         <RemedyModal
           isOpen={this.state.isOpenModal}
           toggleFormParent={this.toggleUserModal}
-          // createNewUser={this.createNewUser}
-          // className={"modal-user-container"}
+          email={this.state.email}
+          id={this.state.id}
+          reloadList={this.getAllPatientAllDoctor}
         />
         <div className="manage-patient-title">
           <FormattedMessage id="manage-patient.manage-patient" />
@@ -89,7 +103,7 @@ class ManagePatient extends Component {
                     <FormattedMessage id="manage-patient.email" />
                   </th>
                   <th>
-                    <FormattedMessage id="manage-patient.email" />
+                    <FormattedMessage id="manage-patient.address" />
                   </th>
                   <th>
                     <FormattedMessage id="manage-patient.gender" />
@@ -127,7 +141,12 @@ class ManagePatient extends Component {
                       <td>
                         <button
                           className="btn-edit"
-                          onClick={() => this.handleConfirm()}
+                          onClick={() =>
+                            this.handleConfirm(
+                              patient.patientData.email,
+                              patient.id
+                            )
+                          }
                         >
                           <i className="fas fa-pencil-alt"></i>
                           <FormattedMessage id="manage-patient.confirm" />
@@ -138,6 +157,28 @@ class ManagePatient extends Component {
                 })}
               </tbody>
             </table>
+            <div className="d-flex justify-content-center mt-2">
+              <ReactPaginate
+                pageCount={this.state.countPage}
+                marginPagesDisplayed={1}
+                pageRangeDisplayed={3}
+                onPageChange={(e) => this.handleChangePage(e)}
+                forcePage={this.state.currentPage}
+                pageClassName="page-item"
+                activeClassName="active"
+                nextLinkClassName="page-link"
+                previousLinkClassName="page-link"
+                previousClassName="page-item"
+                pageLinkClassName="page-link"
+                nextClassName="page-item"
+                containerClassName="pagination"
+                breakLinkClassName="page-link"
+                breakClassName="page-item"
+                breakLabel="..."
+                nextLabel="Next"
+                previousLabel="Previous"
+              />
+            </div>
           </div>
         </div>
       </div>

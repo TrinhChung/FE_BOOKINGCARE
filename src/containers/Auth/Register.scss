@@ -27,7 +27,7 @@
         margin: auto;
         bottom: 0;
         width: 1000px;
-        height: 500px;
+        height: 600px;
 
         background-color: white;
 
@@ -105,7 +105,7 @@
             width: 40%;
             background: #00b24d;
             height: 35px;
-            margin: 10px 0 4px 0;
+            margin: 20px 0 4px 0;
             color: white;
             font-size: 18px
         }
@@ -115,7 +115,7 @@
         }
 
         .switch-register {
-            margin-top: 40px;
+            margin-top: 10px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -132,6 +132,8 @@
                 padding: 5px 15px;
                 background-color: transparent;
                 border: 3px double black;
+
+                margin-top: 5px;
 
                 &:hover {
                     border: 3px double #00b24d;

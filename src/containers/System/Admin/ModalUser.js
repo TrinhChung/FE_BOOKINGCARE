@@ -204,14 +204,6 @@ class ModalUser extends Component {
     });
   };
 
-  handleOnChangeInput = (e) => {
-    let copyState = { ...this.state };
-    copyState[e.target.name] = e.target.value;
-    this.setState({
-      ...copyState,
-    });
-  };
-
   handleAddNewUser = () => {
     let isValid = this.checkValidateInput();
     if (isValid) {

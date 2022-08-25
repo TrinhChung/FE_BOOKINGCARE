@@ -200,7 +200,7 @@ class Register extends Component {
               </div>
               <div className="switch-register">
                 <div className="text-switch">
-                  Ban da co tai khoan Login tai day
+                  Bạn đã có tài khoản
                   <i
                     className="mx-2 fa fa-long-arrow-right"
                     aria-hidden="true"

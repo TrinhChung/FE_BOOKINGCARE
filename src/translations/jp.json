@@ -91,6 +91,7 @@
         "od": "STT",
         "full-name": "Họ và tên",
         "email": "Email",
+        "date": "Ngày",
         "address": "Địa chỉ",
         "gender":"Giới tính",
         "time": "Thời gian",
