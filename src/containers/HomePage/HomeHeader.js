@@ -98,7 +98,6 @@ class HomeHeader extends Component {
 
   render() {
     let { userInfo, isShowBanner, language } = this.props;
-    console.log(this.props.userInfo);
     return (
       <>
         <div className="home-header-container">

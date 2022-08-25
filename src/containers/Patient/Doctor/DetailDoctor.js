@@ -7,6 +7,7 @@ import { LANGUAGES } from "../../../utils";
 import DoctorSchedule from "./DoctorSchedule";
 import DoctorExtraInfo from "./DoctorExtraInfor";
 import Footer from "../../Footer/Footer";
+import LoadingOverlay from "react-loading-overlay-ts";
 
 class DetailDoctor extends Component {
   constructor(props) {

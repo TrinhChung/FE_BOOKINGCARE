@@ -1,35 +1,38 @@
-.modal-dialog {
+.logout {
+    .modal-dialog {
 
-    .modal-content {
-        margin-top: 140px !important;
+        .modal-content {
+            margin-top: 140px !important;
 
-        .modal-header {
+            .modal-header {
 
-            button {
-                outline: 0 !important;
-                border: none !important;
+                button {
+                    outline: 0 !important;
+                    border: none !important;
+                }
             }
-        }
 
-        .header-home-page {
-            background-color: #45c3d2 !important;
+            .header-home-page {
+                background-color: #45c3d2 !important;
 
-        }
-
-        .modal-body {
-            .content-modal {
-                min-height: 100px;
-                font-size: 16px;
-                padding-top: 15px;
             }
-        }
 
-        .modal-footer {
-            .btn-logout {
-                background-color: #f1c40f !important;
-                outline: none !important;
-                border: none !important;
+            .modal-body {
+                .content-modal {
+                    min-height: 100px;
+                    font-size: 16px;
+                    padding-top: 15px;
+                }
+            }
+
+            .modal-footer {
+                .btn-logout {
+                    background-color: #f1c40f !important;
+                    outline: none !important;
+                    border: none !important;
+                }
             }
         }
     }
+
 }

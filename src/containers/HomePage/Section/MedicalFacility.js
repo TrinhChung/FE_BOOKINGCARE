@@ -24,6 +24,10 @@ class MedicalFacility extends Component {
     this.props.history.push(`/detail-clinic/${item.id}`);
   };
 
+  handleNextListSection = (e) => {
+    this.props.history.push(`/home-list-section/${e.target.name}`);
+  };
+
   render() {
     let dataClinic = this.state.dataClinic;
 
@@ -34,7 +38,10 @@ class MedicalFacility extends Component {
             <span>
               <FormattedMessage id="homepage.medical-popular" />
             </span>
-            <button>
+            <button
+              name="medical-facility"
+              onClick={(e) => this.handleNextListSection(e)}
+            >
               <FormattedMessage id="homepage.more-info" />
             </button>
           </div>

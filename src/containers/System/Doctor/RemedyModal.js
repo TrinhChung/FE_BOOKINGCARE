@@ -7,6 +7,7 @@ import "./RemedyModal.scss";
 import { LANGUAGES, CRUDACTIONS, CommonUtils } from "../../../utils";
 import { sendBillAccept } from "../../../services/userService";
 import { toast } from "react-toastify";
+import LoadingOverlay from "react-loading-overlay-ts";
 
 class RemedyModal extends Component {
   constructor(props) {
@@ -16,6 +17,7 @@ class RemedyModal extends Component {
       id: 1,
       file: "",
       previewIgmUrl: "",
+      isLoading: false,
     };
 
     this.listenToEmitter();
@@ -71,8 +73,9 @@ class RemedyModal extends Component {
       file: this.state.file,
       language: this.props.language,
     };
-
+    this.setState({ isLoading: true });
     let res = await sendBillAccept(data);
+    this.setState({ isLoading: false });
     if (res && res.errCode === 0) {
       toast.success("Accept success");
       this.toggle();
@@ -89,56 +92,66 @@ class RemedyModal extends Component {
       <Modal
         isOpen={this.props.isOpen}
         toggle={() => this.toggle()}
+        centered
+        backdrop="static"
         className={this.props.className}
         size="lg"
       >
-        <ModalHeader
-          toggle={() => this.toggle()}
-          className="remedy-modal-header"
+        <LoadingOverlay
+          active={this.state.isLoading}
+          wrapper
+          overlay
+          spinner
+          text="Loading..."
         >
-          Xác nhận khám bệnh và gửi hóa đơn
-        </ModalHeader>
-        <ModalBody>
-          <div className="container row">
-            <div className="form-group col-12">
-              <label>Email benh nhan</label>
-              <input
-                type="text"
-                className="form-control"
-                name="email"
-                value={email}
-                disabled
-                onChange={(e) => this.onChange(e)}
-              ></input>
-            </div>
-            <div className="form-group col-12">
-              <label>Hóa đơn cho bệnh nhân</label>
-              <input
-                type="file"
-                name="file"
-                accept="image/png, image/gif, image/jpeg, pdf,.xlsx, xls, csv"
-                className="form-control"
-                onChange={(e) => this.handleOnChangeImg(e)}
-              ></input>
-            </div>
-          </div>
-        </ModalBody>
-        <ModalFooter>
-          <Button
-            color="primary"
-            className="px-3"
-            onClick={() => this.handleAddNewUser()}
+          <ModalHeader
+            toggle={() => this.toggle()}
+            className="remedy-modal-header"
           >
-            Add new
-          </Button>{" "}
-          <Button
-            color="secondary"
-            className="px-3"
-            onClick={() => this.toggle()}
-          >
-            Close
-          </Button>
-        </ModalFooter>
+            Xác nhận khám bệnh và gửi hóa đơn
+          </ModalHeader>
+          <ModalBody>
+            <div className="container row">
+              <div className="form-group col-12">
+                <label>Email benh nhan</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="email"
+                  value={email}
+                  disabled
+                  onChange={(e) => this.onChange(e)}
+                ></input>
+              </div>
+              <div className="form-group col-12">
+                <label>Hóa đơn cho bệnh nhân</label>
+                <input
+                  type="file"
+                  name="file"
+                  accept="image/png, image/gif, image/jpeg, pdf,.xlsx, xls, csv"
+                  className="form-control"
+                  onChange={(e) => this.handleOnChangeImg(e)}
+                ></input>
+              </div>
+            </div>
+          </ModalBody>
+          <ModalFooter>
+            <Button
+              color="primary"
+              className="px-3"
+              onClick={() => this.handleAddNewUser()}
+            >
+              Add new
+            </Button>{" "}
+            <Button
+              color="secondary"
+              className="px-3"
+              onClick={() => this.toggle()}
+            >
+              Close
+            </Button>
+          </ModalFooter>
+        </LoadingOverlay>
       </Modal>
     );
   }

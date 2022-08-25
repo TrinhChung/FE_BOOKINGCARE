@@ -25,33 +25,39 @@ class LogoutModal extends Component {
 
   render() {
     return (
-      <Modal isOpen={this.props.isOpen} toggle={() => this.toggle()} size="lg">
-        <ModalHeader
+      <div className="logout">
+        <Modal
+          isOpen={this.props.isOpen}
           toggle={() => this.toggle()}
-          className={this.props.homeHeader ? "header-home-page" : ""}
+          size="lg"
         >
-          Logout
-        </ModalHeader>
-        <ModalBody>
-          <div className="content-modal">Ban co muon dang xuat khong?</div>
-        </ModalBody>
-        <ModalFooter>
-          <Button
-            color="primary"
-            className="px-3 btn-logout"
-            onClick={() => this.handleAddNewUser()}
+          <ModalHeader
+            toggle={() => this.toggle()}
+            className={this.props.homeHeader ? "header-home-page" : ""}
           >
-            Accept
-          </Button>
-          <Button
-            color="secondary"
-            className="px-3"
-            onClick={() => this.toggle()}
-          >
-            Close
-          </Button>
-        </ModalFooter>
-      </Modal>
+            Logout
+          </ModalHeader>
+          <ModalBody>
+            <div className="content-modal">Ban co muon dang xuat khong?</div>
+          </ModalBody>
+          <ModalFooter>
+            <Button
+              color="primary"
+              className="px-3 btn-logout"
+              onClick={() => this.handleAddNewUser()}
+            >
+              Accept
+            </Button>
+            <Button
+              color="secondary"
+              className="px-3"
+              onClick={() => this.toggle()}
+            >
+              Close
+            </Button>
+          </ModalFooter>
+        </Modal>
+      </div>
     );
   }
 }

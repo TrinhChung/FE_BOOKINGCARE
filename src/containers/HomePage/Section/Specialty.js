@@ -24,6 +24,10 @@ class Specialty extends Component {
     this.props.history.push(`/detail-specialty/${item.id}`);
   };
 
+  handleNextListSection = (e) => {
+    this.props.history.push(`/home-list-section/${e.target.name}`);
+  };
+
   render() {
     let dataSpecialty = this.state.dataSpecialty;
     return (
@@ -33,7 +37,10 @@ class Specialty extends Component {
             <span>
               <FormattedMessage id="homepage.specialty-popular" />
             </span>
-            <button>
+            <button
+              name="specialty"
+              onClick={(e) => this.handleNextListSection(e)}
+            >
               <FormattedMessage id="homepage.more-info" />
             </button>
           </div>
