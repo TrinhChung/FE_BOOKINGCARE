@@ -6,8 +6,8 @@
         "select-room": "Chọn bệnh viện phòng khám",
         "doctor": "Bác sĩ",
         "select-doctor": "Chọn bác sĩ giỏi",
-        "fee" : "Gói khám",
-        "check-healthy": "Khám sức khỏe tổng quát",
+        "fee" : "Handbook",
+        "check-healthy": "Handbook for your",
         "support": "Hỗ trợ",
         "welcome": "Xin chào"
     },
@@ -55,6 +55,7 @@
             "manage-schedule": "Quản lí kế hoạch",
             "manage-patient": "Quản lí kế bệnh nhân",
             "schedule": "Kế hoạch",
+            "create-handbook": "Viết cẩm nang",
             "user": "Người dùng"
         }
     },
@@ -77,7 +78,8 @@
         "out-standing-doctor": "Bác sĩ nổi bật",
         "more-info": "Xem thêm",
         "specialty-popular": "Chuyên khoa phổ biến",
-        "medical-popular": "Cơ sở y tế nổi bật"
+        "medical-popular": "Cơ sở y tế nổi bật",
+        "handbook": "Cẩm nang"
     },
     "manage-schedule":{
         "title": "Quản lý kế hoạch khám bệnh của bác sĩ",

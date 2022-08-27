@@ -39,7 +39,9 @@ class HomePage extends Component {
         <Specialty settings={settings} />
         <MedicalFacility settings={settings} />
         <OutStandingDoctor settings={settings} />
-        <HandBook settings={settings} />
+        <HandBook
+          settings={{ ...settings, slidesToShow: 2, slidesToScroll: 1 }}
+        />
         <About />
         <Footer />
       </div>

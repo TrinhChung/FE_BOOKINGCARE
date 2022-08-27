@@ -90,4 +90,14 @@ export const doctorMenu = [
       },
     ],
   },
+  {
+    //Quan li cam nang
+    name: "menu.admin.handbook",
+    menus: [
+      {
+        name: "menu.doctor.create-handbook",
+        link: "/doctor/create-handbook",
+      },
+    ],
+  },
 ];

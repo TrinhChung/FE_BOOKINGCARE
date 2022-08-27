@@ -11,6 +11,7 @@ import Doctor from "../routes/Doctor";
 import VerifyEmailBooking from "../containers/Patient/VerifyEmailBooking";
 import DetailSpecialty from "./Patient/Specialty/DetailSpecialty";
 import DetailClinic from "./Patient/Clinic/DetailClinic";
+import DetailHandbook from "./Patient/Handbook/DetailHandbook";
 
 import {
   userIsAuthenticated,
@@ -75,6 +76,10 @@ class App extends Component {
                   <Route path={path.HOMEPAGE} component={HomePage} />
 
                   <Route path={path.DETAILDOCTOR} component={DetailDoctor} />
+                  <Route
+                    path={path.DETAILHANDBOOK}
+                    component={DetailHandbook}
+                  />
                   <Route
                     path={path.HOMELISTSECTION}
                     component={HomeListSection}

@@ -1,0 +1,17 @@
+.create-handbook-container {
+    padding: 20px 40px;
+
+    .box-name-handbook {
+        .input-name {
+            .err {
+                border: 1px solid red;
+            }
+        }
+    }
+
+    .box-markdown {
+        .manage-doctor-editor {
+            padding-top: 20px;
+        }
+    }
+}

@@ -96,6 +96,12 @@ class HomeHeader extends Component {
     );
   };
 
+  handleNextListSection = (e) => {
+    this.props.history.push(
+      `/home-list-section/${e.currentTarget.getAttribute("name")}`
+    );
+  };
+
   render() {
     let { userInfo, isShowBanner, language } = this.props;
     return (
@@ -103,15 +109,18 @@ class HomeHeader extends Component {
         <div className="home-header-container">
           <div className="home-header-content">
             <div className="left-content">
-              <i className="fas fa-bars "></i>
               <div
                 className="header-logo"
                 onClick={() => this.returnHome()}
               ></div>
             </div>
             <div className="center-content">
-              <div className="child-content">
-                <div>
+              <div
+                className="child-content"
+                name="specialty"
+                onClick={(e) => this.handleNextListSection(e)}
+              >
+                <div name="specialty">
                   <b>
                     <FormattedMessage id="homeheader.specialist" />
                   </b>
@@ -120,7 +129,11 @@ class HomeHeader extends Component {
                   <FormattedMessage id="homeheader.searchdoctor" />
                 </div>
               </div>
-              <div className="child-content">
+              <div
+                className="child-content"
+                name="medical-facility"
+                onClick={(e) => this.handleNextListSection(e)}
+              >
                 <div>
                   <b>
                     <FormattedMessage id="homeheader.health-facility" />
@@ -130,7 +143,11 @@ class HomeHeader extends Component {
                   <FormattedMessage id="homeheader.select-room" />
                 </div>
               </div>
-              <div className="child-content">
+              <div
+                className="child-content"
+                name="doctor"
+                onClick={(e) => this.handleNextListSection(e)}
+              >
                 <div>
                   <b>
                     <FormattedMessage id="homeheader.doctor" />
@@ -140,7 +157,11 @@ class HomeHeader extends Component {
                   <FormattedMessage id="homeheader.select-doctor" />
                 </div>
               </div>
-              <div className="child-content">
+              <div
+                className="child-content"
+                name="handbook"
+                onClick={(e) => this.handleNextListSection(e)}
+              >
                 <div>
                   <b>
                     <FormattedMessage id="homeheader.fee" />

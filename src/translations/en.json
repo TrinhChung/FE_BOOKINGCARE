@@ -6,8 +6,8 @@
         "select-room": "Choose hospital clinic",
         "doctor": "Doctor",
         "select-doctor": "Choose a good doctor",
-        "fee" : "Health checkup package",
-        "check-healthy": "General health check",
+        "fee" : "Handbook",
+        "check-healthy": "Handbook for your",
         "support": "Support",
         "welcome": "Welcome"
     },
@@ -55,7 +55,8 @@
             "manage-schedule": "Manage schedule",
             "manage-patient": "Manage patient",
             "schedule": "Schedule",
-            "user": "User"
+            "user": "User",
+            "create-handbook": "Create handbook"
         }
     },
     "manage-user": {
@@ -77,8 +78,8 @@
         "out-standing-doctor": "Outstanding doctor",
         "more-info": "More info",
         "specialty-popular": "Dissemination of specialties",
-        "medical-popular": "Outstanding medical facility"
-
+        "medical-popular": "Outstanding medical facility",
+        "handbook": "Handbook"
 
     },
     "manage-schedule":{

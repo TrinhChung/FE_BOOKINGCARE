@@ -1,5 +1,5 @@
 {
-  "name": "react-app-hoi-dan-it",
+  "name": "BookingCareVN",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -7,6 +7,7 @@
     "@formatjs/intl-relativetimeformat": "^7.3.6",
     "@fortawesome/fontawesome-free-webfonts": "^1.0.9",
     "@fortawesome/fontawesome-svg-core": "^6.1.2",
+    "@popperjs/core": "^2.11.6",
     "axios": "^0.21.1",
     "bootstrap": "^5.0.1",
     "connected-react-router": "^6.9.1",
@@ -16,6 +17,7 @@
     "markdown-it": "^12.1.0",
     "moment": "^2.29.4",
     "node-sass": "^6.0.0",
+    "popper.js": "^1.16.1",
     "rc-pagination": "^3.1.17",
     "react": "^17.0.2",
     "react-auth-wrapper": "^1.0.0",

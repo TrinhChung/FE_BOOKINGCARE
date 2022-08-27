@@ -110,6 +110,18 @@ const sendBillAccept = (data) => {
   return axios.post(`/api/patient-book-doctor-accept`, data);
 };
 
+const createHandBook = (data) => {
+  return axios.post(`/api/create-new-handbook`, data);
+};
+
+const getHandBook = () => {
+  return axios.get(`/api/get-handbooks`);
+};
+
+const getDetailHandBook = (data) => {
+  return axios.get(`/api/get-detail-handbooks/?id=${data}`);
+};
+
 export {
   handleLoginApi,
   getAllUsers,
@@ -136,4 +148,7 @@ export {
   getAllPatientAllDoctorService,
   getUserByIdService,
   sendBillAccept,
+  createHandBook,
+  getHandBook,
+  getDetailHandBook,
 };
