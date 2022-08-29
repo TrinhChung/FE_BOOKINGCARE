@@ -30,7 +30,6 @@ class HandBook extends Component {
 
   render() {
     let handbooks = this.state.handbooks;
-    console.log(handbooks);
     return (
       <div className="section-share section-medical-facility">
         <div className="section-container">

@@ -8,6 +8,7 @@ import * as actions from "../../../store/actions/adminActions";
 import { LANGUAGES } from "../../../utils";
 import ProfileDoctor from "../Doctor/ProfileDoctor";
 import { FormattedMessage } from "react-intl";
+import Footer from "../../Footer/Footer";
 
 import { getDetailSpecialty } from "../../../services/userService";
 
@@ -163,6 +164,7 @@ class DetailSpecialty extends Component {
             </div>
           </div>
         </div>
+        <Footer />
       </>
     );
   }

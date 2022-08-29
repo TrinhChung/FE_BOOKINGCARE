@@ -7,14 +7,68 @@ import { Link, withRouter } from "react-router-dom";
 import * as actions from "../../store/actions";
 import { changeLanguageApp } from "../../store/actions";
 import LogoutModal from "../Header/LogoutModal";
+import {
+  getAllSpecialty,
+  getTopDoctorHomeService,
+  getAllClinic,
+  getHandBook,
+} from "../../services/userService";
 
 class HomeHeader extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isOpenModal: false,
+      specialties: [],
+      handbooks: [],
+      clinics: [],
+      doctors: [],
+      specialtiesFilter: [],
+      handbooksFilter: [],
+      clinicsFilter: [],
+      doctorsFilter: [],
+      keySearch: "",
+      focus: false,
     };
   }
+
+  componentDidMount() {
+    this.getDataDoctor();
+  }
+
+  getDataDoctor = async () => {
+    if (this.props.isShowBanner) {
+      let specialties = await getAllSpecialty();
+      let doctors = await getTopDoctorHomeService("");
+      let clinics = await getAllClinic("all");
+      let handbooks = await getHandBook();
+
+      if (
+        specialties.errCode === 0 &&
+        doctors.errCode === 0 &&
+        handbooks.errCode === 0 &&
+        clinics.errCode === 0
+      ) {
+        this.setState({
+          specialties: specialties.data,
+          handbooks: handbooks.data,
+          clinics: clinics.data,
+          doctors: doctors.data,
+          specialtiesFilter: specialties.data,
+          handbooksFilter: handbooks.data,
+          clinicsFilter: clinics.data,
+          doctorsFilter: doctors.data,
+        });
+      }
+    }
+  };
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevProps.isShowBanner !== this.props.isShowBanner) {
+      this.getDataDoctor();
+    }
+  }
+
   changeLanguage = (language) => {
     this.props.changeLanguageAppRedux(language);
   };
@@ -102,8 +156,86 @@ class HomeHeader extends Component {
     );
   };
 
+  handleGetValueInputSearch = (e) => {
+    this.setState({ keySearch: e.target.value });
+    let specialties = this.state.specialties.filter((specialty) =>
+      this.removeAccents(specialty.name).includes(
+        this.removeAccents(e.target.value)
+      )
+    );
+    let doctors = this.state.doctors.filter((doctor) =>
+      this.removeAccents(
+        doctor.positionData.valueVi +
+          " " +
+          doctor.lastName +
+          " " +
+          doctor.firstName
+      ).includes(this.removeAccents(e.target.value))
+    );
+    let clinics = this.state.clinics.filter((specialty) =>
+      this.removeAccents(specialty.name).includes(
+        this.removeAccents(e.target.value)
+      )
+    );
+    let handbooks = this.state.handbooks.filter((specialty) =>
+      this.removeAccents(specialty.name).includes(
+        this.removeAccents(e.target.value)
+      )
+    );
+    this.setState({
+      specialtiesFilter: specialties,
+      doctorsFilter: doctors,
+      clinicsFilter: clinics,
+      handbooksFilter: handbooks,
+    });
+  };
+
+  removeAccents = (str) => {
+    return str
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/đ/g, "d")
+      .replace(/Đ/g, "D")
+      .trim()
+      .toLowerCase();
+  };
+
+  boxSearchSection = (sections, name) => {
+    return (
+      <div className="box-search-section">
+        <div className="name-section">{name}</div>
+        <div className="wrap-section">
+          {sections &&
+            sections.length > 0 &&
+            sections.map((section) => (
+              <div className="section">
+                <div
+                  className="section-img"
+                  style={{ backgroundImage: `url(${section.image})` }}
+                  onClick={() => console.log("next")}
+                ></div>
+                <div className="name">
+                  {name === "Doctor"
+                    ? section.positionData.valueVi +
+                      " " +
+                      section.firstName +
+                      " " +
+                      section.lastName
+                    : section.name}
+                </div>
+              </div>
+            ))}
+        </div>
+      </div>
+    );
+  };
+
   render() {
     let { userInfo, isShowBanner, language } = this.props;
+    let { doctorsFilter, specialtiesFilter, handbooksFilter, clinicsFilter } =
+      this.state;
+
+    console.log(this.state);
     return (
       <>
         <div className="home-header-container">
@@ -197,13 +329,43 @@ class HomeHeader extends Component {
               <div className="title2">
                 <FormattedMessage id="banner.title2" />
               </div>
-              <div className="search">
-                <i className="fas fa-search"></i>
+
+              <div
+                className="search"
+                // onBlur={(e) => this.setState({ focus: false })}
+              >
+                <i
+                  className="fas fa-search"
+                  onClick={() => this.handleSearch()}
+                ></i>
                 <input
                   type="text"
-                  className=""
+                  value={this.state.keySearch}
+                  onFocus={(e) => this.setState({ focus: true })}
+                  onChange={(e) => this.handleGetValueInputSearch(e)}
                   placeholder="Tim chuyên khoa khám bệnh"
                 ></input>
+                {this.state.focus ? (
+                  <div className="nomination">
+                    {specialtiesFilter &&
+                      specialtiesFilter.length > 0 &&
+                      this.boxSearchSection(specialtiesFilter, "Specialty")}
+
+                    {doctorsFilter &&
+                      doctorsFilter.length > 0 &&
+                      this.boxSearchSection(doctorsFilter, "Doctor")}
+
+                    {clinicsFilter &&
+                      clinicsFilter.length > 0 &&
+                      this.boxSearchSection(clinicsFilter, "Clinics")}
+
+                    {handbooksFilter &&
+                      handbooksFilter.length > 0 &&
+                      this.boxSearchSection(handbooksFilter, "Handbooks")}
+                  </div>
+                ) : (
+                  ""
+                )}
               </div>
             </div>
 

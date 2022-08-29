@@ -7,7 +7,7 @@ import "./ManageDoctor.scss";
 // import style manually
 import "react-markdown-editor-lite/lib/index.css";
 import Select from "react-select";
-import { LANGUAGES, CRUDACTIONS } from "../../../utils";
+import { LANGUAGES, CRUDACTIONS, USER_ROLE } from "../../../utils";
 import { getDetailDoctorService } from "../../../services/userService";
 import { FormattedMessage } from "react-intl";
 
@@ -48,6 +48,15 @@ class ManageDoctor extends Component {
     this.props.fetchAllDoctor();
     this.props.getListClinic();
     this.props.getRequiredDoctorInfo();
+    if (
+      this.props.userInfo &&
+      this.props.userInfo.roleId === USER_ROLE.DOCTOR
+    ) {
+      this.setState({
+        selectedDoctor: { label: "", value: this.props.userInfo.id },
+      });
+      this.handleChange({ label: "", value: this.props.userInfo.id });
+    }
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -136,7 +145,6 @@ class ManageDoctor extends Component {
 
       note: this.state.note,
     });
-    console.log("saveContentMarkDown ", this.state);
   };
 
   handleEditorChange = ({ html, text }) => {
@@ -311,6 +319,8 @@ class ManageDoctor extends Component {
   };
 
   render() {
+    let userInfo = this.props.userInfo;
+    console.log(userInfo);
     return (
       <div className="manage-doctor-container">
         <div className="manage-doctor-title">
@@ -319,19 +329,24 @@ class ManageDoctor extends Component {
 
         <div className="more-info my-2">
           <div className="row">
-            <div className="col-4 form-group">
-              <label>
-                <FormattedMessage id="admin.manage-doctor.select-doctor" />
-              </label>
-              <Select
-                options={this.state.listDoctor}
-                value={this.state.selectedDoctor}
-                onChange={this.handleChange}
-                placeholder={
+            {userInfo.role === USER_ROLE.ADMIN ? (
+              <div className="col-4 form-group">
+                <label>
                   <FormattedMessage id="admin.manage-doctor.select-doctor" />
-                }
-              />
-            </div>
+                </label>
+                <Select
+                  options={this.state.listDoctor}
+                  value={this.state.selectedDoctor}
+                  onChange={this.handleChange}
+                  placeholder={
+                    <FormattedMessage id="admin.manage-doctor.select-doctor" />
+                  }
+                />
+              </div>
+            ) : (
+              ""
+            )}
+
             <div className="col-4 form-group">
               <label>
                 <FormattedMessage id="admin.manage-doctor.price" />
@@ -497,6 +512,7 @@ const mapStateToProps = (state) => {
     provinces: state.admin.provinces,
     specialties: state.admin.specialties,
     clinics: state.admin.clinics,
+    userInfo: state.user.userInfo,
   };
 };
 

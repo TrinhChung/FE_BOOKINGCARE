@@ -65,6 +65,15 @@ class DetailDoctor extends Component {
                   <span>{this.state.detailDoctor.Markdown.description}</span>
                 )}
               </div>
+              <div
+                class="fb-like"
+                data-href="https://developers.facebook.com/docs/plugins/"
+                data-width=""
+                data-layout="button"
+                data-action="like"
+                data-size="small"
+                data-share="true"
+              ></div>
             </div>
           </div>
           <div className="schedule-doctor mg-100">

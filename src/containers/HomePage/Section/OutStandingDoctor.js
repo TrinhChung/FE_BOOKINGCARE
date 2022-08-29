@@ -56,12 +56,6 @@ class OutStandingDoctor extends Component {
               {arrDoctors &&
                 arrDoctors.length > 0 &&
                 arrDoctors.map((doctor, index) => {
-                  let imageBase64 = "";
-                  if (doctor.image) {
-                    imageBase64 = new Buffer(doctor.image, "base64").toString(
-                      "binary"
-                    );
-                  }
                   let nameVi = `${doctor.positionData.valueVi}, ${doctor.lastName} ${doctor.firstName} `;
                   let nameEn = `${doctor.positionData.valueEn}, ${doctor.firstName} ${doctor.lastName}`;
 
@@ -75,7 +69,7 @@ class OutStandingDoctor extends Component {
                         <div className="outer-bg">
                           <div
                             className="bg-image outstanding-doctor-section"
-                            style={{ backgroundImage: `url(${imageBase64})` }}
+                            style={{ backgroundImage: `url(${doctor.image})` }}
                           />
                         </div>
                         <div className="position text-center">

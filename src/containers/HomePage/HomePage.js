@@ -15,6 +15,10 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 class HomePage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
   handleAfterChange = () => {};
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -22,6 +26,9 @@ class HomePage extends Component {
       window.scrollTo(0, 0);
     }
   }
+
+  setState = () => {};
+
   render() {
     let settings = {
       dots: false,
