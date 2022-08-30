@@ -4,6 +4,7 @@ import { FormattedMessage } from "react-intl";
 import Slider from "react-slick";
 import { getAllSpecialty } from "../../../services/userService";
 import { withRouter } from "react-router";
+import * as actions from "../../../store/actions";
 
 class Specialty extends Component {
   constructor(props) {
@@ -14,9 +15,14 @@ class Specialty extends Component {
   }
 
   async componentDidMount() {
-    let res = await getAllSpecialty();
-    if (res && res.errCode === 0) {
-      this.setState({ dataSpecialty: res.data });
+    this.props.fetchTopSpecialty();
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevProps.topSpecialties !== this.props.topSpecialties) {
+      this.setState({
+        dataSpecialty: this.props.topSpecialties,
+      });
     }
   }
 
@@ -75,11 +81,14 @@ const mapStateToProps = (state) => {
   return {
     isLoggedIn: state.user.isLoggedIn,
     language: state.app.language,
+    topSpecialties: state.admin.topSpecialties,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {};
+  return {
+    fetchTopSpecialty: () => dispatch(actions.fetchTopSpecialty()),
+  };
 };
 
 export default withRouter(

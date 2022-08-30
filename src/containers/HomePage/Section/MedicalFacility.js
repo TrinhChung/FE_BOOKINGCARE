@@ -4,6 +4,7 @@ import Slider from "react-slick";
 import { FormattedMessage } from "react-intl";
 import { getAllClinic } from "../../../services/userService";
 import { withRouter } from "react-router";
+import * as actions from "../../../store/actions";
 
 class MedicalFacility extends Component {
   constructor(props) {
@@ -13,10 +14,15 @@ class MedicalFacility extends Component {
     };
   }
 
-  async componentDidMount() {
-    let res = await getAllClinic("all");
-    if (res && res.errCode === 0) {
-      this.setState({ dataClinic: res.data });
+  componentDidMount() {
+    this.props.fetchTopClinic();
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevProps.topClinics !== this.props.topClinics) {
+      this.setState({
+        dataClinic: this.props.topClinics,
+      });
     }
   }
 
@@ -75,11 +81,14 @@ class MedicalFacility extends Component {
 const mapStateToProps = (state) => {
   return {
     isLoggedIn: state.user.isLoggedIn,
+    topClinics: state.admin.topClinics,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {};
+  return {
+    fetchTopClinic: () => dispatch(actions.fetchTopClinic()),
+  };
 };
 
 export default withRouter(

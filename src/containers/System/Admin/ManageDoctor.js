@@ -320,7 +320,6 @@ class ManageDoctor extends Component {
 
   render() {
     let userInfo = this.props.userInfo;
-    console.log(userInfo);
     return (
       <div className="manage-doctor-container">
         <div className="manage-doctor-title">

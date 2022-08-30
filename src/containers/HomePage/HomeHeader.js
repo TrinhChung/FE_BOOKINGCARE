@@ -7,12 +7,6 @@ import { Link, withRouter } from "react-router-dom";
 import * as actions from "../../store/actions";
 import { changeLanguageApp } from "../../store/actions";
 import LogoutModal from "../Header/LogoutModal";
-import {
-  getAllSpecialty,
-  getTopDoctorHomeService,
-  getAllClinic,
-  getHandBook,
-} from "../../services/userService";
 
 class HomeHeader extends Component {
   constructor(props) {
@@ -30,42 +24,56 @@ class HomeHeader extends Component {
       keySearch: "",
       focus: false,
     };
+
+    this.ref = React.createRef();
   }
 
-  componentDidMount() {
-    this.getDataDoctor();
-  }
-
-  getDataDoctor = async () => {
-    if (this.props.isShowBanner) {
-      let specialties = await getAllSpecialty();
-      let doctors = await getTopDoctorHomeService("");
-      let clinics = await getAllClinic("all");
-      let handbooks = await getHandBook();
-
-      if (
-        specialties.errCode === 0 &&
-        doctors.errCode === 0 &&
-        handbooks.errCode === 0 &&
-        clinics.errCode === 0
-      ) {
-        this.setState({
-          specialties: specialties.data,
-          handbooks: handbooks.data,
-          clinics: clinics.data,
-          doctors: doctors.data,
-          specialtiesFilter: specialties.data,
-          handbooksFilter: handbooks.data,
-          clinicsFilter: clinics.data,
-          doctorsFilter: doctors.data,
-        });
-      }
+  handleClickOutside = (event) => {
+    if (
+      this.ref &&
+      this.ref.current &&
+      this.ref.current.contains(event.target)
+    ) {
+    } else {
+      this.setState({ focus: false });
     }
   };
+
+  componentDidMount() {
+    document.addEventListener("mousedown", this.handleClickOutside);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("mousedown", this.handleClickOutside);
+  }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (prevProps.isShowBanner !== this.props.isShowBanner) {
       this.getDataDoctor();
+    }
+    if (prevProps.topDoctors !== this.props.topDoctors) {
+      this.setState({
+        doctors: this.props.topDoctors,
+        doctorsFilter: this.props.topDoctors,
+      });
+    }
+    if (prevProps.topClinics !== this.props.topClinics) {
+      this.setState({
+        clinics: this.props.topClinics,
+        clinicsFilter: this.props.topClinics,
+      });
+    }
+    if (prevProps.topSpecialties !== this.props.topSpecialties) {
+      this.setState({
+        specialties: this.props.topSpecialties,
+        specialtiesFilter: this.props.topSpecialties,
+      });
+    }
+    if (prevProps.handbooks !== this.props.handbooks) {
+      this.setState({
+        handbooks: this.props.handbooks,
+        handbooksFilter: this.props.handbooks,
+      });
     }
   }
 
@@ -200,6 +208,21 @@ class HomeHeader extends Component {
       .toLowerCase();
   };
 
+  nextPageDetail = (id, name) => {
+    if (name === "Doctors") {
+      this.props.history.push(`/detail-doctor/${id}`);
+    }
+    if (name === "Specialties") {
+      this.props.history.push(`/detail-specialty/${id}`);
+    }
+    if (name === "Clinics") {
+      this.props.history.push(`/detail-clinic/${id}`);
+    }
+    if (name === "Handbooks") {
+      this.props.history.push(`/detail-handbook/${id}`);
+    }
+  };
+
   boxSearchSection = (sections, name) => {
     return (
       <div className="box-search-section">
@@ -207,15 +230,16 @@ class HomeHeader extends Component {
         <div className="wrap-section">
           {sections &&
             sections.length > 0 &&
-            sections.map((section) => (
+            sections.map((section, index) => (
               <div className="section">
                 <div
                   className="section-img"
                   style={{ backgroundImage: `url(${section.image})` }}
-                  onClick={() => console.log("next")}
+                  onClick={() => this.nextPageDetail(section.id, name)}
+                  key={index}
                 ></div>
                 <div className="name">
-                  {name === "Doctor"
+                  {name === "Doctors"
                     ? section.positionData.valueVi +
                       " " +
                       section.firstName +
@@ -230,201 +254,210 @@ class HomeHeader extends Component {
     );
   };
 
+  focusOut = (e) => {
+    console.log(1);
+    this.setState({ focus: false });
+  };
+
   render() {
     let { userInfo, isShowBanner, language } = this.props;
     let { doctorsFilter, specialtiesFilter, handbooksFilter, clinicsFilter } =
       this.state;
 
-    console.log(this.state);
+    console.log();
+
     return (
       <>
-        <div className="home-header-container">
-          <div className="home-header-content">
-            <div className="left-content">
-              <div
-                className="header-logo"
-                onClick={() => this.returnHome()}
-              ></div>
-            </div>
-            <div className="center-content">
-              <div
-                className="child-content"
-                name="specialty"
-                onClick={(e) => this.handleNextListSection(e)}
-              >
-                <div name="specialty">
-                  <b>
-                    <FormattedMessage id="homeheader.specialist" />
-                  </b>
+        <div>
+          <div className="home-header-container">
+            <div className="home-header-content">
+              <div className="left-content">
+                <div
+                  className="header-logo"
+                  onClick={() => this.returnHome()}
+                ></div>
+              </div>
+              <div className="center-content">
+                <div
+                  className="child-content"
+                  name="specialty"
+                  onClick={(e) => this.handleNextListSection(e)}
+                >
+                  <div name="specialty">
+                    <b>
+                      <FormattedMessage id="homeheader.specialist" />
+                    </b>
+                  </div>
+                  <div className="subs-title">
+                    <FormattedMessage id="homeheader.searchdoctor" />
+                  </div>
                 </div>
-                <div className="subs-title">
-                  <FormattedMessage id="homeheader.searchdoctor" />
+                <div
+                  className="child-content"
+                  name="medical-facility"
+                  onClick={(e) => this.handleNextListSection(e)}
+                >
+                  <div>
+                    <b>
+                      <FormattedMessage id="homeheader.health-facility" />
+                    </b>
+                  </div>
+                  <div className="subs-title">
+                    <FormattedMessage id="homeheader.select-room" />
+                  </div>
+                </div>
+                <div
+                  className="child-content"
+                  name="doctor"
+                  onClick={(e) => this.handleNextListSection(e)}
+                >
+                  <div>
+                    <b>
+                      <FormattedMessage id="homeheader.doctor" />
+                    </b>
+                  </div>
+                  <div className="subs-title">
+                    <FormattedMessage id="homeheader.select-doctor" />
+                  </div>
+                </div>
+                <div
+                  className="child-content"
+                  name="handbook"
+                  onClick={(e) => this.handleNextListSection(e)}
+                >
+                  <div>
+                    <b>
+                      <FormattedMessage id="homeheader.fee" />
+                    </b>
+                  </div>
+                  <div className="subs-title">
+                    <FormattedMessage id="homeheader.check-healthy" />
+                  </div>
                 </div>
               </div>
-              <div
-                className="child-content"
-                name="medical-facility"
-                onClick={(e) => this.handleNextListSection(e)}
-              >
-                <div>
-                  <b>
-                    <FormattedMessage id="homeheader.health-facility" />
-                  </b>
-                </div>
-                <div className="subs-title">
-                  <FormattedMessage id="homeheader.select-room" />
-                </div>
-              </div>
-              <div
-                className="child-content"
-                name="doctor"
-                onClick={(e) => this.handleNextListSection(e)}
-              >
-                <div>
-                  <b>
-                    <FormattedMessage id="homeheader.doctor" />
-                  </b>
-                </div>
-                <div className="subs-title">
-                  <FormattedMessage id="homeheader.select-doctor" />
-                </div>
-              </div>
-              <div
-                className="child-content"
-                name="handbook"
-                onClick={(e) => this.handleNextListSection(e)}
-              >
-                <div>
-                  <b>
-                    <FormattedMessage id="homeheader.fee" />
-                  </b>
-                </div>
-                <div className="subs-title">
-                  <FormattedMessage id="homeheader.check-healthy" />
-                </div>
-              </div>
-            </div>
-            <div className="right-content">
-              {userInfo ? this.UserInfo(userInfo) : this.SingIn()}
+              <div className="right-content">
+                {userInfo ? this.UserInfo(userInfo) : this.SingIn()}
 
-              <select
-                className="form-select select-language"
-                value={language}
-                onChange={(e) => this.changeLanguage(e.target.value)}
-              >
-                <option value="en">EN</option>
-                <option value="vi">VI</option>
-                <option value="jp">JP</option>
-              </select>
+                <select
+                  className="form-select select-language"
+                  value={language}
+                  onChange={(e) => this.changeLanguage(e.target.value)}
+                >
+                  <option value="en">EN</option>
+                  <option value="vi">VI</option>
+                  <option value="jp">JP</option>
+                </select>
+              </div>
             </div>
           </div>
-        </div>
 
-        {isShowBanner && (
-          <div className="home-header-banner">
-            <div className="content-up">
-              <div className="title1">
-                <FormattedMessage id="banner.title1" />
-              </div>
-              <div className="title2">
-                <FormattedMessage id="banner.title2" />
-              </div>
-
-              <div
-                className="search"
-                // onBlur={(e) => this.setState({ focus: false })}
-              >
-                <i
-                  className="fas fa-search"
-                  onClick={() => this.handleSearch()}
-                ></i>
-                <input
-                  type="text"
-                  value={this.state.keySearch}
-                  onFocus={(e) => this.setState({ focus: true })}
-                  onChange={(e) => this.handleGetValueInputSearch(e)}
-                  placeholder="Tim chuyên khoa khám bệnh"
-                ></input>
-                {this.state.focus ? (
-                  <div className="nomination">
-                    {specialtiesFilter &&
-                      specialtiesFilter.length > 0 &&
-                      this.boxSearchSection(specialtiesFilter, "Specialty")}
-
-                    {doctorsFilter &&
-                      doctorsFilter.length > 0 &&
-                      this.boxSearchSection(doctorsFilter, "Doctor")}
-
-                    {clinicsFilter &&
-                      clinicsFilter.length > 0 &&
-                      this.boxSearchSection(clinicsFilter, "Clinics")}
-
-                    {handbooksFilter &&
-                      handbooksFilter.length > 0 &&
-                      this.boxSearchSection(handbooksFilter, "Handbooks")}
-                  </div>
-                ) : (
-                  ""
-                )}
-              </div>
-            </div>
-
-            <div className="content-down">
-              <div className="options">
-                <div className="option-child">
-                  <div className="icon-child">
-                    <i className="far fa-hospital"></i>
-                  </div>
-                  <div className="text-child">
-                    <FormattedMessage id="banner.check-speciality" />
-                  </div>
+          {isShowBanner && (
+            <div className="home-header-banner">
+              <div className="content-up">
+                <div className="title1">
+                  <FormattedMessage id="banner.title1" />
                 </div>
-                <div className="option-child">
-                  <div className="icon-child">
-                    <i className="fas fa-mobile-alt"></i>
-                  </div>
-                  <div className="text-child">
+                <div className="title2">
+                  <FormattedMessage id="banner.title2" />
+                </div>
+
+                <div className="search" tabIndex={0}>
+                  <i className="fas fa-search"></i>
+                  <FormattedMessage id="homeheader.search">
+                    {(placeholder) => (
+                      <input
+                        type="text"
+                        value={this.state.keySearch}
+                        onFocus={(e) => this.setState({ focus: true })}
+                        onChange={(e) => this.handleGetValueInputSearch(e)}
+                        tabIndex="0"
+                        contentEditable
+                        placeholder={placeholder}
+                      ></input>
+                    )}
+                  </FormattedMessage>
+
+                  {this.state.focus ? (
+                    <div className="nomination" ref={this.ref}>
+                      {specialtiesFilter &&
+                        specialtiesFilter.length > 0 &&
+                        this.boxSearchSection(specialtiesFilter, "Specialties")}
+
+                      {doctorsFilter &&
+                        doctorsFilter.length > 0 &&
+                        this.boxSearchSection(doctorsFilter, "Doctors")}
+
+                      {clinicsFilter &&
+                        clinicsFilter.length > 0 &&
+                        this.boxSearchSection(clinicsFilter, "Clinics")}
+
+                      {handbooksFilter &&
+                        handbooksFilter.length > 0 &&
+                        this.boxSearchSection(handbooksFilter, "Handbooks")}
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                </div>
+              </div>
+
+              <div className="content-down">
+                <div className="options">
+                  <div className="option-child">
+                    <div className="icon-child">
+                      <i className="far fa-hospital"></i>
+                    </div>
                     <div className="text-child">
-                      <FormattedMessage id="banner.remote-check" />
+                      <FormattedMessage id="banner.check-speciality" />
+                    </div>
+                  </div>
+                  <div className="option-child">
+                    <div className="icon-child">
+                      <i className="fas fa-mobile-alt"></i>
+                    </div>
+                    <div className="text-child">
+                      <div className="text-child">
+                        <FormattedMessage id="banner.remote-check" />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="option-child">
+                    <div className="icon-child">
+                      <i className="fas fa-procedures"></i>
+                    </div>
+                    <div className="text-child">
+                      <FormattedMessage id="banner.check-general" />
+                    </div>
+                  </div>
+                  <div className="option-child">
+                    <div className="icon-child">
+                      <i className="fas fa-flask"></i>
+                    </div>
+                    <div className="text-child">
+                      <FormattedMessage id="banner.medical-test" />
+                    </div>
+                  </div>
+                  <div className="option-child">
+                    <div className="icon-child">
+                      <i className="fas fa-user-md"></i>
+                    </div>
+                    <div className="text-child">
+                      <FormattedMessage id="banner.mental-heath" />
+                    </div>
+                  </div>
+                  <div className="option-child">
+                    <div className="icon-child">
+                      <i className="fas fa-briefcase-medical"></i>
+                    </div>
+                    <div className="text-child">
+                      <FormattedMessage id="banner.dental-examination" />
                     </div>
                   </div>
                 </div>
-                <div className="option-child">
-                  <div className="icon-child">
-                    <i className="fas fa-procedures"></i>
-                  </div>
-                  <div className="text-child">
-                    <FormattedMessage id="banner.check-general" />
-                  </div>
-                </div>
-                <div className="option-child">
-                  <div className="icon-child">
-                    <i className="fas fa-flask"></i>
-                  </div>
-                  <div className="text-child">
-                    <FormattedMessage id="banner.medical-test" />
-                  </div>
-                </div>
-                <div className="option-child">
-                  <div className="icon-child">
-                    <i className="fas fa-user-md"></i>
-                  </div>
-                  <div className="text-child">
-                    <FormattedMessage id="banner.mental-heath" />
-                  </div>
-                </div>
-                <div className="option-child">
-                  <div className="icon-child">
-                    <i className="fas fa-briefcase-medical"></i>
-                  </div>
-                  <div className="text-child">
-                    <FormattedMessage id="banner.dental-examination" />
-                  </div>
-                </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </>
     );
   }
@@ -435,6 +468,10 @@ const mapStateToProps = (state) => {
     isLoggedIn: state.user.isLoggedIn,
     language: state.app.language,
     userInfo: state.user.userInfo,
+    topDoctors: state.admin.topDoctors,
+    topClinics: state.admin.topClinics,
+    topSpecialties: state.admin.topSpecialties,
+    handbooks: state.admin.handbooks,
   };
 };
 
@@ -442,6 +479,10 @@ const mapDispatchToProps = (dispatch) => {
   return {
     processLogout: () => dispatch(actions.processLogout()),
     changeLanguageAppRedux: (language) => dispatch(changeLanguageApp(language)),
+    fetchTopDoctor: () => dispatch(actions.fetchTopDoctor()),
+    fetchTopClinic: () => dispatch(actions.fetchTopClinic()),
+    fetchTopSpecialty: () => dispatch(actions.fetchTopSpecialty()),
+    fetchHandBook: () => dispatch(actions.fetchHandBook()),
   };
 };
 

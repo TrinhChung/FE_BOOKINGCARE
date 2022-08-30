@@ -4,6 +4,7 @@ import Slider from "react-slick";
 import { getHandBook } from "../../../services/userService";
 import { withRouter } from "react-router";
 import { FormattedMessage } from "react-intl";
+import * as actions from "../../../store/actions";
 
 class HandBook extends Component {
   constructor(props) {
@@ -14,9 +15,14 @@ class HandBook extends Component {
   }
 
   async componentDidMount() {
-    let res = await getHandBook();
-    if (res && res.errCode === 0) {
-      this.setState({ handbooks: res.data });
+    this.props.fetchHandBook();
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevProps.handbooks !== this.props.handbooks) {
+      this.setState({
+        handbooks: this.props.handbooks,
+      });
     }
   }
 
@@ -74,11 +80,14 @@ class HandBook extends Component {
 const mapStateToProps = (state) => {
   return {
     isLoggedIn: state.user.isLoggedIn,
+    handbooks: state.admin.handbooks,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {};
+  return {
+    fetchHandBook: () => dispatch(actions.fetchHandBook()),
+  };
 };
 
 export default withRouter(

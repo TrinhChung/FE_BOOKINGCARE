@@ -80,10 +80,7 @@ class HomeListSection extends Component {
       language === LANGUAGES.VI
         ? doctor.firstName + " " + doctor.lastName
         : doctor.lastName + " " + doctor.firstName;
-    let imageBase64 = "";
-    if (doctor.image) {
-      imageBase64 = new Buffer(doctor.image, "base64").toString("binary");
-    }
+
     return (
       <div
         key={index}
@@ -93,7 +90,7 @@ class HomeListSection extends Component {
         <div className="wrap-section">
           <div
             className="img-doctor"
-            style={{ backgroundImage: `url(${imageBase64})` }}
+            style={{ backgroundImage: `url(${doctor.image})` }}
           ></div>
           <div>
             <div className="name-section">{position + ", " + name}</div>

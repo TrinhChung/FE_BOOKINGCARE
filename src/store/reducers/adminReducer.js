@@ -6,6 +6,9 @@ const initialState = {
   positions: [],
   users: [],
   topDoctors: [],
+  topClinics: [],
+  handbooks: [],
+  topSpecialties: [],
   allDoctors: [],
   allScheduleTime: [],
   prices: [],
@@ -75,18 +78,6 @@ const adminReducer = (state = initialState, action) => {
         ...copyState,
       };
 
-    case actionTypes.FETCH_TOP_DOCTOR_SUCCESS:
-      copyState.topDoctors = action.dataDoctors;
-      return {
-        ...copyState,
-      };
-
-    case actionTypes.FETCH_TOP_DOCTOR_FAILED:
-      copyState.users = [];
-      return {
-        ...copyState,
-      };
-
     case actionTypes.FETCH_ALL_DOCTOR_SUCCESS:
       copyState.allDoctors = action.dataDoctors;
       return {
@@ -95,6 +86,54 @@ const adminReducer = (state = initialState, action) => {
 
     case actionTypes.FETCH_ALL_DOCTOR_FAILED:
       copyState.allDoctors = [];
+      return {
+        ...copyState,
+      };
+
+    case actionTypes.FETCH_TOP_DOCTOR_SUCCESS:
+      copyState.topDoctors = action.dataDoctors;
+      return {
+        ...copyState,
+      };
+
+    case actionTypes.FETCH_TOP_DOCTOR_FAILED:
+      copyState.topDoctors = [];
+      return {
+        ...copyState,
+      };
+
+    case actionTypes.FETCH_TOP_CLINIC_SUCCESS:
+      copyState.topClinics = action.dataClinics;
+      return {
+        ...copyState,
+      };
+
+    case actionTypes.FETCH_TOP_CLINIC_FAILED:
+      copyState.topClinics = [];
+      return {
+        ...copyState,
+      };
+
+    case actionTypes.FETCH_TOP_SPECIALTY_SUCCESS:
+      copyState.topSpecialties = action.dataSpecialties;
+      return {
+        ...copyState,
+      };
+
+    case actionTypes.FETCH_TOP_SPECIALTY_FAILED:
+      copyState.topSpecialties = [];
+      return {
+        ...copyState,
+      };
+
+    case actionTypes.FETCH_HANDBOOK_SUCCESS:
+      copyState.handbooks = action.dataHandbooks;
+      return {
+        ...copyState,
+      };
+
+    case actionTypes.FETCH_HANDBOOK_FAILED:
+      copyState.handbooks = [];
       return {
         ...copyState,
       };

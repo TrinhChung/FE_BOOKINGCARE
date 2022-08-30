@@ -11,6 +11,7 @@ import {
   saveDetailInfoDoctorService,
   getAllSpecialty,
   getAllClinic,
+  getHandBook,
 } from "../../services/userService";
 
 export const fetchGenderStart = () => {
@@ -211,6 +212,69 @@ export const fetchTopDoctor = () => {
     } catch (err) {
       console.log("FETCH TOP DOCTOR FAILED ", err);
       dispatch({ type: actionTypes.FETCH_TOP_DOCTOR_FAILED });
+    }
+  };
+};
+
+export const fetchTopClinic = () => {
+  return async (dispatch, getState) => {
+    try {
+      let res = await getAllClinic("all");
+      if (res && res.errCode === 0) {
+        dispatch({
+          type: actionTypes.FETCH_TOP_CLINIC_SUCCESS,
+          dataClinics: res.data,
+        });
+      } else {
+        dispatch({
+          type: actionTypes.FETCH_TOP_CLINIC_FAILED,
+        });
+      }
+    } catch (err) {
+      console.log("FETCH_TOP_CLINIC_FAILED ", err);
+      dispatch({ type: actionTypes.FETCH_TOP_CLINIC_FAILED });
+    }
+  };
+};
+
+export const fetchTopSpecialty = () => {
+  return async (dispatch, getState) => {
+    try {
+      let res = await getAllSpecialty();
+      if (res && res.errCode === 0) {
+        dispatch({
+          type: actionTypes.FETCH_TOP_SPECIALTY_SUCCESS,
+          dataSpecialties: res.data,
+        });
+      } else {
+        dispatch({
+          type: actionTypes.FETCH_TOP_SPECIALTY_FAILED,
+        });
+      }
+    } catch (err) {
+      console.log("FETCH_TOP_SPECIALTY_FAILED ", err);
+      dispatch({ type: actionTypes.FETCH_TOP_SPECIALTY_FAILED });
+    }
+  };
+};
+
+export const fetchHandBook = () => {
+  return async (dispatch, getState) => {
+    try {
+      let res = await getHandBook();
+      if (res && res.errCode === 0) {
+        dispatch({
+          type: actionTypes.FETCH_HANDBOOK_SUCCESS,
+          dataHandbooks: res.data,
+        });
+      } else {
+        dispatch({
+          type: actionTypes.FETCH_HANDBOOK_FAILED,
+        });
+      }
+    } catch (err) {
+      console.log("FETCH_HANDBOOK_FAILED ", err);
+      dispatch({ type: actionTypes.FETCH_HANDBOOK_FAILED });
     }
   };
 };
