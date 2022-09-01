@@ -1,125 +1,117 @@
 import axios from "../axios";
 
 const handleLoginApi = (email, password) => {
-  return axios.post("/api/login", { email, password });
+  return axios.post("/api/user/login", { email, password });
 };
 
 const getAllUsers = (page) => {
-  return axios.get(`/api/get-all-users?page=${page}`);
+  return axios.get(`/api/user/?page=${page}`);
 };
 
 const getUserByIdService = (id) => {
-  return axios.get(`/api/get-user-by-id?id=${id}`);
+  return axios.get(`/api/user/${id}`);
 };
 
 const createNewUserService = (data) => {
-  return axios.post(`/api/create-new-user`, data);
-};
-
-const deleteUserService = (id) => {
-  return axios.delete("/api/delete-user", {
-    data: {
-      id: id,
-    },
-  });
+  return axios.post(`/api/user/`, data);
 };
 
 const editUserService = (data) => {
-  return axios.put("/api/edit-user", data);
+  return axios.put("/api/user/update", data);
+};
+
+const deleteUserService = (id) => {
+  return axios.delete(`/api/user/${id}`);
 };
 
 const getAllCodeService = (inputData) => {
-  return axios.get(`/api/allcode?type=${inputData}`);
+  return axios.get(`/api/all-code/?type=${inputData}`);
 };
 
 const getTopDoctorHomeService = (limit) => {
-  return axios.get(`/api/top-doctor-home/?limit=${limit}`);
+  return axios.get(`/api/doctor/top-doctor-home/?limit=${limit}`);
 };
 
 const getAllDoctorsServices = () => {
-  return axios.get(`/api/get-all-doctor`);
+  return axios.get(`/api/doctor/`);
 };
 
 const saveDetailInfoDoctorService = (data) => {
-  return axios.post(`/api/save-info-doctor`, data);
+  return axios.post(`/api/doctor/`, data);
 };
 
 const getDetailDoctorService = (id) => {
-  return axios.get(`/api/get-detail-doctor-by-id/?id=${id}`);
-};
-
-const saveBulkScheduleDoctor = (data) => {
-  return axios.post(`/api/bulk-create-schedule`, data);
-};
-
-const getScheduleDoctorByDateService = (inputId, date) => {
-  return axios.get(
-    `/api/get-schedule-doctor-by-date/?doctorId=${inputId}&date=${date}`
-  );
+  return axios.get(`/api/doctor/detail/${id}`);
 };
 
 const getInfoDoctorByIdService = (id) => {
-  return axios.get(`/api/get-extra-doctor-info-by-id/?id=${id}`);
+  return axios.get(`/api/doctor/extra/${id}`);
 };
 
 const getProfileDoctorById = (id) => {
-  return axios.get(`/api/get-profile-doctor-by-id/?id=${id}`);
+  return axios.get(`/api/doctor/${id}`);
+};
+
+const getAllPatientAllDoctorService = (id, date, page) => {
+  return axios.get(`/api/doctor/get-patients/${id}?date=${date}&page=${page}`);
+};
+
+const saveBulkScheduleDoctor = (data) => {
+  return axios.post(`/api/schedule/bulk-create`, data);
+};
+
+const getScheduleDoctorByDateService = (inputId, date) => {
+  return axios.get(`/api/schedule/${inputId}/${date}`);
 };
 
 const postBookAppointment = (data) => {
-  return axios.post(`/api/patient-book-appointment`, data);
+  return axios.post(`/api/patient/appointment`, data);
 };
 
 const fetchVerifyEmailBooking = (token, doctorId) => {
   return axios.get(
-    `/api/verify-book-appointment/?token=${token}&doctorId=${doctorId}`
-  );
-};
-
-const createSpecialty = (data) => {
-  return axios.post(`/api/create-new-specialty`, data);
-};
-
-const getAllSpecialty = () => {
-  return axios.get(`/api/get-specialty`);
-};
-
-const getDetailSpecialty = (id, province) => {
-  return axios.get(`/api/get-detail-specialty/?id=${id}&province=${province}`);
-};
-
-const createClinic = (data) => {
-  return axios.post(`/api/create-new-clinic`, data);
-};
-
-const getAllClinic = (field) => {
-  return axios.get(`/api/get-clinic/?field=${field}`);
-};
-
-const getDetailClinic = (id) => {
-  return axios.get(`/api/get-detail-clinic/?id=${id}`);
-};
-
-const getAllPatientAllDoctorService = (id, date, page) => {
-  return axios.get(
-    `/api/get-list-patient-for-doctor/?doctorId=${id}&date=${date}&page=${page}`
+    `/api/patient/verify-book-appointment/?token=${token}&doctorId=${doctorId}`
   );
 };
 
 const sendBillAccept = (data) => {
-  return axios.post(`/api/patient-book-doctor-accept`, data);
+  return axios.post(`/api/patient/booking-doctor-accept`, data);
+};
+
+const createSpecialty = (data) => {
+  return axios.post(`/api/specialty/`, data);
+};
+
+const getAllSpecialty = () => {
+  return axios.get(`/api/specialty/`);
+};
+
+const getDetailSpecialty = (id, province) => {
+  return axios.get(`/api/specialty/${id}?province=${province}`);
+};
+
+const createClinic = (data) => {
+  return axios.post(`/api/clinic/`, data);
+};
+
+const getAllClinic = (field) => {
+  return axios.get(`/api/clinic/?field=${field}`);
+};
+
+const getDetailClinic = (id) => {
+  return axios.get(`/api/clinic/${id}`);
 };
 
 const createHandBook = (data) => {
-  return axios.post(`/api/create-new-handbook`, data);
+  return axios.post(`/api/handbook/`, data);
 };
 
 const getHandBook = () => {
-  return axios.get(`/api/get-handbooks`);
+  return axios.get(`/api/handbook/`);
 };
 
 const getDetailHandBook = (data) => {
-  return axios.get(`/api/get-detail-handbooks/?id=${data}`);
+  return axios.get(`/api/handbook/${data}`);
 };
 
 export {
