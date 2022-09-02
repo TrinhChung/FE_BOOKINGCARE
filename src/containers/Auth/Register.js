@@ -59,6 +59,7 @@ class Register extends Component {
         };
         let data = await createNewUserService(sendData);
         if (data && data.errCode !== 0) {
+          localStorage.setItem("token", JSON.stringify(data.token));
           toast.ERROR("REGISTER USER FAILED");
           this.setState({ errorMessage: data.message });
         }

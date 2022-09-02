@@ -1,8 +1,25 @@
 import actionTypes from "./actionTypes";
+import { handleLoginApi } from "../../services/userService";
 
 export const addUserSuccess = () => ({
   type: actionTypes.ADD_USER_SUCCESS,
 });
+
+export const userStartLogin = (data) => {
+  return async (dispatch, getState) => {
+    try {
+      let res = await handleLoginApi(data.username, data.password);
+      if (res && res.errCode === 0) {
+        dispatch(userLoginSuccess(res.data));
+      } else {
+        dispatch(userLoginFail());
+      }
+    } catch (err) {
+      console.log("LOGIN ERR ", err);
+      dispatch(userLoginFail());
+    }
+  };
+};
 
 export const userLoginSuccess = (userInfo) => ({
   type: actionTypes.USER_LOGIN_SUCCESS,

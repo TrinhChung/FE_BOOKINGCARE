@@ -179,7 +179,7 @@ class BookingModal extends Component {
           wrapper
           overlay
           spinner
-          text="Loading..."
+          text="Đang gửi mail xác nhận..."
         >
           <div className="booking-modal-content">
             <div className="booking-modal-header">

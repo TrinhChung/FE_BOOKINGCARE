@@ -95,7 +95,7 @@ class HomeHeader extends Component {
 
   UserInfo = (user) => {
     let language = this.props.language;
-    let roleId = this.props.userInfo.roleId;
+    let roleId = this.props.userInfo.roleId ? this.props.userInfo.roleId : "";
     let nameUser =
       language === LANGUAGES.VI
         ? user.firstName + " " + user.lastName
@@ -123,18 +123,19 @@ class HomeHeader extends Component {
               <Link className="dropdown-item" to="/profile">
                 Profile
               </Link>
-              {roleId !== USER_ROLE.USER && (
-                <Link
-                  className="dropdown-item"
-                  to={
-                    roleId === USER_ROLE.DOCTOR
-                      ? "/doctor/manage-patient"
-                      : "/system/user-redux"
-                  }
-                >
-                  Manage
-                </Link>
-              )}
+              {roleId !== USER_ROLE.USER ||
+                (roleId === "" && (
+                  <Link
+                    className="dropdown-item"
+                    to={
+                      roleId === USER_ROLE.DOCTOR
+                        ? "/doctor/manage-patient"
+                        : "/system/user-redux"
+                    }
+                  >
+                    Manage
+                  </Link>
+                ))}
               <Link
                 className="dropdown-item"
                 onClick={() => this.setState({ isOpenModal: true })}

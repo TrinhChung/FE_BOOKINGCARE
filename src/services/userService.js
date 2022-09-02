@@ -1,7 +1,7 @@
 import axios from "../axios";
 
 const handleLoginApi = (email, password) => {
-  return axios.post("/api/user/login", { email, password });
+  return axios.post("/api/auth/login", { email, password });
 };
 
 const getAllUsers = (page) => {
@@ -13,7 +13,7 @@ const getUserByIdService = (id) => {
 };
 
 const createNewUserService = (data) => {
-  return axios.post(`/api/user/`, data);
+  return axios.post(`/api/auth/`, data);
 };
 
 const editUserService = (data) => {
@@ -53,7 +53,15 @@ const getProfileDoctorById = (id) => {
 };
 
 const getAllPatientAllDoctorService = (id, date, page) => {
-  return axios.get(`/api/doctor/get-patients/${id}?date=${date}&page=${page}`);
+  let config = {
+    headers: {
+      Authorization: "Bearer " + localStorage.getItem("token"),
+    },
+  };
+  return axios.get(
+    `/api/doctor/get-patients/${id}?date=${date}&page=${page}`,
+    config
+  );
 };
 
 const saveBulkScheduleDoctor = (data) => {

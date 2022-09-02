@@ -10,7 +10,7 @@ export const path = {
   DETAILCLINIC: "/detail-clinic/:id",
   DETAILHANDBOOK: "/detail-handbook/:id",
   HOMELISTSECTION: "/home-list-section/:section",
-  VERIFY_EMAIL_BOOKING: "/verify-book-appointment/:token&:doctorId",
+  VERIFY_EMAIL_BOOKING: "/api/patient/verify-book-appointment/:token&:doctorId",
   DOCTOR: "/doctor",
 };
 

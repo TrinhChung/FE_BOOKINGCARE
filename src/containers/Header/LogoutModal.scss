@@ -1,13 +1,11 @@
-.logout {
     .modal-dialog {
-
         .modal-content {
             margin-top: 140px !important;
 
             .modal-header {
 
                 button {
-                    outline: 0 !important;
+                    outline: none !important;
                     border: none !important;
                 }
             }
@@ -34,5 +32,3 @@
             }
         }
     }
-
-}

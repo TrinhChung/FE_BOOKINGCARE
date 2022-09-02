@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
-
 import * as actions from "../../store/actions";
 
 import "./Login.scss";
@@ -37,15 +36,16 @@ class Login extends Component {
     try {
       let data = await handleLoginApi(this.state.username, this.state.password);
       if (data && data.errCode !== 0) {
-        this.setState({ errorMessage: data.message });
+        this.setState({ errorMessage: data.errMessage });
       }
       if (data && data.errCode === 0) {
+        localStorage.setItem("token", JSON.stringify(data.token));
         this.props.userLoginSuccess(data.user);
       }
     } catch (error) {
       if (error.response) {
         if (error.response.data) {
-          this.setState({ errorMessage: error.response.data.message });
+          this.setState({ errorMessage: error.response.data.errMessage });
         }
       }
     }
@@ -85,7 +85,11 @@ class Login extends Component {
                 onChange={(e) => this.handleOnChangeUserName(e)}
               ></input>
             </div>
-            <div className="col-12 form-group login-input">
+            <div
+              className={`col-12 form-group login-input ${
+                this.state.errorMessage.length > 0 ? "mb-0" : ""
+              }`}
+            >
               <label>Password</label>
 
               <div className="custom-input-password">
@@ -107,7 +111,10 @@ class Login extends Component {
               </div>
             </div>
 
-            <div className="col-12" style={{ color: "red" }}>
+            <div
+              className="col-12"
+              style={{ color: "red", fontSize: "10px", marginTop: "0px" }}
+            >
               {this.state.errorMessage}
             </div>
             <div className="textLink">

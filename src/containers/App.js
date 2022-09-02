@@ -73,16 +73,22 @@ class App extends Component {
                     component={userIsAuthenticated(System)}
                   />
 
-                  <Route path={path.HOMEPAGE} component={HomePage} />
+                  <Route
+                    path={path.HOMEPAGE}
+                    component={userIsAuthenticated(HomePage)}
+                  />
 
-                  <Route path={path.DETAILDOCTOR} component={DetailDoctor} />
+                  <Route
+                    path={path.DETAILDOCTOR}
+                    component={userIsAuthenticated(DetailDoctor)}
+                  />
                   <Route
                     path={path.DETAILHANDBOOK}
-                    component={DetailHandbook}
+                    component={userIsAuthenticated(DetailHandbook)}
                   />
                   <Route
                     path={path.HOMELISTSECTION}
-                    component={HomeListSection}
+                    component={userIsAuthenticated(HomeListSection)}
                   />
 
                   <Route
@@ -97,9 +103,12 @@ class App extends Component {
                   />
                   <Route
                     path={path.DETAILSPECIALTY}
-                    component={DetailSpecialty}
+                    component={userIsAuthenticated(DetailSpecialty)}
                   />
-                  <Route path={path.DETAILCLINIC} component={DetailClinic} />
+                  <Route
+                    path={path.DETAILCLINIC}
+                    component={userIsAuthenticated(DetailClinic)}
+                  />
                 </Switch>
               </div>
             </CustomScrollbars>
