@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
 import Slider from "react-slick";
-import { getAllSpecialty } from "../../../services/userService";
 import { withRouter } from "react-router";
 import * as actions from "../../../store/actions";
 

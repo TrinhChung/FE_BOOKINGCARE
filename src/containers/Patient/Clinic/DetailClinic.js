@@ -4,7 +4,6 @@ import HomeHeader from "../../HomePage/HomeHeader";
 import "./DetailClinic.scss";
 import DoctorSchedule from "../Doctor/DoctorSchedule";
 import DoctorExtraInfo from "../Doctor/DoctorExtraInfor";
-import * as actions from "../../../store/actions/adminActions";
 import { LANGUAGES } from "../../../utils";
 import ProfileDoctor from "../Doctor/ProfileDoctor";
 import { FormattedMessage } from "react-intl";
@@ -124,8 +123,7 @@ class DetailClinic extends Component {
   };
 
   render() {
-    let { allDoctors, descriptionHtml, address, name, avatar } = this.state;
-    let language = this.props.language;
+    let { allDoctors, descriptionHtml, address, name } = this.state;
 
     return (
       <>

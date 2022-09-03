@@ -2,8 +2,7 @@ import React, { Component } from "react";
 import { FormattedMessage } from "react-intl";
 import { connect } from "react-redux";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import { emitter } from "../../../utils/emitter";
-import { LANGUAGES, CRUDACTIONS, CommonUtils } from "../../../utils";
+import { CRUDACTIONS, CommonUtils } from "../../../utils";
 import Lightbox from "react-image-lightbox";
 import * as actions from "../../../store/actions";
 
@@ -445,7 +444,7 @@ class ModalUser extends Component {
             className="px-3"
             onClick={() => this.toggle()}
           >
-            Close
+            <FormattedMessage id="manage-user.close" />
           </Button>
         </ModalFooter>
       </Modal>

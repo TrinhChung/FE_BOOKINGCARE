@@ -7,7 +7,7 @@ import "./CreateHandBook.scss";
 import { toast } from "react-toastify";
 import { FormattedMessage } from "react-intl";
 import Lightbox from "react-image-lightbox";
-import { LANGUAGES, CRUDACTIONS, CommonUtils } from "../../../utils";
+import { CommonUtils } from "../../../utils";
 
 const mdParser = new MarkdownIt(/* Markdown-it options */);
 
@@ -93,7 +93,9 @@ class CreateHandBook extends Component {
         <div className="box-name-handbook">
           <div className="row">
             <div className="col-6 form-group input-name">
-              <label>Title HandBook</label>
+              <label>
+                <FormattedMessage id="menu.doctor.title-handbook" />
+              </label>
               <input
                 className={`form-control ${errName ? "err" : ""}`}
                 value={this.state.name}
@@ -101,7 +103,9 @@ class CreateHandBook extends Component {
                 onChange={(e) => this.handleInputChange(e)}
               ></input>
               {errName ? (
-                <div style={{ color: "red" }}>Vui long khong bo trong</div>
+                <div style={{ color: "red" }}>
+                  <FormattedMessage id="menu.doctor.error-handbook" />
+                </div>
               ) : (
                 ""
               )}

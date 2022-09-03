@@ -5,7 +5,16 @@ import Header from "../containers/Header/Header";
 import ManageSchedule from "../containers/System/Doctor/ManageSchedule";
 import ManagePatient from "../containers/System/Doctor/ManagePatient";
 import CreateHandBook from "../containers/System/Doctor/CreateHandBook";
+import ManageDoctor from "../containers/System/Admin/ManageDoctor";
+import { USER_ROLE } from "../utils/constant";
+import { withRouter } from "react-router-dom";
+
 class Doctor extends Component {
+  componentDidMount() {
+    if (this.props.userInfo.roleId !== USER_ROLE.DOCTOR) {
+      this.props.history.push("/home");
+    }
+  }
   render() {
     const { DoctorMenuPath, isLoggedIn } = this.props;
     return (
@@ -19,6 +28,7 @@ class Doctor extends Component {
                 component={ManageSchedule}
               />
               <Route path="/doctor/manage-patient" component={ManagePatient} />
+              <Route path="/doctor/manage-doctor" component={ManageDoctor} />
               <Route
                 path="/doctor/create-handbook"
                 component={CreateHandBook}
@@ -39,6 +49,7 @@ class Doctor extends Component {
 const mapStateToProps = (state) => {
   return {
     isLoggedIn: state.user.isLoggedIn,
+    userInfo: state.user.userInfo,
   };
 };
 
@@ -46,4 +57,4 @@ const mapDispatchToProps = (dispatch) => {
   return {};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Doctor);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Doctor));

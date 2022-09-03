@@ -6,7 +6,6 @@ import { getAllPatientAllDoctorService } from "../../../services/userService";
 import { FormattedMessage } from "react-intl";
 import { LANGUAGES } from "../../../utils";
 import RemedyModal from "../Doctor/RemedyModal";
-import * as actions from "../../../store/actions";
 import ReactPaginate from "react-paginate";
 
 class ManagePatient extends Component {

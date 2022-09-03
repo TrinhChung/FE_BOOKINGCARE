@@ -7,9 +7,19 @@ import Header from "../containers/Header/Header";
 import ManageDoctor from "../containers/System/Admin/ManageDoctor";
 import ManageSpecialty from "../containers/System/Specialty/ManageSpecialty";
 import ManageClinic from "../containers/System/Clinic/ManageClinic";
+import { USER_ROLE } from "../utils/constant";
+import { withRouter } from "react-router-dom";
+
 class System extends Component {
+  componentDidMount() {
+    if (this.props.userInfo.roleId !== USER_ROLE.ADMIN) {
+      this.props.history.push("/home");
+    }
+  }
+
   render() {
-    const { systemMenuPath, isLoggedIn, userInfo } = this.props;
+    const { systemMenuPath, isLoggedIn } = this.props;
+
     return (
       <>
         {isLoggedIn && <Header />}
@@ -50,4 +60,4 @@ const mapDispatchToProps = (dispatch) => {
   return {};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(System);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(System));

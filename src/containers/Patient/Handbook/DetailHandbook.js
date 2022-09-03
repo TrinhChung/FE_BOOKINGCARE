@@ -2,11 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import HomeHeader from "../../HomePage/HomeHeader";
 import "./DetailHandbook.scss";
-
-import * as actions from "../../../store/actions/adminActions";
-import { LANGUAGES } from "../../../utils";
-import ProfileDoctor from "../Doctor/ProfileDoctor";
-import { FormattedMessage } from "react-intl";
 import Footer from "../../Footer/Footer";
 
 import { getDetailHandBook } from "../../../services/userService";
@@ -38,7 +33,6 @@ class DetailHandbook extends Component {
 
   fetchDetailHandbook = async (id) => {
     let res = await getDetailHandBook(id);
-    console.log(res);
     if (res && res.errCode === 0) {
       if (res.data && res.data.descriptionHtml && res.data.name) {
         this.setState({
@@ -50,9 +44,7 @@ class DetailHandbook extends Component {
   };
 
   render() {
-    console.log(this.state.descriptionHtml);
     let { descriptionHtml } = this.state;
-    let language = this.props.language;
 
     return (
       <>

@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { emitter } from "../../../utils/emitter";
 import "./RemedyModal.scss";
-import { LANGUAGES, CRUDACTIONS, CommonUtils } from "../../../utils";
+import { CommonUtils } from "../../../utils";
 import { sendBillAccept } from "../../../services/userService";
 import { toast } from "react-toastify";
 import LoadingOverlay from "react-loading-overlay-ts";
@@ -108,12 +108,14 @@ class RemedyModal extends Component {
             toggle={() => this.toggle()}
             className="remedy-modal-header"
           >
-            Xác nhận khám bệnh và gửi hóa đơn
+            <FormattedMessage id="menu.doctor.remedy-header" />
           </ModalHeader>
           <ModalBody>
             <div className="container row">
               <div className="form-group col-12">
-                <label>Email benh nhan</label>
+                <label>
+                  <FormattedMessage id="manage-user.email" />
+                </label>
                 <input
                   type="text"
                   className="form-control"
@@ -124,7 +126,9 @@ class RemedyModal extends Component {
                 ></input>
               </div>
               <div className="form-group col-12">
-                <label>Hóa đơn cho bệnh nhân</label>
+                <label>
+                  <FormattedMessage id="menu.doctor.bill" />
+                </label>
                 <input
                   type="file"
                   name="file"
@@ -141,14 +145,14 @@ class RemedyModal extends Component {
               className="px-3"
               onClick={() => this.handleAddNewUser()}
             >
-              Add new
+              <FormattedMessage id="menu.doctor.send" />
             </Button>{" "}
             <Button
               color="secondary"
               className="px-3"
               onClick={() => this.toggle()}
             >
-              Close
+              <FormattedMessage id="manage-user.close" />
             </Button>
           </ModalFooter>
         </LoadingOverlay>

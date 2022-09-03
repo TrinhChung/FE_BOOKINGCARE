@@ -5,7 +5,7 @@ import MarkdownIt from "markdown-it";
 import MdEditor from "react-markdown-editor-lite";
 import Lightbox from "react-image-lightbox";
 import "react-image-lightbox/style.css";
-import { LANGUAGES, CRUDACTIONS, CommonUtils } from "../../../utils";
+import { CommonUtils } from "../../../utils";
 import { createClinic } from "../../../services/userService";
 import { toast } from "react-toastify";
 import { FormattedMessage } from "react-intl";

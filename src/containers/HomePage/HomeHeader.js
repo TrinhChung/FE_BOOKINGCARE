@@ -120,9 +120,9 @@ class HomeHeader extends Component {
           ></button>
           <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
             <li>
-              <Link className="dropdown-item" to="/profile">
+              <div className="dropdown-item" to="/profile">
                 Profile
-              </Link>
+              </div>
               {(roleId !== USER_ROLE.USER || roleId === "") && (
                 <Link
                   className="dropdown-item"
@@ -135,12 +135,13 @@ class HomeHeader extends Component {
                   Manage
                 </Link>
               )}
-              <Link
+              <div
                 className="dropdown-item"
                 onClick={() => this.setState({ isOpenModal: true })}
+                style={{ cursor: "pointer" }}
               >
                 Logout
-              </Link>
+              </div>
             </li>
           </ul>
         </div>

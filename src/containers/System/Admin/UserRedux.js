@@ -2,14 +2,11 @@ import React, { Component } from "react";
 import { FormattedMessage } from "react-intl";
 import { connect } from "react-redux";
 import "./UserRedux.scss";
-import Lightbox from "react-image-lightbox";
 import "react-image-lightbox/style.css"; //
 import * as actions from "../../../store/actions";
 import TableManageUser from "./TableManageUser";
-import { toast } from "react-toastify";
-import { LANGUAGES, CRUDACTIONS, CommonUtils } from "../../../utils";
+import { CRUDACTIONS } from "../../../utils";
 import ModalUser from "./ModalUser";
-import ModalEditUser from "../ModalEditUser";
 class UserRedux extends Component {
   constructor(props) {
     super(props);
@@ -113,7 +110,7 @@ class UserRedux extends Component {
                 onClick={() => this.handleAddNewUser()}
               >
                 <i className="fas fa-plus"></i>
-                Add User
+                <FormattedMessage id="manage-user.add" />
               </button>
             </div>
             <TableManageUser

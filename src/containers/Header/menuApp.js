@@ -90,7 +90,7 @@ export const doctorMenu = [
       },
       {
         name: "menu.admin.manage-doctor",
-        link: "/system/manage-doctor",
+        link: "/doctor/manage-doctor",
       },
     ],
   },

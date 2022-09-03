@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import HomeHeader from "./HomeHeader";
 import Specialty from "./Section/Specialty";
@@ -8,7 +7,6 @@ import OutStandingDoctor from "./Section/OutStandingDoctor";
 import HandBook from "./Section/HandBook";
 import About from "./Section/About";
 import "./HomePage.scss";
-import HomeFooter from "./HomeFooter";
 import Footer from "../Footer/Footer";
 
 import "slick-carousel/slick/slick.css";

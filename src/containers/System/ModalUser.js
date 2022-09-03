@@ -34,7 +34,6 @@ class ModalUser extends Component {
 
   toggle = () => {
     this.props.toggleFormParent();
-    // console.log(this.props);
   };
 
   checkValidateInput = () => {
@@ -73,11 +72,15 @@ class ModalUser extends Component {
         className={this.props.className}
         size="lg"
       >
-        <ModalHeader toggle={() => this.toggle()}>Create user</ModalHeader>
+        <ModalHeader toggle={() => this.toggle()}>
+          <FormattedMessage id="manage-user.add" />
+        </ModalHeader>
         <ModalBody>
           <div className="modal-user-body">
             <div className="input-container">
-              <label>Email</label>
+              <label>
+                <FormattedMessage id="manage-user.email" />
+              </label>
               <input
                 type="email"
                 name="email"
@@ -86,7 +89,9 @@ class ModalUser extends Component {
               ></input>
             </div>
             <div className="input-container">
-              <label>Password</label>
+              <label>
+                <FormattedMessage id="manage-user.password" />
+              </label>
               <input
                 type="password"
                 name="password"
@@ -95,7 +100,9 @@ class ModalUser extends Component {
               ></input>
             </div>
             <div className="input-container">
-              <label>First Name</label>
+              <label>
+                <FormattedMessage id="manage-user.firstName" />
+              </label>
               <input
                 type="text"
                 name="firstName"
@@ -104,7 +111,9 @@ class ModalUser extends Component {
               ></input>
             </div>
             <div className="input-container">
-              <label>Last Name</label>
+              <label>
+                <FormattedMessage id="manage-user.lastName" />
+              </label>
               <input
                 type="text"
                 name="lastName"
@@ -113,7 +122,9 @@ class ModalUser extends Component {
               ></input>
             </div>
             <div className="input-container max-width">
-              <label>Address</label>
+              <label>
+                <FormattedMessage id="manage-user.address" />
+              </label>
               <input
                 type="text"
                 name="address"
@@ -129,14 +140,14 @@ class ModalUser extends Component {
             className="px-3"
             onClick={() => this.handleAddNewUser()}
           >
-            Add new
+            <FormattedMessage id="manage-user.add" />
           </Button>{" "}
           <Button
             color="secondary"
             className="px-3"
             onClick={() => this.toggle()}
           >
-            Close
+            <FormattedMessage id="manage-user.add" />
           </Button>
         </ModalFooter>
       </Modal>

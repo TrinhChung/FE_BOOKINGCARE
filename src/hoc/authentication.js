@@ -13,7 +13,6 @@ export const userIsNotAuthenticated = connectedRouterRedirect({
   authenticatedSelector: (state) => !state.user.isLoggedIn,
   wrapperDisplayName: "UserIsNotAuthenticated",
   redirectPath: (state, ownProps) =>
-    // locationHelper.getRedirectQueryParam(ownProps) || "/",
-    "/home",
+    locationHelper.getRedirectQueryParam(ownProps) || "/",
   allowRedirectBack: false,
 });

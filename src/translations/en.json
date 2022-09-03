@@ -57,14 +57,20 @@
             "manage-patient": "Manage patient",
             "schedule": "Schedule",
             "user": "User",
-            "create-handbook": "Create handbook"
+            "create-handbook": "Create handbook",
+            "title-handbook": "Title handbook",
+            "error-handbook": "Please do not leave it blank",
+            "remedy-header": "Confirm medical examination and send bill",
+            "bill": "Bill for the patient",
+            "send": "Send"
         }
     },
     "manage-user": {
         "add": "Add user",
+        "create": "Create user",
         "email": "Email",
         "password": "Password",
-        "firstName": "firstName",
+        "firstName": "First Name",
         "lastName": "Last Name",
         "phoneNumber": "Phone Number",
         "address": "Address",
@@ -73,7 +79,8 @@
         "roleId": "RoleId",
         "image": "Avatar",
         "save": "Save User",
-        "edit": "Update"
+        "edit": "Update",
+        "close": "Close"
     },
     "homepage": {
         "out-standing-doctor": "Outstanding doctor",

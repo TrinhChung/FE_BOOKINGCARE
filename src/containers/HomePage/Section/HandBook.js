@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Slider from "react-slick";
-import { getHandBook } from "../../../services/userService";
 import { withRouter } from "react-router";
 import { FormattedMessage } from "react-intl";
 import * as actions from "../../../store/actions";

@@ -1,14 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
-import { Redirect, Route, Switch } from "react-router-dom";
 import * as actions from "../../../store/actions";
 import Select from "react-select";
-import { LANGUAGES, CRUDACTIONS, dateFormat, USER_ROLE } from "../../../utils";
+import { LANGUAGES, USER_ROLE } from "../../../utils";
 import DatePicker from "../../../components/Input/DatePicker";
 import { saveBulkScheduleDoctor } from "../../../services/userService";
 
-import moment from "moment";
 import _ from "lodash";
 
 import "./ManageSchedule.scss";
@@ -131,6 +129,7 @@ class ManageSchedule extends Component {
           object.date = formattedDate + "";
           object.timeType = time.keyMap;
           result.push(object);
+          return time;
         });
       }
     }

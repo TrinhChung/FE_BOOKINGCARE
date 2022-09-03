@@ -4,7 +4,6 @@ import { push } from "connected-react-router";
 import * as actions from "../../store/actions";
 
 import "./Login.scss";
-import { FormattedMessage } from "react-intl";
 import { handleLoginApi } from "../../services/userService";
 import { Link, withRouter } from "react-router-dom";
 
@@ -119,7 +118,7 @@ class Login extends Component {
             </div>
             <div className="textLink">
               <div className="forgot-password">
-                <Link>Forgot your password?</Link>
+                <Link to="/forgot-password">Forgot your password?</Link>
               </div>
             </div>
             <div className="col-12 d-flex justify-content-center">

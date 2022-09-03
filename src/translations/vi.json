@@ -57,7 +57,12 @@
             "manage-patient": "Quản lí kế bệnh nhân",
             "schedule": "Kế hoạch",
             "create-handbook": "Viết cẩm nang",
-            "user": "Người dùng"
+            "user": "Người dùng",
+            "title-handbook": "Tiêu đề cẩm nang",
+            "error-handbook": "Vui lòng không bỏ trống",
+            "remedy-header": "Xác nhận khám bệnh và gửi hóa đơn",
+            "send": "Gửi"
+
         }
     },
     "manage-user": {
@@ -73,7 +78,9 @@
         "roleId": "Vai trò",
         "image": "Ảnh",
         "save": "Lưu user",
-        "edit": "Lưu thay đổi"
+        "edit": "Lưu thay đổi",
+        "close": "Đóng"
+
     },
     "homepage": {
         "out-standing-doctor": "Bác sĩ nổi bật",

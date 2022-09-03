@@ -6,9 +6,7 @@ import { toast } from "react-toastify";
 import * as actions from "../../store/actions";
 
 import "./Register.scss";
-import { FormattedMessage } from "react-intl";
 import { createNewUserService } from "../../services/userService";
-import { Link } from "react-router-dom";
 import { USER_ROLE } from "../../utils";
 
 class Register extends Component {

@@ -7,11 +7,19 @@ class HomeFooter extends Component {
       <div className="home-footer">
         <p>
           &copy;
-          <a target="_blank" href="https://bookingcare.vn/">
+          <a
+            target="_blank"
+            href="https://bookingcare.vn/"
+            rel="noopener noreferrer"
+          >
             BookingCareVN
           </a>{" "}
           with TVChung. More information, please visit{" "}
-          <a target="_blank" href="https://github.com/TrinhChung">
+          <a
+            target="_blank"
+            href="https://github.com/TrinhChung"
+            rel="noopener noreferrer"
+          >
             &#8594;Click here&#8592;
           </a>
         </p>

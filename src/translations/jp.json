@@ -57,11 +57,17 @@
             "manage-patient": "患者アカウント管理",
             "schedule": "プラン",
             "create-handbook": "ハンドブックを書く",
-            "user": "ユーザー"
+            "user": "ユーザー",
+            "title-handbook": "タイトルハンドブック",
+            "error-handbook": "空欄にしないでください",
+            "remedy-header": "診察の確認と請求書の送付",
+            "bill": "患者への請求書",
+            "send": "送る"
         }
     },
     "manage-user": {
         "add": "ユーザーを追加",
+        "create": "ユーザーを追加",
         "email": "メール",
         "password": "パスワード",
         "firstName": "名前",
@@ -73,7 +79,9 @@
         "roleId": "役割",
         "image": "写真",
         "save": "保存",
-        "edit": "編集"
+        "edit": "編集",
+        "close": "閉じる"
+
     },
     "homepage": {
         "out-standing-doctor": "優秀な医師",
