@@ -53,15 +53,12 @@ const getProfileDoctorById = (id) => {
 };
 
 const getAllPatientAllDoctorService = (id, date, page) => {
-  let config = {
-    headers: {
-      Authorization: "Bearer " + localStorage.getItem("token"),
-    },
-  };
-  return axios.get(
-    `/api/doctor/get-patients/${id}?date=${date}&page=${page}`,
-    config
-  );
+  // let config = {
+  //   headers: {
+  //     Authorization: "Bearer " + localStorage.getItem("token"),
+  //   },
+  // };
+  return axios.get(`/api/doctor/get-patients/${id}?date=${date}&page=${page}`);
 };
 
 const saveBulkScheduleDoctor = (data) => {

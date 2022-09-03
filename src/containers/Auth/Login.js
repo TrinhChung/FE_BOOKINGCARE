@@ -39,7 +39,7 @@ class Login extends Component {
         this.setState({ errorMessage: data.errMessage });
       }
       if (data && data.errCode === 0) {
-        localStorage.setItem("token", JSON.stringify(data.token));
+        localStorage.setItem("token", data.token);
         this.props.userLoginSuccess(data.user);
       }
     } catch (error) {

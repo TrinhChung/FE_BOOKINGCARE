@@ -123,19 +123,18 @@ class HomeHeader extends Component {
               <Link className="dropdown-item" to="/profile">
                 Profile
               </Link>
-              {roleId !== USER_ROLE.USER ||
-                (roleId === "" && (
-                  <Link
-                    className="dropdown-item"
-                    to={
-                      roleId === USER_ROLE.DOCTOR
-                        ? "/doctor/manage-patient"
-                        : "/system/user-redux"
-                    }
-                  >
-                    Manage
-                  </Link>
-                ))}
+              {(roleId !== USER_ROLE.USER || roleId === "") && (
+                <Link
+                  className="dropdown-item"
+                  to={
+                    roleId === USER_ROLE.DOCTOR
+                      ? "/doctor/manage-patient"
+                      : "/system/user-redux"
+                  }
+                >
+                  Manage
+                </Link>
+              )}
               <Link
                 className="dropdown-item"
                 onClick={() => this.setState({ isOpenModal: true })}
