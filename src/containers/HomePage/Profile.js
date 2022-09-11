@@ -5,6 +5,10 @@ import Footer from "../Footer/Footer";
 import { FormattedMessage } from "react-intl";
 import { LANGUAGES } from "../../utils";
 import * as actions from "../../store/actions";
+import { getHistoryBooking } from "../../services/userService";
+import ReactPaginate from "react-paginate";
+import moment from "moment";
+import localization from "moment/locale/ja";
 
 import "./Profile.scss";
 
@@ -24,20 +28,55 @@ class Profile extends Component {
       gender: "M",
       position: "P0",
       updateInfo: false,
-      currentBox: "introduction",
+      currentBox: "history",
+      histories: [],
+      countPage: 1,
+      currentPage: 1,
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     this.props.getGenderStart();
     this.props.getPositionStart();
     this.props.getRoleStart();
+    if (this.state.currentBox === "history") {
+      let res = await getHistoryBooking(this.state.currentPage, 10);
+      if (res && res.errCode === 0) {
+        this.setState({ histories: res.data, countPage: res.countPage });
+      }
+    }
   }
 
   jsUcfirst = (language) => {
     if (language === "vi") return "Vi";
     else if (language === "en") return "En";
     else if (language === "jp") return "Jp";
+  };
+
+  LetterCapitalize = (str) => {
+    return str
+      .split(" ")
+      .map((item) => item.substring(0, 1).toUpperCase() + item.substring(1))
+      .join(" ");
+  };
+
+  buildDate = (value) => {
+    let language = this.props.language;
+    let date =
+      language === "vi"
+        ? this.LetterCapitalize(
+            moment(new Date(+value))
+              .locale("vi")
+              .format("dddd-DD/MM/YYYY")
+          )
+        : language === "en"
+        ? moment(new Date(+value))
+            .locale("en")
+            .format("dddd-DD/MM/YYYY")
+        : moment(new Date(+value))
+            .locale("ja")
+            .format("dddd-年M月D日");
+    return date;
   };
 
   async componentDidUpdate(prevProps, prevState, snapshot) {
@@ -80,6 +119,21 @@ class Profile extends Component {
         gender: this.props.userInfo.gender,
         position: this.props.userInfo.position,
       });
+    }
+    if (
+      prevState.currentBox !== this.state.currentBox &&
+      this.state.currentBox === "history"
+    ) {
+      let res = await getHistoryBooking(this.state.currentPage, 10);
+      if (res && res.errCode === 0) {
+        this.setState({ histories: res.data, countPage: res.countPage });
+      }
+    }
+    if (prevState.currentPage !== this.state.currentPage) {
+      let res = await getHistoryBooking(this.state.currentPage, 10);
+      if (res && res.errCode === 0) {
+        this.setState({ histories: res.data, countPage: res.countPage });
+      }
     }
   }
   handleOnChangeInput = (e) => {
@@ -295,6 +349,92 @@ class Profile extends Component {
     );
   };
 
+  handleChangePage = (e) => {
+    this.setState({ currentPage: e.selected + 1 });
+  };
+
+  historyUser = () => {
+    let { histories, countPage, currentPage } = this.state;
+    console.log(histories);
+    return (
+      <div className="profile-content">
+        <div className="box-info">
+          <div className="header">
+            <div className="info-title">Lịch sử khám bệnh</div>
+          </div>
+          <div className="wrap-info container">
+            <table id="TableManageUser" className="table">
+              <tbody className="table-body">
+                <tr className="header-table">
+                  <th>STT</th>
+                  <th>Bac si</th>
+                  <th>Ngay kham</th>
+                  <th>Thoi gian</th>
+                  <th>File</th>
+                </tr>
+
+                {histories &&
+                  histories.length > 0 &&
+                  histories.map((history, index) => {
+                    return (
+                      <tr key={index}>
+                        <td>{index + 1}</td>
+                        <td>
+                          {history.bookingData.doctorPatientData.firstName +
+                            " " +
+                            history.bookingData.doctorPatientData.lastName}
+                        </td>
+                        <td>{this.buildDate(history.bookingData.date)}</td>
+                        <td>
+                          {history.bookingData.timeTypeDataBooking.valueVi}
+                        </td>
+                        <td className="wrap-file">
+                          <a href={history.files} download>
+                            <div className="fileExcel">
+                              <i
+                                className="icon fa fa-file-excel-o"
+                                aria-hidden="true"
+                              ></i>
+                              <div className="text">
+                                <div className="name">Bill.xls</div>
+                                <div className="size">Size</div>
+                              </div>
+                            </div>
+                          </a>
+                        </td>
+                      </tr>
+                    );
+                  })}
+              </tbody>
+            </table>
+            <div className="d-flex justify-content-center mt-2">
+              <ReactPaginate
+                pageCount={countPage}
+                marginPagesDisplayed={1}
+                pageRangeDisplayed={3}
+                onPageChange={(e) => this.handleChangePage(e)}
+                forcePage={currentPage - 1}
+                pageClassName="page-item"
+                activeClassName="active"
+                nextLinkClassName="page-link"
+                previousLinkClassName="page-link"
+                previousClassName="page-item"
+                pageLinkClassName="page-link"
+                nextClassName="page-item"
+                containerClassName="pagination"
+                breakLinkClassName="page-link"
+                breakClassName="page-item"
+                breakLabel="..."
+                nextLabel="Next"
+                previousLabel="Previous"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   render() {
     let { userInfo, language } = this.props;
     let check = userInfo.image === "";
@@ -361,6 +501,7 @@ class Profile extends Component {
             {this.state.currentBox === "introduction"
               ? this.profileUser()
               : null}
+            {this.state.currentBox === "history" ? this.historyUser() : null}
           </div>
         </div>
         <Footer />

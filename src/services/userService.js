@@ -118,6 +118,10 @@ const getDetailHandBook = (data) => {
   return axios.get(`/api/handbook/${data}`);
 };
 
+const getHistoryBooking = (page, limit) => {
+  return axios.get(`/api/history/?page=${page}&limit=${limit}`);
+};
+
 export {
   loginByToken,
   handleLoginApi,
@@ -148,4 +152,5 @@ export {
   createHandBook,
   getHandBook,
   getDetailHandBook,
+  getHistoryBooking,
 };

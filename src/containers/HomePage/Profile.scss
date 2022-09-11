@@ -129,6 +129,71 @@
 
                 .wrap-info {
                     padding-bottom: 30px;
+
+                    #TableManageUser th {
+                        padding-top: 12px;
+                        padding-bottom: 12px;
+                        text-align: left;
+                        background-color: rgb(8, 148, 8);
+                        color: rgb(36, 32, 54);
+                    }
+
+                    #TableManageUser td {
+                        vertical-align: middle;
+                    }
+
+                    .table {
+
+                        .table-body {
+
+
+                            .wrap-file {
+                                width: 280px;
+
+                                a {
+                                    text-decoration: none;
+
+                                    .fileExcel {
+                                        display: flex;
+                                        align-items: center;
+                                        width: 220px;
+                                        gap: 10px;
+                                        text-decoration: none !important;
+                                        font-size: 13px;
+                                        border-radius: 4px;
+                                        border: 1px solid rgb(208, 208, 208);
+                                        padding: 6px 15px;
+
+                                        &:hover {
+                                            border: 1px solid rgb(0, 0, 0);
+
+                                        }
+
+                                        .icon {
+                                            font-size: 30px;
+                                            color: green;
+                                        }
+
+                                        .text {
+                                            .name {
+                                                color: black;
+                                                font-weight: 600;
+                                            }
+
+                                            .size {
+                                                color: gray;
+                                                font-weight: 600;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+
+
+
+                    }
                 }
             }
         }
