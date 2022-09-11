@@ -21,14 +21,14 @@ export const adminMenu = [
         name: "menu.admin.manage-doctor",
         link: "/system/manage-doctor",
       },
-      {
-        name: "menu.admin.manage-admin",
-        link: "/system/user-admin",
-      },
+      // {
+      //   name: "menu.admin.manage-admin",
+      //   link: "/system/user-admin",
+      // },
       {
         //Quan li ke hoach
         name: "menu.doctor.manage-schedule",
-        link: "/doctor/manage-schedule",
+        link: "/system/manage-schedule",
       },
     ],
   },
@@ -52,16 +52,16 @@ export const adminMenu = [
       },
     ],
   },
-  {
-    //Quan li cam nang
-    name: "menu.admin.handbook",
-    menus: [
-      {
-        name: "menu.admin.manage-handbook",
-        link: "/system/manage-handbook",
-      },
-    ],
-  },
+  // {
+  //   //Quan li cam nang
+  //   name: "menu.admin.handbook",
+  //   menus: [
+  //     {
+  //       name: "menu.admin.manage-handbook",
+  //       link: "/system/manage-handbook",
+  //     },
+  //   ],
+  // },
 ];
 
 export const doctorMenu = [

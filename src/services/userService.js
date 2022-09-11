@@ -4,6 +4,10 @@ const handleLoginApi = (email, password) => {
   return axios.post("/api/auth/login", { email, password });
 };
 
+const loginByToken = () => {
+  return axios.get("/api/auth/me");
+};
+
 const getAllUsers = (page) => {
   return axios.get(`/api/user/?page=${page}`);
 };
@@ -53,11 +57,6 @@ const getProfileDoctorById = (id) => {
 };
 
 const getAllPatientAllDoctorService = (id, date, page) => {
-  // let config = {
-  //   headers: {
-  //     Authorization: "Bearer " + localStorage.getItem("token"),
-  //   },
-  // };
   return axios.get(`/api/doctor/get-patients/${id}?date=${date}&page=${page}`);
 };
 
@@ -120,6 +119,7 @@ const getDetailHandBook = (data) => {
 };
 
 export {
+  loginByToken,
   handleLoginApi,
   getAllUsers,
   createNewUserService,

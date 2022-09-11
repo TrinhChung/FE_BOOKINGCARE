@@ -60,10 +60,13 @@ class RemedyModal extends Component {
   handleOnChangeImg = async (event) => {
     let data = event.target.files;
     let file = data[0];
-    if (file) {
+    if (file && file.size < 10000000) {
       let objectUrl = URL.createObjectURL(file);
       let base64 = await CommonUtils.getBase64(file);
       this.setState({ previewIgmUrl: objectUrl, file: base64 });
+    } else {
+      event.target.value = "";
+      toast.error("Sizeof file larger than allowed");
     }
   };
 
@@ -132,10 +135,13 @@ class RemedyModal extends Component {
                 <input
                   type="file"
                   name="file"
-                  accept="image/png, image/gif, image/jpeg, pdf,.xlsx, xls, csv"
+                  accept=".xlsx, xls"
                   className="form-control"
                   onChange={(e) => this.handleOnChangeImg(e)}
                 ></input>
+                <div style={{ color: "red", fontSize: "12px" }}>
+                  * Allowed file size is less than 10mb
+                </div>
               </div>
             </div>
           </ModalBody>

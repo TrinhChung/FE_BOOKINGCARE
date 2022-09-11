@@ -80,11 +80,12 @@
                     .avatar-user {
                         width: 40px;
                         height: 40px;
-                        background-image: url('../../assets/images/user.svg');
+                        background-image: url('../../assets/avatar.png');
                         border-radius: 50%;
                         border: 1px solid #ccc;
-                        background-color: #49bce2;
+                        background-color: #959595;
                         background-position: center center;
+                        background-size: cover;
                         cursor: pointer;
                     }
 

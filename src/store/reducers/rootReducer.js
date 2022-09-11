@@ -17,7 +17,8 @@ const persistCommonConfig = {
 const userPersistConfig = {
   ...persistCommonConfig,
   key: "user",
-  whitelist: ["isLoggedIn", "userInfo"],
+  // whitelist: ["isLoggedIn", "userInfo"],
+  // whitelist: ["isLoggedIn"],
 };
 
 const appPersistConfig = {

@@ -26,6 +26,16 @@ class Header extends Component {
   };
 
   componentDidMount() {
+    this.getRoleMenu();
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevProps.userInfo !== this.props.userInfo) {
+      this.getRoleMenu();
+    }
+  }
+
+  getRoleMenu = () => {
     let { userInfo } = this.props;
     let menu = [];
     if (userInfo && !_.isEmpty(userInfo)) {
@@ -40,7 +50,7 @@ class Header extends Component {
       }
     }
     this.setState({ menuApp: menu });
-  }
+  };
 
   toggleUserModal = () => {
     this.setState({ isOpenModal: false });
@@ -65,7 +75,7 @@ class Header extends Component {
         <div className="languages">
           <div className="content-right">
             <div className="welcome">
-              <FormattedMessage id="homeheader.welcome" />
+              <FormattedMessage id="homeheader.welcome" />{" "}
               {userInfo && userInfo.firstName && userInfo.lastName
                 ? userInfo.firstName + " " + userInfo.lastName
                 : "User"}

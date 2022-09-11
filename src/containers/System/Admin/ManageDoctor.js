@@ -328,7 +328,7 @@ class ManageDoctor extends Component {
 
         <div className="more-info my-2">
           <div className="row">
-            {userInfo.role === USER_ROLE.ADMIN ? (
+            {userInfo.roleId === USER_ROLE.ADMIN ? (
               <div className="col-4 form-group">
                 <label>
                   <FormattedMessage id="admin.manage-doctor.select-doctor" />

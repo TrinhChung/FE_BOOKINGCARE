@@ -15,6 +15,7 @@ import Footer from "../../Footer/Footer";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { FormattedMessage } from "react-intl";
 
 class HomeListSection extends Component {
   constructor(props) {
@@ -128,7 +129,7 @@ class HomeListSection extends Component {
     } else if (nameSection === "specialty") {
       this.props.history.push(`/detail-specialty/${id}`);
     } else if (nameSection === "handbook") {
-      this.props.history.push(`/detail-specialty/${id}`);
+      this.props.history.push(`/detail-handbook/${id}`);
     }
   };
 
@@ -139,7 +140,9 @@ class HomeListSection extends Component {
     return (
       <div className="home-list-section">
         <HomeHeader isShowBanner={false} />
-        <div className="header-list-section">Chuyen khoa bac si co so y te</div>
+        <div className="header-list-section">
+          <FormattedMessage id={`homepage.${sectionName}`} />
+        </div>
         <div className="list-section-container">
           <div>
             {listSections &&

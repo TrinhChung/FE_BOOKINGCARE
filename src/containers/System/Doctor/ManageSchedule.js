@@ -149,7 +149,6 @@ class ManageSchedule extends Component {
     let { rangeTime } = this.state;
     let { language } = this.props;
 
-    console.log(this.props.allDoctors);
     return (
       <div className="manage-schedule-container">
         <div className="manage-schedule-title">

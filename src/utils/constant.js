@@ -12,11 +12,13 @@ export const path = {
   HOMELISTSECTION: "/home-list-section/:section",
   VERIFY_EMAIL_BOOKING: "/api/patient/verify-book-appointment/:token&:doctorId",
   DOCTOR: "/doctor",
+  PROFILE: "/profile",
 };
 
 export const LANGUAGES = {
   VI: "vi",
   EN: "en",
+  JP: "jp",
 };
 
 export const CRUDACTIONS = {

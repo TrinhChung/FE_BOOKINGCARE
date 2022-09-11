@@ -65,7 +65,7 @@ class DetailDoctor extends Component {
                 )}
               </div>
               <div
-                class="fb-like"
+                className="fb-like"
                 data-href="https://developers.facebook.com/docs/plugins/"
                 data-width=""
                 data-layout="button"

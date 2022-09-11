@@ -44,7 +44,7 @@
             "manage-doctor": "医師の管理",
             "manage-admin": "管理者管理",
             "crud": "CRUD user",
-            "crud-redux": "CRUD redux",
+            "crud-redux": "ユーザー 管理",
             "clinic": "診療所",
             "manage-clinic": "クリニック経営",
             "specialty": "スペシャリスト",
@@ -88,7 +88,10 @@
         "more-info": "詳しい",
         "specialty-popular": "人気の名物",
         "medical-popular": "優れた医療施設",
-        "handbook": "ハンドブック"
+        "handbook": "ハンドブック",
+        "specialty": "専門",
+        "doctor": "医者",
+        "medical-facility": "医療施設"
     },
     "manage-schedule":{
         "title": "医師の診察計画の管理",
@@ -138,7 +141,7 @@
             "cancel": "Hキャンセルủy"
         },
         "specialty": {
-            "allOption": "たべて",
+            "allOption": "すべて",
             "special-doctor-null": "現在、この州には医師がいません。"
         }
     },
@@ -166,7 +169,22 @@
             "up-load": "写真をアップロードする",
             "save": "保存情報"
             
+        },
+        "manage-specialty": {
+            "manage-specialty": "専門分野の管理",
+            "name-specialty": "名前 専門分野",
+            "image-specialty": "スペシャリティのイメージ",
+            "up-load": "Up load image",
+            "save": "保存"
         }
         
+    },
+    "modal": {
+            "logout": {
+                "logout": "ログアウト",
+                "accept": "受ける",
+                "no": "閉じる",
+                "question": "サインアウトしますか？"
+            }
     }
 }

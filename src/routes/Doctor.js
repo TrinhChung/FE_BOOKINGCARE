@@ -8,13 +8,33 @@ import CreateHandBook from "../containers/System/Doctor/CreateHandBook";
 import ManageDoctor from "../containers/System/Admin/ManageDoctor";
 import { USER_ROLE } from "../utils/constant";
 import { withRouter } from "react-router-dom";
+import * as actions from "../store/actions";
 
 class Doctor extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      userInfo: this.props.userInfo,
+    };
+  }
+
   componentDidMount() {
-    if (this.props.userInfo.roleId !== USER_ROLE.DOCTOR) {
+    this.props.loginToken();
+
+    if (
+      this.state.userInfo &&
+      this.state.userInfo.roleId !== USER_ROLE.DOCTOR
+    ) {
       this.props.history.push("/home");
     }
   }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (this.props.userInfo !== prevProps.userInfo) {
+      this.setState({ userInfo: this.props.userInfo });
+    }
+  }
+
   render() {
     const { DoctorMenuPath, isLoggedIn } = this.props;
     return (
@@ -54,7 +74,9 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {};
+  return {
+    loginToken: () => dispatch(actions.loginToken()),
+  };
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Doctor));

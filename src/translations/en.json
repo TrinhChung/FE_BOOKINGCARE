@@ -44,7 +44,7 @@
             "manage-doctor": "Manage doctor",
             "manage-admin": "Manage admin",
             "crud": "CRUD user",
-            "crud-redux": "CRUD redux",
+            "crud-redux": "Manage User",
             "clinic": "Clinic",
             "manage-clinic": "Manage-clinic",
             "specialty": "Specialty",
@@ -87,7 +87,10 @@
         "more-info": "More info",
         "specialty-popular": "Dissemination of specialties",
         "medical-popular": "Outstanding medical facility",
-        "handbook": "Handbook"
+        "handbook": "Handbook",
+        "specialty": "Specialty",
+        "doctor": "Doctor",
+        "medical-facility": "Medical facility"
 
     },
     "manage-schedule":{
@@ -167,6 +170,21 @@
             "image-clinic": "Clinic's image'",
             "up-load": "Up load image",
             "save": "Save info"
+        },
+        "manage-specialty": {
+            "manage-specialty": "Manage Specialty",
+            "name-specialty": "Name Specialty",
+            "image-specialty": "Specialty's image'",
+            "up-load": "Up load image",
+            "save": "Save"
+        }
+    },
+    "modal": {
+        "logout": {
+            "logout": "Logout",
+            "accept": "Accept",
+            "no": "No",
+            "question": "Do you want to sign out?"
         }
     }
 }

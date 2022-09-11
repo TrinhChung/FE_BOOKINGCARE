@@ -23,7 +23,15 @@ class ManagePatient extends Component {
   }
 
   async componentDidMount() {
-    this.getAllPatientAllDoctor();
+    if (this.props.user) {
+      this.getAllPatientAllDoctor();
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (this.props.user !== prevProps.user) {
+      this.getAllPatientAllDoctor();
+    }
   }
 
   getAllPatientAllDoctor = async () => {
@@ -84,7 +92,7 @@ class ManagePatient extends Component {
             <DatePicker
               onChange={this.handleOnChangeDatePicker}
               className="form-control"
-              minDate={new Date().setHours(0, 0, 0, 0)}
+              // minDate={new Date().setHours(0, 0, 0, 0)}
               value={this.state.currentDate}
             />
           </div>

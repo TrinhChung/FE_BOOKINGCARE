@@ -12,6 +12,7 @@ import VerifyEmailBooking from "../containers/Patient/VerifyEmailBooking";
 import DetailSpecialty from "./Patient/Specialty/DetailSpecialty";
 import DetailClinic from "./Patient/Clinic/DetailClinic";
 import DetailHandbook from "./Patient/Handbook/DetailHandbook";
+import Profile from "./HomePage/Profile";
 
 import {
   userIsAuthenticated,
@@ -94,6 +95,11 @@ class App extends Component {
                   <Route
                     path={path.DOCTOR}
                     component={userIsAuthenticated(Doctor)}
+                  />
+
+                  <Route
+                    path={path.PROFILE}
+                    component={userIsAuthenticated(Profile)}
                   />
 
                   {/* user confirm schedule */}

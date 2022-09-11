@@ -8,6 +8,7 @@ class VerifyEmailBooking extends Component {
     super(props);
     this.state = {
       statusVerified: false,
+      errMessage: "",
     };
   }
 
@@ -24,7 +25,9 @@ class VerifyEmailBooking extends Component {
       );
 
       if (res && res.errCode === 0) {
-        this.setState({ statusVerified: true });
+        this.setState({ statusVerified: true, errMessage: res.errMessage });
+      } else {
+        this.setState({ statusVerified: false, errMessage: res.errMessage });
       }
     }
   }
@@ -45,11 +48,9 @@ class VerifyEmailBooking extends Component {
           }}
         >
           {this.state.statusVerified ? (
-            <div style={{ color: "green" }}>Xác nhân thành công!</div>
+            <div style={{ color: "green" }}>{this.state.errMessage}</div>
           ) : (
-            <div style={{ color: "orange" }}>
-              Lịch hẹn đã xác nhận hoặc không tồn tại!
-            </div>
+            <div style={{ color: "orange" }}>{this.state.errMessage}</div>
           )}
         </div>
       </>

@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import "./DoctorSchedule.scss";
 import { LANGUAGES } from "../../../utils";
 import moment from "moment";
-import localization from "moment/locale/vi";
+import localization from "moment/locale/ja";
 import { getScheduleDoctorByDateService } from "../../../services/userService";
 import { FormattedMessage } from "react-intl";
 import BookingModal from "./Modal/BookingModal";
@@ -49,21 +49,42 @@ class DoctorSchedule extends Component {
         object.label =
           language === LANGUAGES.VI
             ? this.LetterCapitalize(
-                moment(new Date()).add(i, "days").format("dddd-DD/MM")
+                moment(new Date())
+                  .add(i, "days")
+                  .locale("vi")
+                  .format("dddd-DD/MM")
               )
-            : moment(new Date())
+            : language === LANGUAGES.EN
+            ? moment(new Date())
                 .add(i, "days")
                 .locale("en")
-                .format("dddd-DD/MM");
+                .format("dddd-DD/MM")
+            : moment(new Date())
+                .add(i, "days")
+                .locale("ja")
+                .format("dddd-年M月D日");
         object.value = moment(new Date())
           .add(i, "days")
           .startOf("day")
           .valueOf();
       } else {
-        let date = moment(new Date()).add(i, "days").format("dddd-DD/MM");
+        let date =
+          language === LANGUAGES.JP
+            ? moment(new Date())
+                .add(i, "days")
+                .locale("ja")
+                .format("dddd-年M月D日")
+            : moment(new Date())
+                .add(i, "days")
+                .locale("vi")
+                .format("dddd-DD/MM");
         let date4 = date.substring(date.length - 5);
         object.label =
-          language === LANGUAGES.VI ? `Hôm nay-${date4}` : `Today-${date4}`;
+          language === LANGUAGES.VI
+            ? `Hôm nay-${date4}`
+            : language === LANGUAGES.EN
+            ? `Today-${date4}`
+            : `今日ー${date4}`;
         object.value = moment(new Date())
           .add(i, "days")
           .startOf("day")

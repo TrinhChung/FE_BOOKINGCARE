@@ -5,6 +5,8 @@ import MarkdownIt from "markdown-it";
 import MdEditor from "react-markdown-editor-lite";
 import Lightbox from "react-image-lightbox";
 import "react-image-lightbox/style.css";
+import { FormattedMessage } from "react-intl";
+
 import { CommonUtils } from "../../../utils";
 import { createSpecialty } from "../../../services/userService";
 import { toast } from "react-toastify";
@@ -69,7 +71,6 @@ class ManageSpecialty extends Component {
     if (res && res.errCode === 0) {
       toast.success("Add new specialty success!");
     } else {
-      console.log(res.errMessage);
       toast.error("Add failed");
     }
   };
@@ -77,12 +78,16 @@ class ManageSpecialty extends Component {
   render() {
     return (
       <div className="manage-specialty-container">
-        <div className="manage-specialty-header">Manage Specialty</div>
+        <div className="manage-specialty-header">
+          <FormattedMessage id="admin.manage-specialty.manage-specialty" />
+        </div>
 
         <div className="add-new-specialty">
           <div className="row">
             <div className="form-group col-6">
-              <label>Ten chuyen khoa</label>
+              <label>
+                <FormattedMessage id="admin.manage-specialty.name-specialty" />
+              </label>
               <input
                 type="text"
                 value={this.state.nameClinic}
@@ -92,7 +97,9 @@ class ManageSpecialty extends Component {
               />
             </div>
             <div className="form-group col-6">
-              <label className="form-label">Anh chuyen khoa</label>
+              <label className="form-label">
+                <FormattedMessage id="admin.manage-specialty.image-specialty" />
+              </label>
               <div className="preview-image-container">
                 <div>
                   <input
@@ -105,7 +112,9 @@ class ManageSpecialty extends Component {
                     onChange={(event) => this.handleOnChangeImg(event)}
                   />
                   <label htmlFor="previewImg" className="label-upload">
-                    Tải ảnh<i className="fas fa-upload"></i>
+                    <FormattedMessage id="admin.manage-specialty.up-load" />
+
+                    <i className="fas fa-upload"></i>
                   </label>
                 </div>
                 <div
@@ -138,7 +147,7 @@ class ManageSpecialty extends Component {
             className="btn-save-specialty"
             onClick={() => this.saveSpecialty()}
           >
-            Save
+            <FormattedMessage id="admin.manage-specialty.save" />
           </button>
         </div>
         <div className="list-specialty"></div>

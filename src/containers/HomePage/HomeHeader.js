@@ -40,6 +40,7 @@ class HomeHeader extends Component {
   };
 
   componentDidMount() {
+    this.props.loginToken();
     document.addEventListener("mousedown", this.handleClickOutside);
   }
 
@@ -93,9 +94,18 @@ class HomeHeader extends Component {
     this.setState({ isOpenModal: false });
   };
 
+  nextPageBanner = (link) => {
+    this.props.history.push(link);
+  };
+
   UserInfo = (user) => {
     let language = this.props.language;
     let roleId = this.props.userInfo.roleId ? this.props.userInfo.roleId : "";
+    let check = user.image === "";
+    let backgroundImage = {
+      backgroundImage: `url(${user.image})`,
+    };
+
     let nameUser =
       language === LANGUAGES.VI
         ? user.firstName + " " + user.lastName
@@ -114,15 +124,16 @@ class HomeHeader extends Component {
           <button
             className="avatar-user btn btn-secondary "
             type="button"
+            style={!check ? backgroundImage : {}}
             id="dropdownMenuButton1"
             data-bs-toggle="dropdown"
             aria-expanded="false"
           ></button>
           <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
             <li>
-              <div className="dropdown-item" to="/profile">
+              <Link className="dropdown-item" to="/profile">
                 Profile
-              </div>
+              </Link>
               {(roleId !== USER_ROLE.USER || roleId === "") && (
                 <Link
                   className="dropdown-item"
@@ -232,7 +243,7 @@ class HomeHeader extends Component {
           {sections &&
             sections.length > 0 &&
             sections.map((section, index) => (
-              <div className="section">
+              <div className="section" key={index}>
                 <div
                   className="section-img"
                   style={{ backgroundImage: `url(${section.image})` }}
@@ -404,7 +415,12 @@ class HomeHeader extends Component {
 
               <div className="content-down">
                 <div className="options">
-                  <div className="option-child">
+                  <div
+                    className="option-child"
+                    onClick={() =>
+                      this.nextPageBanner("/home-list-section/specialty")
+                    }
+                  >
                     <div className="icon-child">
                       <i className="far fa-hospital"></i>
                     </div>
@@ -412,7 +428,10 @@ class HomeHeader extends Component {
                       <FormattedMessage id="banner.check-speciality" />
                     </div>
                   </div>
-                  <div className="option-child">
+                  <div
+                    className="option-child"
+                    onClick={() => this.nextPageBanner("/detail-handbook/22")}
+                  >
                     <div className="icon-child">
                       <i className="fas fa-mobile-alt"></i>
                     </div>
@@ -422,7 +441,10 @@ class HomeHeader extends Component {
                       </div>
                     </div>
                   </div>
-                  <div className="option-child">
+                  <div
+                    className="option-child"
+                    onClick={() => this.nextPageBanner("/detail-clinic/7")}
+                  >
                     <div className="icon-child">
                       <i className="fas fa-procedures"></i>
                     </div>
@@ -430,7 +452,10 @@ class HomeHeader extends Component {
                       <FormattedMessage id="banner.check-general" />
                     </div>
                   </div>
-                  <div className="option-child">
+                  <div
+                    className="option-child"
+                    onClick={() => this.nextPageBanner("/detail-handbook/19")}
+                  >
                     <div className="icon-child">
                       <i className="fas fa-flask"></i>
                     </div>
@@ -438,7 +463,10 @@ class HomeHeader extends Component {
                       <FormattedMessage id="banner.medical-test" />
                     </div>
                   </div>
-                  <div className="option-child">
+                  <div
+                    className="option-child"
+                    onClick={() => this.nextPageBanner("/detail-specialty/7")}
+                  >
                     <div className="icon-child">
                       <i className="fas fa-user-md"></i>
                     </div>
@@ -446,7 +474,10 @@ class HomeHeader extends Component {
                       <FormattedMessage id="banner.mental-heath" />
                     </div>
                   </div>
-                  <div className="option-child">
+                  <div
+                    className="option-child"
+                    onClick={() => this.nextPageBanner("/detail-specialty/12")}
+                  >
                     <div className="icon-child">
                       <i className="fas fa-briefcase-medical"></i>
                     </div>
@@ -484,6 +515,7 @@ const mapDispatchToProps = (dispatch) => {
     fetchTopClinic: () => dispatch(actions.fetchTopClinic()),
     fetchTopSpecialty: () => dispatch(actions.fetchTopSpecialty()),
     fetchHandBook: () => dispatch(actions.fetchHandBook()),
+    loginToken: () => dispatch(actions.loginToken()),
   };
 };
 

@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import "./LogoutModal.scss";
 import * as actions from "../../store/actions";
+import { FormattedMessage } from "react-intl";
 
 class LogoutModal extends Component {
   constructor(props) {
@@ -35,10 +36,12 @@ class LogoutModal extends Component {
             toggle={() => this.toggle()}
             className={this.props.homeHeader ? "header-home-page" : ""}
           >
-            Logout
+            <FormattedMessage id="modal.logout.logout" />
           </ModalHeader>
           <ModalBody>
-            <div className="content-modal">Ban co muon dang xuat khong?</div>
+            <div className="content-modal">
+              <FormattedMessage id="modal.logout.question" />
+            </div>
           </ModalBody>
           <ModalFooter>
             <Button
@@ -46,14 +49,14 @@ class LogoutModal extends Component {
               className="px-3 btn-logout"
               onClick={() => this.handleAddNewUser()}
             >
-              Accept
+              <FormattedMessage id="modal.logout.accept" />
             </Button>
             <Button
               color="secondary"
               className="px-3"
               onClick={() => this.toggle()}
             >
-              Close
+              <FormattedMessage id="modal.logout.no" />
             </Button>
           </ModalFooter>
         </Modal>

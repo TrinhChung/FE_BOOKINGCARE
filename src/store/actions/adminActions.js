@@ -174,6 +174,7 @@ export const EditAUser = (data) => {
       if (res && res.errCode === 0) {
         toast.success("Update A USER SUCCESS");
         dispatch(editAUserSuccess());
+        return res;
       } else {
         toast.error("Update A USER FAILED");
         dispatch(EditAUserFailed());

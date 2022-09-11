@@ -103,7 +103,6 @@ class BookingModal extends Component {
 
   buildTime = (data) => {
     let language = this.props.language;
-    console.log(this.state.timeData);
     let date = "";
     if (data && this.state.timeData) {
       date =
@@ -137,10 +136,6 @@ class BookingModal extends Component {
     this.setState({ isLoading: true });
     let date = new Date(this.state.birthDay).getTime();
     let res = await postBookAppointment({
-      fullName: this.state.fullName,
-      phoneNumber: this.state.phoneNumber,
-      email: this.state.email,
-      address: this.state.address,
       reason: this.state.reason,
       date: date,
       doctorId: this.state.doctorId,
@@ -159,12 +154,25 @@ class BookingModal extends Component {
       toast.success("Booking success");
       this.props.closeModalBooking();
     } else {
-      toast.error("Booking error");
+      toast.error(res.errMessage);
     }
   };
 
+  buildName = (lastName, firstName) => {
+    const language = this.props.language;
+    if (language === LANGUAGES.VI) return firstName + " " + lastName;
+    return firstName + " " + lastName;
+  };
+
+  jsUcfirst = (language) => {
+    if (language === "vi") return "Vi";
+    else if (language === "en") return "En";
+    else if (language === "jp") return "Jp";
+  };
+
   render() {
-    let { isOpenModal, closeModalBooking, dataTime, language } = this.props;
+    let { isOpenModal, closeModalBooking, dataTime, language, userInfo } =
+      this.props;
     let { infoDoctor, genders, doctorId } = this.state;
     return (
       <Modal
@@ -227,7 +235,11 @@ class BookingModal extends Component {
                   <input
                     className="form-control"
                     name="fullName"
-                    value={this.state.fullName}
+                    value={this.buildName(
+                      userInfo.lastName,
+                      userInfo.firstName
+                    )}
+                    disabled={true}
                     onChange={(e) => this.handleOnChangeInput(e)}
                   />
                 </div>
@@ -238,7 +250,8 @@ class BookingModal extends Component {
                   <input
                     className="form-control"
                     name="phoneNumber"
-                    value={this.state.phoneNumber}
+                    value={userInfo.phoneNumber}
+                    disabled={true}
                     onChange={(e) => this.handleOnChangeInput(e)}
                   />
                 </div>
@@ -249,7 +262,8 @@ class BookingModal extends Component {
                   <input
                     className="form-control"
                     name="email"
-                    value={this.state.email}
+                    disabled={true}
+                    value={userInfo.email}
                     onChange={(e) => this.handleOnChangeInput(e)}
                   />
                 </div>
@@ -260,7 +274,8 @@ class BookingModal extends Component {
                   <input
                     className="form-control"
                     name="address"
-                    value={this.state.address}
+                    disabled={true}
+                    value={userInfo.address}
                     onChange={(e) => this.handleOnChangeInput(e)}
                   />
                 </div>
@@ -271,6 +286,7 @@ class BookingModal extends Component {
                   <DatePicker
                     onChange={this.handleOnChangeDatePicker}
                     className="form-control"
+                    disabled={true}
                     value={this.state.birthDay}
                   />
                 </div>
@@ -281,7 +297,16 @@ class BookingModal extends Component {
 
                   <Select
                     options={genders}
-                    value={this.state.selectedGender}
+                    disabled={true}
+                    value={{
+                      label:
+                        userInfo && userInfo.gender
+                          ? userInfo.genderData[
+                              `value${this.jsUcfirst(language)}`
+                            ]
+                          : null,
+                      value: userInfo.gender,
+                    }}
                     onChange={this.onChangeGender}
                   />
                 </div>
@@ -324,6 +349,7 @@ const mapStateToProps = (state) => {
     isLoggedIn: state.user.isLoggedIn,
     language: state.app.language,
     genders: state.admin.genders,
+    userInfo: state.user.userInfo,
   };
 };
 

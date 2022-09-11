@@ -140,9 +140,10 @@ class DetailSpecialty extends Component {
                 value={this.state.selectedProvince}
                 onChange={(e) => this.handleOnChangeProvince(e)}
               >
-                <option value="all">
-                  {language === LANGUAGES.VI ? "Tất cả" : "All"}
-                </option>
+                <FormattedMessage id="patient.specialty.allOption">
+                  {(value) => <option value="all">{value}</option>}
+                </FormattedMessage>
+
                 {provinces &&
                   provinces.length > 0 &&
                   provinces.map((province, index) => {
