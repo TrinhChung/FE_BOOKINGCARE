@@ -122,6 +122,18 @@ const getHistoryBooking = (page, limit) => {
   return axios.get(`/api/history/?page=${page}&limit=${limit}`);
 };
 
+const getFavoritesService = (data) => {
+  return axios.get(`/api/favorite/?fkId=${data.fkId}&keyMap=${data.keyMap}`);
+};
+
+const handleLike = (data) => {
+  return axios.post(`/api/favorite`, data);
+};
+
+const deleteLike = (data) => {
+  return axios.delete(`api/favorite/?fkId=${data.fkId}&keyMap=${data.keyMap}`);
+};
+
 export {
   loginByToken,
   handleLoginApi,
@@ -153,4 +165,7 @@ export {
   getHandBook,
   getDetailHandBook,
   getHistoryBooking,
+  getFavoritesService,
+  handleLike,
+  deleteLike,
 };

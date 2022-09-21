@@ -28,7 +28,7 @@ class Profile extends Component {
       gender: "M",
       position: "P0",
       updateInfo: false,
-      currentBox: "history",
+      currentBox: "introduction",
       histories: [],
       countPage: 1,
       currentPage: 1,
@@ -153,14 +153,13 @@ class Profile extends Component {
       address: this.state.address,
       gender: this.state.gender,
       roleId: userInfo.roleId,
-      positionId: userInfo.positionId,
+      positionId: userInfo.positionId ? userInfo.positionId : "P0",
     };
 
     let res = await this.props.updateUserInfo(data);
     console.log(res);
 
     if (res && res.errCode === 0) {
-      console.log(1);
       this.setState({ updateInfo: false });
       this.props.loginToken();
     }
@@ -177,7 +176,9 @@ class Profile extends Component {
       <div className="profile-content">
         <div className="box-info">
           <div className="header">
-            <div className="info-title">Thông tin cá nhân</div>
+            <div className="info-title">
+              <FormattedMessage id="homepage.profile.introduction.header" />
+            </div>
             <div
               className="btn-update"
               onClick={() => this.setState({ updateInfo: true })}
@@ -360,17 +361,27 @@ class Profile extends Component {
       <div className="profile-content">
         <div className="box-info">
           <div className="header">
-            <div className="info-title">Lịch sử khám bệnh</div>
+            <div className="info-title">
+              <FormattedMessage id="homepage.profile.history.title" />
+            </div>
           </div>
           <div className="wrap-info container">
             <table id="TableManageUser" className="table">
               <tbody className="table-body">
                 <tr className="header-table">
                   <th>STT</th>
-                  <th>Bac si</th>
-                  <th>Ngay kham</th>
-                  <th>Thoi gian</th>
-                  <th>File</th>
+                  <th>
+                    <FormattedMessage id="homepage.profile.history.table.doctor" />
+                  </th>
+                  <th>
+                    <FormattedMessage id="homepage.profile.history.table.date" />
+                  </th>
+                  <th>
+                    <FormattedMessage id="homepage.profile.history.table.time" />
+                  </th>
+                  <th>
+                    <FormattedMessage id="homepage.profile.history.table.bill" />
+                  </th>
                 </tr>
 
                 {histories &&
@@ -396,7 +407,7 @@ class Profile extends Component {
                                 aria-hidden="true"
                               ></i>
                               <div className="text">
-                                <div className="name">Bill.xls</div>
+                                <div className="name">Bill.xlsx</div>
                                 <div className="size">Size</div>
                               </div>
                             </div>
@@ -483,7 +494,7 @@ class Profile extends Component {
                     this.setState({ currentBox: e.target.getAttribute("name") })
                   }
                 >
-                  Giới thiệu
+                  <FormattedMessage id="homepage.profile.introduction.title" />
                 </div>
                 <div
                   className={`text-content ${
@@ -494,7 +505,7 @@ class Profile extends Component {
                     this.setState({ currentBox: e.target.getAttribute("name") })
                   }
                 >
-                  Lịch sử khám bệnh
+                  <FormattedMessage id="homepage.profile.history.title" />
                 </div>
               </div>
             </div>

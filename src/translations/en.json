@@ -90,7 +90,23 @@
         "handbook": "Handbook",
         "specialty": "Specialty",
         "doctor": "Doctor",
-        "medical-facility": "Medical facility"
+        "medical-facility": "Medical facility",
+        "profile": {
+           "introduction": {
+                "title": "Introduction",
+                "header": "Information User"
+           },
+           "history": {
+                "title": "Medical history",
+                "header": "History",
+                "table": {
+                    "doctor": "Doctor",
+                    "date": "Date",
+                    "time": "Time",
+                    "bill": "Receipt and drugs"
+                }
+           } 
+        }
 
     },
     "manage-schedule":{

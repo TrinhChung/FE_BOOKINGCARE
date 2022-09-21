@@ -7,6 +7,7 @@ import { LANGUAGES } from "../../../utils";
 import DoctorSchedule from "./DoctorSchedule";
 import DoctorExtraInfo from "./DoctorExtraInfor";
 import Footer from "../../Footer/Footer";
+import ButtonLike from "../../../components/ButtonLike/ButtonLike";
 
 class DetailDoctor extends Component {
   constructor(props) {
@@ -33,6 +34,7 @@ class DetailDoctor extends Component {
     }
   }
   componentDidUpdate(prevProps, prevState, snapshot) {}
+
   render() {
     let doctor = this.state.detailDoctor;
     let language = this.props.language;
@@ -42,6 +44,8 @@ class DetailDoctor extends Component {
       nameVi = `${doctor.positionData.valueVi}, ${doctor.lastName} ${doctor.firstName} `;
       nameEn = `${doctor.positionData.valueEn}, ${doctor.firstName} ${doctor.lastName}`;
     }
+    let doctorId = this.state.currentDoctorId;
+
     return (
       <>
         <HomeHeader isShowBanner={false} />
@@ -64,15 +68,7 @@ class DetailDoctor extends Component {
                   <span>{this.state.detailDoctor.Markdown.description}</span>
                 )}
               </div>
-              <div
-                className="fb-like"
-                data-href="https://developers.facebook.com/docs/plugins/"
-                data-width=""
-                data-layout="button"
-                data-action="like"
-                data-size="small"
-                data-share="true"
-              ></div>
+              <ButtonLike data={{ fkId: doctorId, keyMap: 1 }} check={true} />
             </div>
           </div>
           <div className="schedule-doctor mg-100">

@@ -147,9 +147,11 @@ export const deleteUser = (id) => {
       if (res && res.errCode === 0) {
         toast.success("DELETE USER SUCCESS");
         dispatch(deleteUserSuccess());
+        return true;
       } else {
         toast.error("DELETE USER FAILED");
         dispatch(deleteUserFailed());
+        return false;
       }
     } catch (err) {
       toast.error("DELETE USER FAILED");
@@ -313,12 +315,14 @@ export const saveDetailDoctor = (data) => {
           type: actionTypes.SAVE_DETAIL_DOCTOR_SUCCESS,
           dataDoctors: res.data,
         });
+        return true;
       } else {
         toast.error("SAVE DETAIL DOCTOR FAIL");
 
         dispatch({
           type: actionTypes.SAVE_DETAIL_DOCTOR_FAILED,
         });
+        return false;
       }
     } catch (err) {
       toast.error("SAVE DETAIL DOCTOR FAIL");

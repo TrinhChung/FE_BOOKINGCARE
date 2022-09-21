@@ -90,7 +90,23 @@
         "handbook": "Handbook",
         "specialty": "Chuyên khoa",
         "doctor": "Bác sĩ",
-        "medical-facility": "Medical Facility"
+        "medical-facility": "Medical Facility",
+        "profile": {
+            "introduction": {
+                 "title": "Giới thiệu",
+                 "header": "Thông tin user"
+            },
+            "history": {
+                 "title": "Lịch sử khám",
+                 "header": "Lịch sử khám bệnh",
+                 "table": {
+                     "doctor": "Bác sĩ",
+                     "date": "Ngày khám",
+                     "time": "Thời gian",
+                     "bill": "Hóa đơn và thuốc"
+                 }
+            } 
+         }
     },
     "manage-schedule":{
         "title": "Quản lý kế hoạch khám bệnh của bác sĩ",

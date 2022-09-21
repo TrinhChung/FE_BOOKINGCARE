@@ -35,6 +35,7 @@ class OutStandingDoctor extends Component {
 
   render() {
     let arrDoctors = this.state.arrDoctors;
+    console.log(arrDoctors);
     let { language } = this.props;
     return (
       <div className="section-share outstanding-doctor-section">
@@ -47,7 +48,6 @@ class OutStandingDoctor extends Component {
               name="doctor"
               onClick={(e) => this.handleNextListSection(e)}
             >
-              {" "}
               <FormattedMessage id="homepage.more-info" />
             </button>
           </div>
@@ -66,17 +66,26 @@ class OutStandingDoctor extends Component {
                       onClick={() => this.handleViewDetailDoctor(doctor)}
                     >
                       <div className="customize-border">
+                        <div className="count-booking">
+                          Lượt đặt: {doctor.bookingCount}
+                        </div>
                         <div className="outer-bg">
                           <div
                             className="bg-image outstanding-doctor-section"
                             style={{ backgroundImage: `url(${doctor.image})` }}
                           />
                         </div>
-                        <div className="position text-center">
+                        <div className="position text-center mb-2">
                           <div>
                             {language === LANGUAGES.VI ? nameVi : nameEn}
                           </div>
-                          <div>Co xuong khop</div>
+                          <div>
+                            {doctor.DoctorInfo &&
+                            doctor.DoctorInfo.specialtyData &&
+                            doctor.DoctorInfo.specialtyData.name
+                              ? doctor.DoctorInfo.specialtyData.name
+                              : "Chưa cập nhật"}
+                          </div>
                         </div>
                       </div>
                     </div>

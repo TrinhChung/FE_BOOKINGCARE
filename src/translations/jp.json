@@ -91,7 +91,23 @@
         "handbook": "ハンドブック",
         "specialty": "専門",
         "doctor": "医者",
-        "medical-facility": "医療施設"
+        "medical-facility": "医療施設",
+        "profile": {
+            "introduction": {
+                 "title": "紹介",
+                 "header": "情報利用者"
+            },
+            "history": {
+                 "title": "病歴",
+                 "header": "病歴",
+                 "table": {
+                     "doctor": "医者",
+                     "date": "日",
+                     "time": "時間",
+                     "bill": "レシートと薬"
+                 }
+            } 
+         }
     },
     "manage-schedule":{
         "title": "医師の診察計画の管理",

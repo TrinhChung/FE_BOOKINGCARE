@@ -33,9 +33,9 @@ class TableManageUser extends Component {
     }
   }
 
-  handleDeleteUser = (user) => {
-    this.props.deleteUserRedux(user.id);
-    if (this.props.currentPage) {
+  handleDeleteUser = async (user) => {
+    let res = await this.props.deleteUserRedux(user.id);
+    if (res === true && this.props.currentPage) {
       this.props.fetchUserRedux(this.props.currentPage);
     }
   };

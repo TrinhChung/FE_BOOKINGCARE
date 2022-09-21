@@ -125,8 +125,8 @@ class ManageDoctor extends Component {
     }
   }
 
-  handleSaveContentMarkDown = () => {
-    this.props.saveDetailDoctor({
+  handleSaveContentMarkDown = async () => {
+    let res = await this.props.saveDetailDoctor({
       contentHTML: this.state.contentHtml,
       contentMarkdown: this.state.contentMarkdown,
       description: this.state.description,
@@ -276,7 +276,13 @@ class ManageDoctor extends Component {
           let object = {};
           let labelVi = item.valueVi + " VNĐ";
           let labelEn = item.valueEn + " USD";
-          object.label = language === LANGUAGES.VI ? labelVi : labelEn;
+          let labelJp = item.valueJp + "円";
+          object.label =
+            language === LANGUAGES.VI
+              ? labelVi
+              : language === LANGUAGES.JP
+              ? labelJp
+              : labelEn;
           object.value = item.keyMap;
           return object;
         });

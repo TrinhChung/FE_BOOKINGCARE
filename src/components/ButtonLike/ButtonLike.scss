@@ -1,0 +1,20 @@
+.buttonLike {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    .icon {
+        color: #ccc;
+        font-size: 20px;
+
+        &:hover {
+            color: rgb(255, 103, 103);
+            cursor: pointer;
+        }
+    }
+
+    .red {
+        color: rgb(255, 103, 103);
+    }
+
+}

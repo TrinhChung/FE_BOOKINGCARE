@@ -136,6 +136,15 @@
         .customize-border {
             padding: 20px;
             background: white;
+            position: relative;
+
+            .count-booking {
+                position: absolute;
+                bottom: 0;
+                left: 10px;
+                font-style: italic;
+                font-size: 12px;
+            }
 
             &:hover {
                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
