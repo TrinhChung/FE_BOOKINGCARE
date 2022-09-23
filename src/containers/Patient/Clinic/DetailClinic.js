@@ -29,7 +29,6 @@ class DetailClinic extends Component {
     const divElement = this.myRef.current.querySelector(id);
 
     divElement.scrollIntoView({
-      top: +110,
       behavior: "smooth",
       block: "start",
     });

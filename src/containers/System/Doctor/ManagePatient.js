@@ -36,9 +36,13 @@ class ManagePatient extends Component {
 
   getAllPatientAllDoctor = async () => {
     let { user } = this.props;
-    let { currentDate } = this.state;
+    let { currentDate, currentPage } = this.state;
     let formattedDate = new Date(currentDate).getTime();
-    let res = await getAllPatientAllDoctorService(user.id, formattedDate, 1);
+    let res = await getAllPatientAllDoctorService(
+      user.id,
+      formattedDate,
+      currentPage + 1
+    );
     if (res && res.errCode === 0 && res.data) {
       this.setState({
         listPatients: res.data.patientData,
@@ -51,6 +55,9 @@ class ManagePatient extends Component {
     // if (this.state.listPatients !== prevState.listPatients) {
     //   this.getAllPatientAllDoctor();
     // }
+    if (prevState.currentDate !== this.state.currentDate) {
+      this.getAllPatientAllDoctor();
+    }
   }
 
   handleOnChangeDatePicker = (date) => {
