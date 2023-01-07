@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import { FormattedMessage } from "react-intl";
 import { connect } from "react-redux";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import { CRUDACTIONS, CommonUtils } from "../../../utils";
-import Lightbox from "react-image-lightbox";
+import { CRUDACTIONS } from "../../../utils";
+import { Image, Col, Row } from "antd";
 import * as actions from "../../../store/actions";
 
 class ModalUser extends Component {
@@ -13,8 +13,7 @@ class ModalUser extends Component {
       genderArr: [],
       positionArr: [],
       roleArr: [],
-      previewIgmUrl: "",
-      isOpen: false,
+      imageUrl: "",
       email: "",
       password: "",
       firstName: "",
@@ -41,7 +40,7 @@ class ModalUser extends Component {
     }
   }
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
+  async componentDidUpdate(prevProps) {
     if (prevProps.countPage !== this.props.countPage) {
       this.setState({ countPage: this.props.countPage });
     }
@@ -74,10 +73,9 @@ class ModalUser extends Component {
       let arrGenders = this.props.genderRedux;
       let arrPosions = this.props.positionRedux;
       let arrRoles = this.props.roleRedux;
-
       this.setState({
         action: CRUDACTIONS.CREATE,
-        previewIgmUrl: "",
+        imageUrl: this.props.users.image,
         email: "",
         password: "",
         firstName: "",
@@ -96,18 +94,20 @@ class ModalUser extends Component {
       this.setState({ action: this.props.action });
     }
 
-    if (prevProps.userEdit !== this.props.userEdit) {
-      this.handleEditUser(this.props.userEdit);
+    if (prevProps.idUserEdit !== this.props.idUserEdit) {
+      const userEdit = await this.props.getUserById(this.props.idUserEdit);
+      this.handleEditUser(userEdit);
     }
   }
+
+  getInfoUserEdit = () => {};
 
   handleOnChangeImg = async (event) => {
     let data = event.target.files;
     let file = data[0];
     if (file) {
       let objectUrl = URL.createObjectURL(file);
-      let base64 = await CommonUtils.getBase64(file);
-      this.setState({ previewIgmUrl: objectUrl, avatar: base64 });
+      this.setState({ imageUrl: objectUrl, avatar: file });
     }
   };
 
@@ -117,18 +117,12 @@ class ModalUser extends Component {
     this.setState({ ...copyState });
   };
 
-  openPreviewImg = () => {
-    if (!this.state.previewIgmUrl) {
-    } else {
-      this.setState({ isOpen: true });
-    }
-  };
-
   handleSaveUser = async () => {
     let isValid = this.checkValidateInput();
 
     if (isValid) {
       if (this.state.action === CRUDACTIONS.CREATE) {
+        this.props.setLoading(true);
         await this.props.createNewUser({
           email: this.state.email,
           password: this.state.password,
@@ -137,15 +131,17 @@ class ModalUser extends Component {
           address: this.state.address,
           phoneNumber: this.state.phoneNumber,
           gender: this.state.gender,
-          avatar: this.state.avatar,
+          image: this.state.avatar,
           role: this.state.role,
           position: this.state.position,
         });
+        this.props.setLoading(false);
         if (this.props.currentPage) {
           this.props.fetchUserRedux(this.props.currentPage);
         }
       } else if (this.state.action === CRUDACTIONS.EDIT) {
-        console.log("edit");
+        this.props.setLoading(true);
+
         await this.props.EditAUserRedux({
           id: this.state.userId,
           email: this.state.email,
@@ -154,10 +150,11 @@ class ModalUser extends Component {
           address: this.state.address,
           phoneNumber: this.state.phoneNumber,
           gender: this.state.gender,
-          avatar: this.state.avatar,
+          image: this.state.avatar,
           roleId: this.state.role,
           positionId: this.state.position,
         });
+        this.props.setLoading(false);
       }
 
       this.toggle();
@@ -182,13 +179,8 @@ class ModalUser extends Component {
   };
 
   handleEditUser = (user) => {
-    let imageBase64 = "";
-    if (user.image) {
-      imageBase64 = new Buffer(user.image, "base64").toString("binary");
-    }
     this.setState({
       action: CRUDACTIONS.EDIT,
-      previewIgmUrl: imageBase64,
       email: user.email,
       password: "hashcode",
       firstName: user.firstName,
@@ -198,7 +190,7 @@ class ModalUser extends Component {
       gender: user.gender,
       position: user.positionId,
       role: user.roleId,
-      avatar: "",
+      imageUrl: user.image,
       userId: user.id,
     });
   };
@@ -235,7 +227,9 @@ class ModalUser extends Component {
         className={this.props.className}
         size="lg"
       >
-        <ModalHeader toggle={() => this.toggle()}>Create user</ModalHeader>
+        <ModalHeader toggle={() => this.toggle()}>
+          {this.props.action === "CREATE" ? "CREATE USER" : "EDIT USER"}
+        </ModalHeader>
         <ModalBody>
           <div className="modal-user-body">
             <div className="row">
@@ -391,8 +385,8 @@ class ModalUser extends Component {
                 <label className="form-label">
                   <FormattedMessage id="manage-user.image" />
                 </label>
-                <div className="preview-image-container">
-                  <div>
+                <Row className="preview-image-container">
+                  <Col>
                     <input
                       type="file"
                       id="previewImg"
@@ -405,22 +399,18 @@ class ModalUser extends Component {
                     <label htmlFor="previewImg" className="label-upload">
                       Tải ảnh<i className="fas fa-upload"></i>
                     </label>
-                  </div>
-                  <div
-                    className="preview-img"
-                    style={{
-                      backgroundImage: `url(${this.state.previewIgmUrl})`,
-                    }}
-                    onClick={() => this.openPreviewImg()}
-                  ></div>
-
-                  {this.state.isOpen && (
-                    <Lightbox
-                      mainSrc={this.state.previewIgmUrl}
-                      onCloseRequest={() => this.setState({ isOpen: false })}
-                    />
-                  )}
-                </div>
+                  </Col>
+                  <Col>
+                    {this.state.imageUrl && this.state.imageUrl.length > 0 ? (
+                      <Image
+                        className="preview-img"
+                        src={this.state.imageUrl}
+                      ></Image>
+                    ) : (
+                      <></>
+                    )}
+                  </Col>
+                </Row>
               </div>
             </div>
           </div>
@@ -442,7 +432,10 @@ class ModalUser extends Component {
           <Button
             color="secondary"
             className="px-3"
-            onClick={() => this.toggle()}
+            onClick={() => {
+              this.toggle();
+              this.setState({ avatar: "" });
+            }}
           >
             <FormattedMessage id="manage-user.close" />
           </Button>
@@ -468,6 +461,7 @@ const mapDispatchToProps = (dispatch) => {
     getRoleStart: () => dispatch(actions.fetchRoleStart()),
     createNewUser: (data) => dispatch(actions.createNewUser(data)),
     EditAUserRedux: (data) => dispatch(actions.EditAUser(data)),
+    getUserById: (id) => dispatch(actions.getUserById(id)),
     fetchUserRedux: (currentPage) =>
       dispatch(actions.fetchAllUserStart(currentPage)),
   };

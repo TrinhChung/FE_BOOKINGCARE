@@ -3,13 +3,17 @@ import { connect } from "react-redux";
 import "./TableManageUser.scss";
 import * as actions from "../../../store/actions";
 import ReactPaginate from "react-paginate";
-
+import { Modal } from "antd";
+import ModalLoadingOverlay from "../../../components/ModalLoadingOverlay";
 class TableManageUser extends Component {
   constructor(props) {
     super(props);
     this.state = {
       usersRedux: [],
       itemOffset: 3,
+      loading: false,
+      isShowModalConfirm: false,
+      idUserEdit: 0,
     };
   }
 
@@ -41,7 +45,7 @@ class TableManageUser extends Component {
   };
 
   handleEditUser = (user) => {
-    this.props.handleEditUser(user);
+    this.props.handleEditUser(user.id);
   };
 
   handleChangePage = (e) => {
@@ -81,7 +85,12 @@ class TableManageUser extends Component {
                       </button>
                       <button
                         className="btn-delete"
-                        onClick={() => this.handleDeleteUser(user)}
+                        onClick={() => {
+                          this.setState({
+                            idUserEdit: user.id,
+                            isShowModalConfirm: true,
+                          });
+                        }}
                       >
                         <i className="fas fa-trash"></i>
                       </button>
@@ -113,6 +122,23 @@ class TableManageUser extends Component {
             previousLabel="Previous"
           />
         </div>
+        <Modal
+          title="Bạn có muốn xóa người dùng này"
+          open={this.state.isShowModalConfirm}
+          onOk={() => {
+            this.setState({ loading: true });
+            this.props.deleteUserRedux(this.state.idUserEdit);
+            this.setState({ loading: false, isShowModalConfirm: false });
+          }}
+          onCancel={() => {
+            this.setState({ isShowModalConfirm: false });
+          }}
+        ></Modal>
+        <ModalLoadingOverlay
+          isShow={this.state.loading}
+          onOk={() => this.setLoading(false)}
+          onCancel={() => this.setLoading(false)}
+        />
       </>
     );
   }

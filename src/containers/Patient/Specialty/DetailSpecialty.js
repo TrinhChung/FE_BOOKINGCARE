@@ -54,8 +54,8 @@ class DetailSpecialty extends Component {
   fetchDetailSpecialty = async (id, province) => {
     let res = await getDetailSpecialty(id, province);
     if (res && res.errCode === 0) {
-      if (res.data && res.data.descriptionHtml) {
-        this.setState({ descriptionHtml: res.data.descriptionHtml });
+      if (res.data && res.data.Markdown && res.data.Markdown.contentHtml) {
+        this.setState({ descriptionHtml: res.data.Markdown.contentHtml });
       }
       if (res.data && res.data.specialtyData) {
         this.setState({ allDoctors: res.data.specialtyData });

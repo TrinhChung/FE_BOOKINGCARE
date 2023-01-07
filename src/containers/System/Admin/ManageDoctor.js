@@ -42,8 +42,6 @@ class ManageDoctor extends Component {
     };
   }
 
-  //markdown change
-
   componentDidMount() {
     this.props.fetchAllDoctor();
     this.props.getListClinic();
@@ -231,7 +229,6 @@ class ManageDoctor extends Component {
     }
     if (res && res.errCode === 0 && res.data && res.data.Markdown) {
       let markdown = res.data.Markdown;
-
       this.setState({
         description: markdown.description,
         contentMarkdown: markdown.contentMarkdown,

@@ -1,11 +1,10 @@
 import actionTypes from "./actionTypes";
+import axios from "axios";
 import { toast } from "react-toastify";
 import {
   getAllCodeService,
-  createNewUserService,
   getAllUsers,
   deleteUserService,
-  editUserService,
   getTopDoctorHomeService,
   getAllDoctorsServices,
   saveDetailInfoDoctorService,
@@ -90,9 +89,21 @@ export const fetchRoleFailed = () => ({
 export const createNewUser = (data) => {
   return async (dispatch, getState) => {
     try {
-      let res = await createNewUserService(data);
-      console.log("check new user: ", res);
-      if (res && res.errCode === 0) {
+      let formData = new FormData();
+      for (var key in data) {
+        formData.append(key, data[key]);
+      }
+      const token = localStorage.getItem("token");
+      const res = await axios({
+        method: "POST",
+        url: "http://localhost:8080/api/auth",
+        data: formData,
+        headers: {
+          "Content-Type": `multipart/form-data;`,
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (res && res.data && res.data.errCode === 0) {
         toast.success("CREATE USER SUCCESS");
         dispatch(createUserSuccess());
       } else {
@@ -172,11 +183,24 @@ export const deleteUserFailed = () => ({
 export const EditAUser = (data) => {
   return async (dispatch, getState) => {
     try {
-      let res = await editUserService(data);
-      if (res && res.errCode === 0) {
+      let formData = new FormData();
+      for (var key in data) {
+        formData.append(key, data[key]);
+      }
+      const token = localStorage.getItem("token");
+      const res = await axios({
+        method: "PUT",
+        url: "http://localhost:8080/api/user/update",
+        data: formData,
+        headers: {
+          "Content-Type": `multipart/form-data;`,
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (res.data && res.data.errCode === 0) {
         toast.success("Update A USER SUCCESS");
         dispatch(editAUserSuccess());
-        return res;
+        return res.data;
       } else {
         toast.error("Update A USER FAILED");
         dispatch(EditAUserFailed());

@@ -1,5 +1,23 @@
 import actionTypes from "./actionTypes";
-import { handleLoginApi, loginByToken } from "../../services/userService";
+import {
+  handleLoginApi,
+  loginByToken,
+  getUserByIdService,
+} from "../../services/userService";
+
+export const getUserById = (id) => {
+  return async (dispatch, getState) => {
+    try {
+      let res = await getUserByIdService(id);
+      if (res && res.errCode === 0) {
+        return res.user;
+      }
+    } catch (err) {
+      console.log("LOGIN ERR ", err);
+      dispatch(userLoginFail());
+    }
+  };
+};
 
 export const addUserSuccess = () => ({
   type: actionTypes.ADD_USER_SUCCESS,

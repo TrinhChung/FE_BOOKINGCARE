@@ -7,6 +7,8 @@ import * as actions from "../../../store/actions";
 import TableManageUser from "./TableManageUser";
 import { CRUDACTIONS } from "../../../utils";
 import ModalUser from "./ModalUser";
+import ModalLoadingOverlay from "../../../components/ModalLoadingOverlay";
+
 class UserRedux extends Component {
   constructor(props) {
     super(props);
@@ -15,6 +17,8 @@ class UserRedux extends Component {
       currentPage: 1,
       isOpenModal: false,
       userEdit: {},
+      idUserEdit: 0,
+      loading: false,
     };
   }
 
@@ -23,6 +27,10 @@ class UserRedux extends Component {
     this.props.getPositionStart();
     this.props.getRoleStart();
   }
+
+  setLoading = (value) => {
+    this.setState({ loading: value });
+  };
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (prevProps.genderRedux !== this.props.genderRedux) {
@@ -74,11 +82,12 @@ class UserRedux extends Component {
     this.setState({ action: CRUDACTIONS.CREATE, isOpenModal: true });
   };
 
-  handleEditUser = (user) => {
+  handleEditUser = (id) => {
+    console.log(id);
     this.setState({
       action: CRUDACTIONS.EDIT,
       isOpenModal: true,
-      userEdit: user,
+      idUserEdit: id,
     });
   };
 
@@ -98,10 +107,16 @@ class UserRedux extends Component {
           toggleFormParent={this.toggleUserModal}
           action={this.state.action}
           currentPage={this.state.currentPage}
-          userEdit={this.state.userEdit}
+          idUserEdit={this.state.idUserEdit}
+          setLoading={this.setLoading}
+        />
+        <ModalLoadingOverlay
+          isShow={this.state.loading}
+          onOk={() => this.setLoading(false)}
+          onCancel={() => this.setLoading(false)}
         />
 
-        <div className="title">User redux</div>
+        <div className="title">ADMIN</div>
         <div className="user-redux-body">
           <div className="container">
             <div className="mx-3 my-2">

@@ -114,9 +114,7 @@ class BookingModal extends Component {
             )
           : this.state.timeData.valueEn +
             " " +
-            moment(new Date(+data))
-              .locale("en")
-              .format("dddd-DD/MM/YYYY");
+            moment(new Date(+data)).locale("en").format("dddd-DD/MM/YYYY");
     }
     return date;
   };

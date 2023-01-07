@@ -31,6 +31,7 @@ class ManageSpecialty extends Component {
   handleOnChangeImg = async (event) => {
     let data = event.target.files;
     let file = data[0];
+    console.log(file);
     if (file) {
       let objectUrl = URL.createObjectURL(file);
       let base64 = await CommonUtils.getBase64(file);
@@ -113,7 +114,6 @@ class ManageSpecialty extends Component {
                   />
                   <label htmlFor="previewImg" className="label-upload">
                     <FormattedMessage id="admin.manage-specialty.up-load" />
-
                     <i className="fas fa-upload"></i>
                   </label>
                 </div>

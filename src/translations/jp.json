@@ -86,7 +86,7 @@
     "homepage": {
         "out-standing-doctor": "優秀な医師",
         "more-info": "詳しい",
-        "specialty-popular": "人気の名物",
+        "specialty-popular": "専科",
         "medical-popular": "優れた医療施設",
         "handbook": "ハンドブック",
         "specialty": "専門",
@@ -154,7 +154,7 @@
             "gender": "セックス",
             "reason": "受診理由",
             "confirm": "確認",
-            "cancel": "Hキャンセルủy"
+            "cancel": "キャンセル"
         },
         "specialty": {
             "allOption": "すべて",

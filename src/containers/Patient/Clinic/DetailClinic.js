@@ -60,8 +60,8 @@ class DetailClinic extends Component {
   fetchDetailClinic = async (id) => {
     let res = await getDetailClinic(id);
     if (res && res.errCode === 0) {
-      if (res.data && res.data.descriptionHtml) {
-        this.setState({ descriptionHtml: res.data.descriptionHtml });
+      if (res.data && res.data.Markdown && res.data.Markdown.contentHtml) {
+        this.setState({ descriptionHtml: res.data.Markdown.contentHtml });
       }
       if (res.data && res.data.clinicData) {
         this.setState({ allDoctors: res.data.clinicData });

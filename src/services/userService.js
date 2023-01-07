@@ -16,7 +16,7 @@ const getUserByIdService = (id) => {
   return axios.get(`/api/user/${id}`);
 };
 
-const createNewUserService = (data) => {
+const createNewUserService = async (data) => {
   return axios.post(`/api/auth/`, data);
 };
 
