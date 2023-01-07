@@ -33,8 +33,7 @@ class ManageClinic extends Component {
     let file = data[0];
     if (file) {
       let objectUrl = URL.createObjectURL(file);
-      let base64 = await CommonUtils.getBase64(file);
-      this.setState({ previewIgmUrl: objectUrl, avatar: base64 });
+      this.setState({ previewIgmUrl: objectUrl, avatar: file });
     }
   };
 
@@ -64,7 +63,7 @@ class ManageClinic extends Component {
     let res = await createClinic({
       name: this.state.nameClinic,
       address: this.state.addressClinic,
-      avatar: this.state.avatar,
+      image: this.state.avatar,
       descriptionHtml: this.state.descriptionHtml,
       descriptionMarkdown: this.state.descriptionMarkdown,
     });

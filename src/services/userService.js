@@ -82,8 +82,26 @@ const sendBillAccept = (data) => {
   return axios.post(`/api/patient/booking-doctor-accept`, data);
 };
 
-const createSpecialty = (data) => {
-  return axios.post(`/api/specialty/`, data);
+const createSpecialty = async (data) => {
+  try {
+    let formData = new FormData();
+    for (var key in data) {
+      formData.append(key, data[key]);
+    }
+    const token = localStorage.getItem("token");
+    const res = await axios({
+      method: "POST",
+      url: "http://localhost:8080/api/specialty/",
+      data: formData,
+      headers: {
+        "Content-Type": `multipart/form-data;`,
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const getAllSpecialty = () => {
@@ -94,8 +112,26 @@ const getDetailSpecialty = (id, province) => {
   return axios.get(`/api/specialty/${id}?province=${province}`);
 };
 
-const createClinic = (data) => {
-  return axios.post(`/api/clinic/`, data);
+const createClinic = async (data) => {
+  try {
+    let formData = new FormData();
+    for (var key in data) {
+      formData.append(key, data[key]);
+    }
+    const token = localStorage.getItem("token");
+    const res = await axios({
+      method: "POST",
+      url: "http://localhost:8080/api/clinic/",
+      data: formData,
+      headers: {
+        "Content-Type": `multipart/form-data;`,
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const getAllClinic = (field) => {

@@ -31,11 +31,9 @@ class ManageSpecialty extends Component {
   handleOnChangeImg = async (event) => {
     let data = event.target.files;
     let file = data[0];
-    console.log(file);
     if (file) {
       let objectUrl = URL.createObjectURL(file);
-      let base64 = await CommonUtils.getBase64(file);
-      this.setState({ previewIgmUrl: objectUrl, avatar: base64 });
+      this.setState({ previewIgmUrl: objectUrl, avatar: file });
     }
   };
 
@@ -64,10 +62,11 @@ class ManageSpecialty extends Component {
   saveSpecialty = async () => {
     let res = await createSpecialty({
       name: this.state.nameClinic,
-      avatar: this.state.avatar,
+      image: this.state.avatar,
       descriptionHtml: this.state.descriptionHtml,
       descriptionMarkdown: this.state.descriptionMarkdown,
     });
+    console.log(res);
 
     if (res && res.errCode === 0) {
       toast.success("Add new specialty success!");
