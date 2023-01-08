@@ -7,10 +7,14 @@ import {
   DownOutlined,
   CommentOutlined,
   UserOutlined,
+  HeartFilled,
 } from "@ant-design/icons";
 import {
   getCommentByFkId,
   sendCommentService,
+  getFavoritesService,
+  handleLike,
+  deleteLike,
 } from "../../../services/userService";
 import "./Comment.scss";
 import moment from "moment";
@@ -28,17 +32,24 @@ class Comment extends Component {
       loading: false,
       change: false,
       pushedComment: false,
-      minComment: 2,
+      limit: 2,
+      total: 0,
+      maxCount: 0,
+      order: "ASC",
+      countFavorites: 0,
+      isFavorited: 0,
+      changeFavorites: false,
     };
   }
   dataSelect = [
-    { value: 0, label: "Mới nhất" },
-    { value: 1, label: "Cũ nhất" },
+    { value: "ASC", label: "Mới nhất" },
+    { value: "DESC", label: "Cũ nhất" },
   ];
 
   async componentDidMount() {
     if (this.props.fkId > 0 && this.props.keyMap > 0) {
       this.fetchComments();
+      this.fetchFavorites();
     }
   }
 
@@ -61,24 +72,59 @@ class Comment extends Component {
     if (this.props.fkId !== prevProps.fkId) {
       if (this.props.fkId > 0 && this.props.keyMap > 0) {
         this.fetchComments();
+        this.fetchFavorites();
       }
     }
     if (this.state.change !== prevState.change) {
       this.setState({ comments: this.buildCommentData(this.state.comments) });
     }
-    if (this.state.pushedComment !== prevState.pushedComment) {
+    if (
+      this.state.pushedComment !== prevState.pushedComment ||
+      this.state.order !== prevState.order ||
+      this.state.limit !== prevState.limit
+    ) {
       this.fetchComments();
+    }
+    if (this.state.changeFavorites !== prevState.changeFavorites) {
+      this.fetchFavorites();
     }
   }
 
   fetchComments = async () => {
-    const res = await getCommentByFkId(this.props.fkId, this.props.keyMap);
+    this.setState({ loading: true });
+    const res = await getCommentByFkId(
+      this.props.fkId,
+      this.props.keyMap,
+      this.state.limit,
+      this.state.order
+    );
     if (res.errCode === 0 && res.data) {
-      this.setState({ comments: this.buildCommentData(res.data) });
+      this.setState({
+        comments: this.buildCommentData(res.data.comments),
+        total: res.data.total.count,
+        maxCount: res.data.total.maxCount,
+      });
     }
+    this.setState({ loading: false });
+  };
+
+  fetchFavorites = async () => {
+    this.setState({ loading: true });
+    const res = await getFavoritesService({
+      fkId: this.props.fkId,
+      keyMap: this.props.keyMap,
+    });
+    if (res.errCode === 0 && res.data) {
+      this.setState({
+        countFavorites: res.data.count,
+        isFavorited: res.data.isLike,
+      });
+    }
+    this.setState({ loading: false });
   };
 
   sendComment = async (content, id) => {
+    this.setState({ loading: true });
     if (id >= 0 && content && content.length > 0) {
       const data = {
         parentId: id,
@@ -97,6 +143,33 @@ class Comment extends Component {
         return false;
       }
     }
+    this.setState({ loading: false });
+  };
+
+  handleFavorite = async () => {
+    this.setState({ loading: true });
+    const data = {
+      keyMap: this.props.keyMap,
+      fkId: this.props.fkId,
+    };
+    const res = await handleLike(data);
+    if (res.errCode === 0) {
+      this.setState({ changeFavorites: !this.state.changeFavorites });
+    }
+    this.setState({ loading: false });
+  };
+  deleteFavorite = async () => {
+    this.setState({ loading: true });
+
+    const data = {
+      keyMap: this.props.keyMap,
+      fkId: this.props.fkId,
+    };
+    const res = await deleteLike(data);
+    if (res.errCode === 0) {
+      this.setState({ changeFavorites: !this.state.changeFavorites });
+    }
+    this.setState({ loading: false });
   };
 
   ElementComment = (obj) => {
@@ -224,20 +297,32 @@ class Comment extends Component {
           gutter={[8, 8]}
           style={{
             borderTop: "1px solid gray",
-            borderBottom: "1px solid gray",
           }}
         >
           <Col span={12}>
-            <Row className="item-react-comment">
+            <Row
+              className="item-react-comment"
+              onClick={() => {
+                if (this.state.isFavorited === 1) {
+                  this.deleteFavorite();
+                } else {
+                  this.handleFavorite();
+                }
+              }}
+            >
               <Col
                 style={{
                   display: "flex",
                   alignItems: "center",
                 }}
               >
-                <HeartOutlined style={{ fontSize: 25, color: "red" }} />
+                {this.state.isFavorited === 1 ? (
+                  <HeartFilled style={{ fontSize: 25, color: "red" }} />
+                ) : (
+                  <HeartOutlined style={{ fontSize: 25, color: "red" }} />
+                )}
               </Col>
-              <Col>Thích</Col>
+              <Col>{this.state.countFavorites + " lượt "}Thích</Col>
             </Row>
           </Col>
           <Col span={12}>
@@ -250,8 +335,8 @@ class Comment extends Component {
               >
                 <CommentOutlined style={{ fontSize: 25 }} />
               </Col>
-              <Col style={{ display: "flex", alignItems: "center" }}>
-                Comment
+              <Col>
+                <Row>{this.state.maxCount + " lượt "}Comment</Row>
               </Col>
             </Row>
           </Col>
@@ -272,12 +357,28 @@ class Comment extends Component {
                   textDecoration: "underline",
                   color: "gray",
                 }}
+                onClick={() => {
+                  if (this.state.limit < this.state.total) {
+                    this.setState({ limit: this.state.limit + 2 });
+                  } else {
+                    this.setState({ limit: 2 });
+                  }
+                }}
               >
-                Tải thêm bình luận
+                {this.state.limit < this.state.total
+                  ? "Tải thêm bình luận"
+                  : "Ẩn bớt"}
               </Col>
 
               <Col style={{ paddingRight: 20 }}>
-                <Select defaultValue={0} options={this.dataSelect} />
+                <Select
+                  defaultValue={"ASC"}
+                  value={this.state.order}
+                  options={this.dataSelect}
+                  onChange={(e) => {
+                    this.setState({ order: e });
+                  }}
+                />
               </Col>
             </Row>
           </Col>

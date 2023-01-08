@@ -10,6 +10,7 @@ import ProfileDoctor from "../Doctor/ProfileDoctor";
 import { FormattedMessage } from "react-intl";
 import Footer from "../../Footer/Footer";
 import { getDetailSpecialty } from "../../../services/userService";
+import Comment from "../Comment/Comment";
 
 class DetailSpecialty extends Component {
   constructor(props) {
@@ -164,6 +165,7 @@ class DetailSpecialty extends Component {
             </div>
           </div>
         </div>
+        <Comment fkId={this.state.specialtyId} keyMap={3} />
         <Footer />
       </>
     );

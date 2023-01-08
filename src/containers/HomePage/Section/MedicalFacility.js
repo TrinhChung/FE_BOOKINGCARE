@@ -64,7 +64,11 @@ class MedicalFacility extends Component {
                       <div
                         className="bg-image specialty-section"
                         style={{ backgroundImage: `url(${item.image})` }}
-                      ></div>
+                      >
+                        <div className="count-detail">
+                          Lượt thích: {item.countLike}
+                        </div>
+                      </div>
                       <div className="name-section">{item.name}</div>
                     </div>
                   );

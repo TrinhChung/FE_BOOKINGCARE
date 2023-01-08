@@ -70,6 +70,7 @@
                     background-position: center;
                     height: 150px;
                     width: 330px;
+                    position: relative;
 
                     &.specialty-section {
                         background-size: cover;
@@ -105,6 +106,16 @@
                     }
                 }
 
+                .count-detail {
+                    font-style: italic;
+                    font-size: 12px;
+                    position: absolute;
+                    bottom: 0px;
+                    left: 10px;
+
+                }
+
+
                 .name-section {
                     padding-top: 5px;
                     font-size: 16px;
@@ -120,6 +131,7 @@
 
 
 }
+
 
 
 .outstanding-doctor-section {
@@ -207,7 +219,7 @@
 
 .slick-next {
 
-    right: 20 !important;
+    right: 20px !important;
     top: 50% !important;
     height: 48px !important;
     width: 44px !important;

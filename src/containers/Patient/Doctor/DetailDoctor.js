@@ -8,13 +8,14 @@ import DoctorSchedule from "./DoctorSchedule";
 import DoctorExtraInfo from "./DoctorExtraInfor";
 import Footer from "../../Footer/Footer";
 import ButtonLike from "../../../components/ButtonLike/ButtonLike";
+import Comment from "../Comment/Comment";
 
 class DetailDoctor extends Component {
   constructor(props) {
     super(props);
     this.state = {
       detailDoctor: {},
-      currentDoctorId: -1,
+      currentDoctorId: 0,
     };
   }
 
@@ -97,6 +98,7 @@ class DetailDoctor extends Component {
 
           <div className="comment-doctor"></div>
         </div>
+        <Comment fkId={this.state.currentDoctorId} keyMap={1} />
         <Footer />
       </>
     );

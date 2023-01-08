@@ -170,8 +170,10 @@ const deleteLike = (data) => {
   return axios.delete(`api/favorite/?fkId=${data.fkId}&keyMap=${data.keyMap}`);
 };
 
-const getCommentByFkId = (fkId, keyMap) => {
-  return axios.get(`api/comment/?keyMap=${keyMap}&fkId=${fkId}`);
+const getCommentByFkId = (fkId, keyMap, limit, order) => {
+  return axios.get(
+    `api/comment/?keyMap=${keyMap}&fkId=${fkId}&limit=${limit}&order=${order}`
+  );
 };
 
 const sendCommentService = (data) => {

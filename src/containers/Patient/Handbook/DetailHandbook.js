@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import HomeHeader from "../../HomePage/HomeHeader";
-import "./DetailHandbook.scss";
 import Footer from "../../Footer/Footer";
-
+import Comment from "../Comment/Comment";
 import { getDetailHandBook } from "../../../services/userService";
 
 class DetailHandbook extends Component {
@@ -62,6 +61,7 @@ class DetailHandbook extends Component {
             </div>
           </div>
         </div>
+        <Comment fkId={this.state.handbookId} keyMap={4} />
         <Footer />
       </>
     );

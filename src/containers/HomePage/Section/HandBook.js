@@ -61,7 +61,11 @@ class HandBook extends Component {
                     <div
                       className="bg-image handle-section"
                       style={{ backgroundImage: `url(${item.image})` }}
-                    />
+                    >
+                      <div className="count-detail">
+                        Lượt thích: {item.countLike}
+                      </div>
+                    </div>
                     <div style={{ fontSize: "18px", marginLeft: "15px" }}>
                       {item.name}
                     </div>
