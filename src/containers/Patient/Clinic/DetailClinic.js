@@ -8,6 +8,7 @@ import { LANGUAGES } from "../../../utils";
 import ProfileDoctor from "../Doctor/ProfileDoctor";
 import { FormattedMessage } from "react-intl";
 import Footer from "../../Footer/Footer";
+import Comment from "../Comment/Comment";
 
 import { getDetailClinic } from "../../../services/userService";
 
@@ -178,6 +179,7 @@ class DetailClinic extends Component {
             </div>
           </div>
         </div>
+        <Comment fkId={this.state.clinicId} keyMap={2} />
         <Footer />
       </>
     );

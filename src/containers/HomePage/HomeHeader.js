@@ -101,7 +101,6 @@ class HomeHeader extends Component {
   UserInfo = (user) => {
     let language = this.props.language;
     let roleId = this.props.userInfo.roleId ? this.props.userInfo.roleId : "";
-    console.log(user);
     let check =
       user.image === "" || user.image === null || user.image === undefined
         ? true
@@ -279,8 +278,6 @@ class HomeHeader extends Component {
     let { userInfo, isShowBanner, language } = this.props;
     let { doctorsFilter, specialtiesFilter, handbooksFilter, clinicsFilter } =
       this.state;
-
-    console.log();
 
     return (
       <>

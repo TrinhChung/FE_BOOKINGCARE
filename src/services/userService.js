@@ -170,6 +170,14 @@ const deleteLike = (data) => {
   return axios.delete(`api/favorite/?fkId=${data.fkId}&keyMap=${data.keyMap}`);
 };
 
+const getCommentByFkId = (fkId, keyMap) => {
+  return axios.get(`api/comment/?keyMap=${keyMap}&fkId=${fkId}`);
+};
+
+const sendCommentService = (data) => {
+  return axios.post(`/api/comment/`, data);
+};
+
 export {
   loginByToken,
   handleLoginApi,
@@ -204,4 +212,6 @@ export {
   getFavoritesService,
   handleLike,
   deleteLike,
+  getCommentByFkId,
+  sendCommentService,
 };

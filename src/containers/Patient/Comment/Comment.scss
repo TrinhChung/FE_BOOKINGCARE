@@ -1,0 +1,31 @@
+.item-react-comment {
+    display: "flex";
+    align-items: "center";
+    gap: 5px;
+    padding: 5px 200px;
+    margin: 5px 0;
+    border-radius: 4px;
+}
+
+.item-react-comment:hover {
+    background-color: #CCCCCC60;
+    cursor: pointer;
+}
+
+.resComment {
+    margin-right: 20px;
+    font-size: 11px;
+}
+
+.resComment:hover {
+    cursor: "pointer";
+    color: blue;
+}
+
+.time-comment {
+    font-size: 11px;
+}
+
+.box-shadow-comment {
+    box-shadow: 0 4px 10px rgba(#333, 0.8);
+}
