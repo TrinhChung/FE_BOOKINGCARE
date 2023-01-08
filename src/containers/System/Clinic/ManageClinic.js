@@ -5,11 +5,10 @@ import MarkdownIt from "markdown-it";
 import MdEditor from "react-markdown-editor-lite";
 import Lightbox from "react-image-lightbox";
 import "react-image-lightbox/style.css";
-import { CommonUtils } from "../../../utils";
 import { createClinic } from "../../../services/userService";
 import { toast } from "react-toastify";
 import { FormattedMessage } from "react-intl";
-
+import ModalLoadingOverlay from "../../../components/ModalLoadingOverlay";
 const mdParser = new MarkdownIt(/* Markdown-it options */);
 
 class ManageClinic extends Component {
@@ -23,6 +22,7 @@ class ManageClinic extends Component {
       descriptionMarkdown: "",
       nameClinic: "",
       addressClinic: "",
+      loading: false,
     };
   }
 
@@ -60,6 +60,7 @@ class ManageClinic extends Component {
   };
 
   saveClinic = async () => {
+    this.setState({ loading: true });
     let res = await createClinic({
       name: this.state.nameClinic,
       address: this.state.addressClinic,
@@ -74,11 +75,17 @@ class ManageClinic extends Component {
       console.log(res.errMessage);
       toast.error("Add failed");
     }
+    this.setState({ loading: false });
   };
 
   render() {
     return (
       <div className="manage-specialty-container">
+        <ModalLoadingOverlay
+          open={this.state.loading}
+          onOk={() => this.setState({ loading: false })}
+          onCancel={() => this.setState({ loading: false })}
+        />
         <div className="manage-specialty-header">
           <FormattedMessage id="admin.manage-clinic.manage-clinic" />
         </div>

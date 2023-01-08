@@ -7,10 +7,9 @@ import Lightbox from "react-image-lightbox";
 import "react-image-lightbox/style.css";
 import { FormattedMessage } from "react-intl";
 
-import { CommonUtils } from "../../../utils";
 import { createSpecialty } from "../../../services/userService";
 import { toast } from "react-toastify";
-
+import ModalLoadingOverlay from "../../../components/ModalLoadingOverlay";
 const mdParser = new MarkdownIt(/* Markdown-it options */);
 
 class ManageSpecialty extends Component {
@@ -23,6 +22,7 @@ class ManageSpecialty extends Component {
       descriptionHtml: "",
       descriptionMarkdown: "",
       nameClinic: "",
+      loading: false,
     };
   }
 
@@ -60,24 +60,30 @@ class ManageSpecialty extends Component {
   };
 
   saveSpecialty = async () => {
+    this.setState({ loading: true });
     let res = await createSpecialty({
       name: this.state.nameClinic,
       image: this.state.avatar,
       descriptionHtml: this.state.descriptionHtml,
       descriptionMarkdown: this.state.descriptionMarkdown,
     });
-    console.log(res);
 
     if (res && res.errCode === 0) {
       toast.success("Add new specialty success!");
     } else {
       toast.error("Add failed");
     }
+    this.setState({ loading: false });
   };
 
   render() {
     return (
       <div className="manage-specialty-container">
+        <ModalLoadingOverlay
+          open={this.state.loading}
+          onOk={() => this.setState({ loading: false })}
+          onCancel={() => this.setState({ loading: false })}
+        />
         <div className="manage-specialty-header">
           <FormattedMessage id="admin.manage-specialty.manage-specialty" />
         </div>

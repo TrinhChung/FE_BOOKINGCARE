@@ -101,7 +101,11 @@ class HomeHeader extends Component {
   UserInfo = (user) => {
     let language = this.props.language;
     let roleId = this.props.userInfo.roleId ? this.props.userInfo.roleId : "";
-    let check = user.image === "";
+    console.log(user);
+    let check =
+      user.image === "" || user.image === null || user.image === undefined
+        ? true
+        : false;
     let backgroundImage = {
       backgroundImage: `url(${user.image})`,
     };

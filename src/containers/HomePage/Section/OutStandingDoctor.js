@@ -87,6 +87,9 @@ class OutStandingDoctor extends Component {
                               : "Chưa cập nhật"}
                           </div>
                         </div>
+                        <div className="count-favorite">
+                          Lượt thích: {doctor.favoriteCount}
+                        </div>
                       </div>
                     </div>
                   );
