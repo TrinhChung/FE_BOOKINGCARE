@@ -31,17 +31,12 @@ class Room extends Component {
         this.socket.emit("join-room", 1, id);
       });
 
-      navigator.mediaDevices
-        .getUserMedia({ video: this.state.camera, audio: this.state.voice })
-        .then((currentStream) => {
-          this.setState({ stream: currentStream });
-          this.myVideo.current.srcObject = currentStream;
-        });
-
       this.peer.on("call", (call) => {
         navigator.mediaDevices
-          .getUserMedia({ video: this.state.camera, audio: this.state.voice })
+          .getUserMedia({ video: true, audio: true })
           .then((stream) => {
+            this.myVideo.current.srcObject = stream;
+
             call.answer(stream);
             call.on("stream", (remoteStream) => {
               this.userVideo.current.srcObject = remoteStream;
@@ -50,19 +45,16 @@ class Room extends Component {
       });
 
       this.socket.on("user-connected", (userId) => {
-        this.setState({ friendId: userId });
-      });
-    }
-  }
-
-  async componentDidUpdate(prevProps, prevState, snapshot) {
-    if (
-      prevState.friendId !== this.props.friendId &&
-      this.state.stream !== null
-    ) {
-      const call = this.peer.call(this.state.friendId, this.state.stream);
-      call.on("stream", (remoteStream) => {
-        this.userVideo.current.srcObject = remoteStream;
+        navigator.mediaDevices
+          .getUserMedia({ video: true, audio: true })
+          .then((currentStream) => {
+            this.myVideo.current.srcObject = currentStream;
+            this.setState({ stream: currentStream });
+            const call = this.peer.call(userId, currentStream);
+            call.on("stream", (remoteStream) => {
+              this.userVideo.current.srcObject = remoteStream;
+            });
+          });
       });
     }
   }
@@ -70,53 +62,27 @@ class Room extends Component {
   render() {
     return (
       <div>
-        <div style={{ height: "7vh", backgroundColor: "black" }} span={24}>
-          <Col
-            span={24}
-            style={{
-              padding: "10px 20px",
-            }}
-          >
-            <Button
-              type="primary"
-              danger
-              onClick={() => {
-                this.props.history.push(`/home`);
-                window.location.reload();
-              }}
-            >
-              Kết thúc
-            </Button>
-          </Col>
-        </div>
         <div
           style={{
-            height: "86vh",
-            justifyContent: "center",
-            display: "flex",
+            height: "93vh",
             position: "relative",
+            display: "flex",
+            justifyContent: "center",
           }}
         >
           <video
             playsInline
+            autoPlay
             muted
             ref={this.myVideo}
-            autoPlay
-            style={{
-              height: "20%",
-              position: "absolute",
-              top: 20,
-              right: 40,
-              zIndex: 40,
-            }}
-          />
+            style={{ position: "absolute", top: 20, right: 20, height: "20%" }}
+          ></video>
           <video
             playsInline
-            muted
-            ref={this.userVideo}
             autoPlay
-            style={{ height: "100%", zIndex: 20 }}
-          />
+            ref={this.userVideo}
+            style={{ height: "100%" }}
+          ></video>
         </div>
         <div
           span={24}
@@ -126,41 +92,56 @@ class Room extends Component {
             height: "7vh",
           }}
         >
-          <Row style={{ gap: 5 }}>
-            <Button
-              type="primary"
-              onClick={() => {
-                const enabled =
-                  this.myVideo.current.srcObject.getAudioTracks()[0].enabled;
-
-                this.setState({ voice: !enabled });
-                this.myVideo.current.srcObject.getAudioTracks()[0].enabled =
-                  !enabled;
-              }}
-            >
-              {this.state.voice ? (
-                <i className="fa fa-microphone"></i>
-              ) : (
-                <i className="fa fa-microphone-slash"></i>
-              )}
-            </Button>
-            <Button
-              type="primary"
-              onClick={() => {
-                const enabled =
-                  this.myVideo.current.srcObject.getVideoTracks()[0].enabled;
-
-                this.setState({ camera: !enabled });
-                this.myVideo.current.srcObject.getVideoTracks()[0].enabled =
-                  !enabled;
-              }}
-            >
-              {this.state.camera ? (
-                <i className="fa fa-video-camera"></i>
-              ) : (
-                <i className="fas">&#xf4e2;</i>
-              )}
-            </Button>
+          <Row
+            style={{ gap: 5, display: "flex", justifyContent: "space-between" }}
+          >
+            <Col style={{ display: "flex", gap: 5 }}>
+              <Button
+                type="primary"
+                onClick={() => {
+                  const enabled =
+                    this.myVideo.current.srcObject.getAudioTracks()[0].enabled;
+                  this.setState({ voice: !enabled });
+                  this.myVideo.current.srcObject.getAudioTracks()[0].enabled =
+                    !enabled;
+                }}
+              >
+                {this.state.voice ? (
+                  <i className="fa fa-microphone"></i>
+                ) : (
+                  <i className="fa fa-microphone-slash"></i>
+                )}
+              </Button>
+              <Button
+                type="primary"
+                onClick={() => {
+                  const enabled =
+                    this.myVideo.current.srcObject.getVideoTracks()[0].enabled;
+                  this.setState({ camera: !enabled });
+                  this.myVideo.current.srcObject.getVideoTracks()[0].enabled =
+                    !enabled;
+                  console.log(enabled);
+                }}
+              >
+                {this.state.camera ? (
+                  <i className="fa fa-video-camera"></i>
+                ) : (
+                  <i className="fas">&#xf4e2;</i>
+                )}
+              </Button>
+            </Col>
+            <Col>
+              <Button
+                type="primary"
+                danger
+                onClick={() => {
+                  this.props.history.push(`/home`);
+                  window.location.reload();
+                }}
+              >
+                Kết thúc
+              </Button>
+            </Col>
           </Row>
         </div>
       </div>
