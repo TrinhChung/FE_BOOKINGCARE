@@ -13,6 +13,8 @@ export const path = {
   VERIFY_EMAIL_BOOKING: "/api/patient/verify-book-appointment/:token&:doctorId",
   DOCTOR: "/doctor",
   PROFILE: "/profile",
+  REMOTE_SCHEDULE: "/remote-schedules",
+  ROOM: "/room/:id",
 };
 
 export const LANGUAGES = {

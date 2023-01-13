@@ -13,7 +13,8 @@ import DetailSpecialty from "./Patient/Specialty/DetailSpecialty";
 import DetailClinic from "./Patient/Clinic/DetailClinic";
 import DetailHandbook from "./Patient/Handbook/DetailHandbook";
 import Profile from "./HomePage/Profile";
-
+import RemoteSchedules from "./HomePage/Stream/RemoteSchedules";
+import Room from "./HomePage/Stream/Room";
 import {
   userIsAuthenticated,
   userIsNotAuthenticated,
@@ -100,6 +101,16 @@ class App extends Component {
                   <Route
                     path={path.PROFILE}
                     component={userIsAuthenticated(Profile)}
+                  />
+
+                  <Route
+                    path={path.REMOTE_SCHEDULE}
+                    component={userIsAuthenticated(RemoteSchedules)}
+                  />
+
+                  <Route
+                    path={path.ROOM}
+                    component={userIsAuthenticated(Room)}
                   />
 
                   {/* user confirm schedule */}

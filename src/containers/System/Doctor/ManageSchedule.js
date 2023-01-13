@@ -6,9 +6,7 @@ import Select from "react-select";
 import { LANGUAGES, USER_ROLE } from "../../../utils";
 import DatePicker from "../../../components/Input/DatePicker";
 import { saveBulkScheduleDoctor } from "../../../services/userService";
-
 import _ from "lodash";
-
 import "./ManageSchedule.scss";
 import { toast } from "react-toastify";
 

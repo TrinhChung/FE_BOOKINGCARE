@@ -65,17 +65,11 @@ class Profile extends Component {
     let date =
       language === "vi"
         ? this.LetterCapitalize(
-            moment(new Date(+value))
-              .locale("vi")
-              .format("dddd-DD/MM/YYYY")
+            moment(new Date(+value)).locale("vi").format("dddd-DD/MM/YYYY")
           )
         : language === "en"
-        ? moment(new Date(+value))
-            .locale("en")
-            .format("dddd-DD/MM/YYYY")
-        : moment(new Date(+value))
-            .locale("ja")
-            .format("dddd-年M月D日");
+        ? moment(new Date(+value)).locale("en").format("dddd-DD/MM/YYYY")
+        : moment(new Date(+value)).locale("ja").format("dddd-年M月D日");
     return date;
   };
 
@@ -448,7 +442,10 @@ class Profile extends Component {
 
   render() {
     let { userInfo, language } = this.props;
-    let check = userInfo.image === "";
+    let check =
+      userInfo.image === "" ||
+      userInfo.image === undefined ||
+      userInfo.image === null;
     let backgroundImage = {
       backgroundImage: `url(${userInfo.image})`,
     };

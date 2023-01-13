@@ -135,7 +135,10 @@ class HomeHeader extends Component {
           <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
             <li>
               <Link className="dropdown-item" to="/profile">
-                Profile
+                Hồ sơ cá nhân
+              </Link>
+              <Link className="dropdown-item" to="/remote-schedules">
+                Lịch khám từ xa
               </Link>
               {(roleId !== USER_ROLE.USER || roleId === "") && (
                 <Link
@@ -146,7 +149,7 @@ class HomeHeader extends Component {
                       : "/system/user-redux"
                   }
                 >
-                  Manage
+                  Quản lý
                 </Link>
               )}
               <div
@@ -154,7 +157,7 @@ class HomeHeader extends Component {
                 onClick={() => this.setState({ isOpenModal: true })}
                 style={{ cursor: "pointer" }}
               >
-                Logout
+                Đăng xuất
               </div>
             </li>
           </ul>
