@@ -19,6 +19,7 @@ class DoctorSchedule extends Component {
       dataScheduleModal: {},
       nameDoctor: "",
       doctorId: "",
+      time: "",
     };
   }
 
@@ -114,6 +115,7 @@ class DoctorSchedule extends Component {
   }
 
   handleOnChangeDate = async (date) => {
+    this.setState({ time: date });
     if (this.props.detailDoctorId && this.props.detailDoctorId !== -1) {
       let doctorId = this.props.detailDoctorId;
       let res = await getScheduleDoctorByDateService(doctorId, date);

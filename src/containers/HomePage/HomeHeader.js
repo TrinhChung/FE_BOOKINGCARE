@@ -7,6 +7,7 @@ import { Link, withRouter } from "react-router-dom";
 import * as actions from "../../store/actions";
 import { changeLanguageApp } from "../../store/actions";
 import LogoutModal from "../Header/LogoutModal";
+import { Row, Col } from "antd";
 
 class HomeHeader extends Component {
   constructor(props) {
@@ -23,6 +24,7 @@ class HomeHeader extends Component {
       doctorsFilter: [],
       keySearch: "",
       focus: false,
+      isMobile: false,
     };
 
     this.ref = React.createRef();
@@ -42,6 +44,16 @@ class HomeHeader extends Component {
   componentDidMount() {
     this.props.loginToken();
     document.addEventListener("mousedown", this.handleClickOutside);
+    window.addEventListener("resize", this.resize.bind(this));
+    this.resize();
+  }
+
+  resize() {
+    this.setState({ isMobile: window.innerWidth <= 850 });
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.resize.bind(this));
   }
 
   componentWillUnmount() {
@@ -293,64 +305,69 @@ class HomeHeader extends Component {
                   onClick={() => this.returnHome()}
                 ></div>
               </div>
-              <div className="center-content">
-                <div
-                  className="child-content"
-                  name="specialty"
-                  onClick={(e) => this.handleNextListSection(e)}
-                >
-                  <div name="specialty">
-                    <b>
-                      <FormattedMessage id="homeheader.specialist" />
-                    </b>
+              {this.state.isMobile ? (
+                <div style={{ width: "40%" }}></div>
+              ) : (
+                <div className="center-content">
+                  <div
+                    className="child-content"
+                    name="specialty"
+                    onClick={(e) => this.handleNextListSection(e)}
+                  >
+                    <div name="specialty">
+                      <b>
+                        <FormattedMessage id="homeheader.specialist" />
+                      </b>
+                    </div>
+                    <div className="subs-title">
+                      <FormattedMessage id="homeheader.searchdoctor" />
+                    </div>
                   </div>
-                  <div className="subs-title">
-                    <FormattedMessage id="homeheader.searchdoctor" />
+                  <div
+                    className="child-content"
+                    name="medical-facility"
+                    onClick={(e) => this.handleNextListSection(e)}
+                  >
+                    <div>
+                      <b>
+                        <FormattedMessage id="homeheader.health-facility" />
+                      </b>
+                    </div>
+                    <div className="subs-title">
+                      <FormattedMessage id="homeheader.select-room" />
+                    </div>
+                  </div>
+                  <div
+                    className="child-content"
+                    name="doctor"
+                    onClick={(e) => this.handleNextListSection(e)}
+                  >
+                    <div>
+                      <b>
+                        <FormattedMessage id="homeheader.doctor" />
+                      </b>
+                    </div>
+                    <div className="subs-title">
+                      <FormattedMessage id="homeheader.select-doctor" />
+                    </div>
+                  </div>
+                  <div
+                    className="child-content"
+                    name="handbook"
+                    onClick={(e) => this.handleNextListSection(e)}
+                  >
+                    <div>
+                      <b>
+                        <FormattedMessage id="homeheader.fee" />
+                      </b>
+                    </div>
+                    <div className="subs-title">
+                      <FormattedMessage id="homeheader.check-healthy" />
+                    </div>
                   </div>
                 </div>
-                <div
-                  className="child-content"
-                  name="medical-facility"
-                  onClick={(e) => this.handleNextListSection(e)}
-                >
-                  <div>
-                    <b>
-                      <FormattedMessage id="homeheader.health-facility" />
-                    </b>
-                  </div>
-                  <div className="subs-title">
-                    <FormattedMessage id="homeheader.select-room" />
-                  </div>
-                </div>
-                <div
-                  className="child-content"
-                  name="doctor"
-                  onClick={(e) => this.handleNextListSection(e)}
-                >
-                  <div>
-                    <b>
-                      <FormattedMessage id="homeheader.doctor" />
-                    </b>
-                  </div>
-                  <div className="subs-title">
-                    <FormattedMessage id="homeheader.select-doctor" />
-                  </div>
-                </div>
-                <div
-                  className="child-content"
-                  name="handbook"
-                  onClick={(e) => this.handleNextListSection(e)}
-                >
-                  <div>
-                    <b>
-                      <FormattedMessage id="homeheader.fee" />
-                    </b>
-                  </div>
-                  <div className="subs-title">
-                    <FormattedMessage id="homeheader.check-healthy" />
-                  </div>
-                </div>
-              </div>
+              )}
+
               <div className="right-content">
                 {userInfo ? this.UserInfo(userInfo) : this.SingIn()}
 
@@ -418,7 +435,7 @@ class HomeHeader extends Component {
               </div>
 
               <div className="content-down">
-                <div className="options">
+                <Row gutter={[0, 8]} className="options">
                   <div
                     className="option-child"
                     onClick={() =>
@@ -489,7 +506,8 @@ class HomeHeader extends Component {
                       <FormattedMessage id="banner.dental-examination" />
                     </div>
                   </div>
-                </div>
+                </Row>
+                <div className="options"></div>
               </div>
             </div>
           )}

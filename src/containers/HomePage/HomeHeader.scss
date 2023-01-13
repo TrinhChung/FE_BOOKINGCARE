@@ -131,9 +131,9 @@
             }
 
             .select-language {
-                width: 20%;
                 outline: none !important;
                 font-weight: 500;
+                width: 80px;
             }
 
             .language-en {
@@ -269,7 +269,7 @@
     }
 
     .content-down {
-        height: 40%;
+        min-height: 40%;
         display: flex;
         align-items: center;
         justify-content: center;

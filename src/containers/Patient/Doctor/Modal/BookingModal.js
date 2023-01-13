@@ -36,6 +36,7 @@ class BookingModal extends Component {
       doctorId: "",
       timeType: "",
       timeData: "",
+      typeCheck: 0,
       isLoading: false,
     };
   }
@@ -131,13 +132,14 @@ class BookingModal extends Component {
 
   handleConfirmBooking = async () => {
     let dataTime = this.props.dataTime;
+    console.log(dataTime.date);
     this.setState({ isLoading: true });
-    let date = new Date(this.state.birthDay).getTime();
     let res = await postBookAppointment({
       reason: this.state.reason,
-      date: date,
+      date: dataTime.date,
       doctorId: this.state.doctorId,
       gender: this.state.selectedGender.value,
+      typeCheck: this.state.typeCheck,
       timeType: this.state.timeType,
       time:
         dataTime && dataTime.date
@@ -172,6 +174,12 @@ class BookingModal extends Component {
     let { isOpenModal, closeModalBooking, dataTime, language, userInfo } =
       this.props;
     let { infoDoctor, genders, doctorId } = this.state;
+    const typeChecks = [
+      { label: "Online", value: 0 },
+      { label: "Offline", value: 1 },
+    ];
+    console.log(this.state.timeData);
+
     return (
       <Modal
         isOpen={isOpenModal}
@@ -306,6 +314,21 @@ class BookingModal extends Component {
                       value: userInfo.gender,
                     }}
                     onChange={this.onChangeGender}
+                  />
+                </div>
+                <div className="col-6">
+                  <label>Hình thức khám</label>
+
+                  <Select
+                    options={typeChecks}
+                    disabled={true}
+                    value={typeChecks.find(
+                      (type) => type.value === this.state.typeCheck
+                    )}
+                    onChange={(e) => {
+                      console.log(e);
+                      this.setState({ typeCheck: e.value });
+                    }}
                   />
                 </div>
                 <div className="col-12">

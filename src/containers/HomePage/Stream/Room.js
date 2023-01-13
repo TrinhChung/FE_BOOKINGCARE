@@ -56,37 +56,9 @@ class Room extends Component {
         this.socket.emit("join-room", 1, id);
       });
 
-      this.peer.on("call", (call) => {
-        navigator.mediaDevices
-          .getUserMedia({ video: true, audio: true })
-          .then((stream) => {
-            this.myVideo.current.srcObject = stream;
+      this.answerCall();
+      this.callVideo();
 
-            call.answer(stream);
-            call.on("stream", (remoteStream) => {
-              this.userVideo.current.srcObject = remoteStream;
-              this.setState({ start: false });
-            });
-          });
-        this.setState({ currentCall: call });
-      });
-
-      navigator.mediaDevices
-        .getUserMedia({ video: true, audio: true })
-        .then((currentStream) => {
-          this.myVideo.current.srcObject = currentStream;
-          this.setState({ stream: currentStream });
-        });
-      this.socket.on("user-connected", (userId) => {
-        console.log(userId);
-        this.setState({ friendId: userId });
-        const call = this.peer.call(userId, this.state.stream);
-        call.on("stream", (remoteStream) => {
-          this.userVideo.current.srcObject = remoteStream;
-          this.setState({ start: false });
-        });
-        this.setState({ currentCall: call });
-      });
       this.socket.on("user-disconnected", (id) => {
         if (Number(id) === Number(this.state.friendId)) {
           console.log(id);
@@ -96,7 +68,42 @@ class Room extends Component {
     }
   }
 
-  componentDidUpdate() {}
+  answerCall = () => {
+    this.peer.on("call", (call) => {
+      navigator.mediaDevices
+        .getUserMedia({ video: true, audio: true })
+        .then((stream) => {
+          this.myVideo.current.srcObject = stream;
+
+          call.answer(stream);
+          call.on("stream", (remoteStream) => {
+            this.userVideo.current.srcObject = remoteStream;
+            this.setState({ start: false });
+          });
+        });
+      this.setState({ currentCall: call });
+    });
+  };
+
+  callVideo = () => {
+    navigator.mediaDevices
+      .getUserMedia({ video: true, audio: true })
+      .then((currentStream) => {
+        this.myVideo.current.srcObject = currentStream;
+        this.setState({ stream: currentStream });
+      });
+
+    this.socket.on("user-connected", (userId) => {
+      console.log(userId);
+      this.setState({ friendId: userId });
+      const call = this.peer.call(userId, this.state.stream);
+      call.on("stream", (remoteStream) => {
+        this.userVideo.current.srcObject = remoteStream;
+        this.setState({ start: false });
+      });
+      this.setState({ currentCall: call });
+    });
+  };
 
   render() {
     return (
