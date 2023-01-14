@@ -21,7 +21,18 @@ class RemoteSchedules extends Component {
     this.getAllPatientAllDoctor();
   }
 
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (this.props.user !== prevProps.user) {
+      this.getAllPatientAllDoctor();
+    }
+
+    if (prevState.currentDate !== this.state.currentDate) {
+      this.getAllPatientAllDoctor();
+    }
+  }
+
   handleOnChangeDatePicker = (date) => {
+    console.log(date[0]);
     this.setState({ currentDate: date[0] });
   };
 
@@ -63,8 +74,6 @@ class RemoteSchedules extends Component {
 
     return data;
   };
-
-  async componentDidUpdate(prevProps, prevState, snapshot) {}
 
   render() {
     const columns = [
@@ -130,7 +139,6 @@ class RemoteSchedules extends Component {
           <DatePicker
             onChange={this.handleOnChangeDatePicker}
             className="form-control"
-            // minDate={new Date().setHours(0, 0, 0, 0)}
             value={this.state.currentDate}
           />
         </div>
@@ -148,7 +156,7 @@ class RemoteSchedules extends Component {
           <div>
             <Table
               columns={columns}
-              dataSource={this.state.listPatients}
+              dataSource={[...this.state.listPatients]}
               pagination={false}
             />
             <div style={{ float: "right", paddingTop: 10 }}>

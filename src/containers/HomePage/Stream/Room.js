@@ -10,7 +10,7 @@ class Room extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      zoomId: 1,
+      roomId: 1,
       bookingId: 1,
       stream: null,
       streamVideo: null,
@@ -40,9 +40,10 @@ class Room extends Component {
     ) {
       this.setState({ roomId: this.props.match.params.id });
     }
+    console.log(this.state.roomId);
     if (this.props.userInfo && this.props.userInfo.id) {
       this.peer.on("open", (id) => {
-        this.socket.emit("join-room", this.state.zoomId, id);
+        this.socket.emit("join-room", this.state.roomId, id);
         this.setState({ ended: false });
       });
 
