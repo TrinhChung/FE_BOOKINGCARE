@@ -31,6 +31,10 @@ class ManagePatient extends Component {
     if (this.props.user !== prevProps.user) {
       this.getAllPatientAllDoctor();
     }
+
+    if (prevState.currentDate !== this.state.currentDate) {
+      this.getAllPatientAllDoctor();
+    }
   }
 
   getAllPatientAllDoctor = async () => {
@@ -49,15 +53,6 @@ class ManagePatient extends Component {
       });
     }
   };
-
-  async componentDidUpdate(prevProps, prevState, snapshot) {
-    // if (this.state.listPatients !== prevState.listPatients) {
-    //   this.getAllPatientAllDoctor();
-    // }
-    if (prevState.currentDate !== this.state.currentDate) {
-      this.getAllPatientAllDoctor();
-    }
-  }
 
   handleOnChangeDatePicker = (date) => {
     this.setState({ currentDate: date[0] });

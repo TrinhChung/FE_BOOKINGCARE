@@ -16,13 +16,13 @@ class ManagePatient extends Component {
     const items = [
       {
         key: "1",
-        label: `Lịch hẹn Offline`,
-        children: <ScheduleOffline />,
+        label: `Lịch hẹn Online`,
+        children: <ScheduleRemote history={this.props.history} />,
       },
       {
         key: "2",
-        label: `Lịch hẹn Online`,
-        children: <ScheduleRemote history={this.props.history} />,
+        label: `Lịch hẹn Offline`,
+        children: <ScheduleOffline />,
       },
     ];
     return (

@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { Col, Row, Button } from "antd";
 import { io } from "socket.io-client";
 import Peer from "peerjs";
+import { USER_ROLE } from "../../../utils/constant";
 import "./Room.scss";
 class Room extends Component {
   constructor(props) {
@@ -36,7 +37,12 @@ class Room extends Component {
         track.stop();
       }
     });
-    this.props.history.push(`/home`);
+    console.log(this.props.userInfo);
+    const path =
+      this.props.userInfo.roleId === USER_ROLE.DOCTOR
+        ? "/doctor/manage-patient"
+        : "/remote-schedules";
+    this.props.history.push(path);
     window.location.reload();
   };
 

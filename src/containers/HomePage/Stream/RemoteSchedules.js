@@ -2,15 +2,47 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import HomePageLayout from "../../../Layout/HomePageLayout";
 import { Table, Button } from "antd";
+import { getBookingsService } from "../../../services/userService";
 class RemoteSchedules extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      bookings: [],
+    };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.getBookingRemote();
+  }
 
   async componentDidUpdate(prevProps, prevState, snapshot) {}
+
+  getBookingRemote = async () => {
+    const res = await getBookingsService(0);
+    if (res.errCode === 0) {
+      this.setState({ bookings: this.buildData(res.data) });
+    }
+  };
+
+  buildData = (arr) => {
+    const { language } = this.props;
+    const data = [];
+    for (let i = 0; i < arr.length; i++) {
+      const o = {};
+      o.key = i + 1;
+      o.index = i + 1;
+      o.nameDoctor = "Chung";
+      o.time =
+        language === "vi"
+          ? arr[i].timeTypeDataBooking.valueVi
+          : arr[i].timeTypeDataBooking.valueEn;
+
+      o.reason = arr[i].reason ? arr[i].reason : "Khong ly do";
+      o.bookingId = arr[i].id;
+      data.push(o);
+    }
+    return data;
+  };
 
   render() {
     const columns = [
@@ -54,7 +86,7 @@ class RemoteSchedules extends Component {
             <Button
               type="primary"
               onClick={() => {
-                this.props.history.push(`/room/${record.doctorId}`);
+                this.props.history.push(`/room/${record.bookingId}`);
               }}
             >
               Xem
@@ -64,16 +96,6 @@ class RemoteSchedules extends Component {
       },
     ];
 
-    const data = [
-      {
-        index: 1,
-        key: 1,
-        nameDoctor: "Chung",
-        time: "10/1/2023",
-        reason: "Nhuc dau",
-        doctorId: 1,
-      },
-    ];
     return (
       <HomePageLayout isShowBanner={false}>
         <div
@@ -87,7 +109,7 @@ class RemoteSchedules extends Component {
           Danh sách lịch khám bệnh từ xa
         </div>
         <div>
-          <Table columns={columns} dataSource={data} />
+          <Table columns={columns} dataSource={this.state.bookings} />
         </div>
       </HomePageLayout>
     );

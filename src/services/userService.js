@@ -56,8 +56,11 @@ const getProfileDoctorById = (id) => {
   return axios.get(`/api/doctor/${id}`);
 };
 
-const getAllPatientAllDoctorService = (id, date, page) => {
-  return axios.get(`/api/doctor/get-patients/${id}?date=${date}&page=${page}`);
+const getAllPatientAllDoctorService = (id, date, page, typeCheck) => {
+  const type = typeCheck === 0 || typeCheck === 1 ? typeCheck : 1;
+  return axios.get(
+    `/api/doctor/get-patients/${id}?date=${date}&page=${page}&typeCheck=${type}`
+  );
 };
 
 const saveBulkScheduleDoctor = (data) => {
@@ -180,6 +183,11 @@ const sendCommentService = (data) => {
   return axios.post(`/api/comment/`, data);
 };
 
+const getBookingsService = (typeCheck) => {
+  const type = typeCheck === 0 || typeCheck === 1 ? typeCheck : 1;
+  return axios.get(`/api/patient/bookings/?typeCheck=${type}`);
+};
+
 export {
   loginByToken,
   handleLoginApi,
@@ -216,4 +224,5 @@ export {
   deleteLike,
   getCommentByFkId,
   sendCommentService,
+  getBookingsService,
 };
