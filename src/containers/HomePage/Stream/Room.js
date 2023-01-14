@@ -32,41 +32,17 @@ class Room extends Component {
     });
   }
 
-  disconnectVideo = async () => {
-    this.endCall();
-    // this.myVideo.current.srcObject.getTracks().forEach(function (track) {
-    //   if (track.readyState === "live") {
-    //     track.stop();
-    //   }
-    // });
-    this.state.stream.getTracks().forEach(function (track) {
-      if (track.readyState === "live") {
-        track.stop();
-      }
-    });
-    console.log(this.props.userInfo);
-    const path =
-      this.props.userInfo.roleId === USER_ROLE.DOCTOR
-        ? "/doctor/manage-patient"
-        : "/remote-schedules";
-    this.props.history.push(path);
-    window.location.reload();
-  };
-
-  endCall = () => {
-    if (!this.state.currentCall) return;
-    try {
-      this.state.currentCall.close();
-    } catch (error) {
-      console.log(error);
-    }
-    this.setState({ currentCall: undefined });
-  };
-
   componentDidMount() {
+    if (
+      this.props.match &&
+      this.props.match.params &&
+      this.props.match.params.id
+    ) {
+      this.setState({ roomId: this.props.match.params.id });
+    }
     if (this.props.userInfo && this.props.userInfo.id) {
       this.peer.on("open", (id) => {
-        this.socket.emit("join-room", 1, id);
+        this.socket.emit("join-room", this.state.zoomId, id);
         this.setState({ ended: false });
       });
 
@@ -129,9 +105,38 @@ class Room extends Component {
       });
   };
 
+  disconnectVideo = async () => {
+    this.endCall();
+    // this.myVideo.current.srcObject.getTracks().forEach(function (track) {
+    //   if (track.readyState === "live") {
+    //     track.stop();
+    //   }
+    // });
+    this.state.stream.getTracks().forEach(function (track) {
+      if (track.readyState === "live") {
+        track.stop();
+      }
+    });
+    console.log(this.props.userInfo);
+    const path =
+      this.props.userInfo.roleId === USER_ROLE.DOCTOR
+        ? "/doctor/manage-patient"
+        : "/remote-schedules";
+    this.props.history.push(path);
+    window.location.reload();
+  };
+
+  endCall = () => {
+    if (!this.state.currentCall) return;
+    try {
+      this.state.currentCall.close();
+    } catch (error) {
+      console.log(error);
+    }
+    this.setState({ currentCall: undefined });
+  };
+
   render() {
-    console.log("Start " + this.state.start);
-    console.log("Ended " + this.state.ended);
     return (
       <div style={{ backgroundColor: "black" }}>
         <div
