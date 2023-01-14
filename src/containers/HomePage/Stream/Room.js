@@ -6,6 +6,7 @@ import Peer from "peerjs";
 import { USER_ROLE } from "../../../utils/constant";
 import View from "./View";
 import "./Room.scss";
+import { isFunction } from "lodash";
 class Room extends Component {
   constructor(props) {
     super(props);
@@ -15,12 +16,16 @@ class Room extends Component {
       stream: null,
       streamVideo: null,
       ended: false,
-      friendId: 1,
+      friend: {
+        audio: true,
+        video: true,
+      },
       voice: true,
       camera: true,
       start: true,
       connect: false,
       currentCall: null,
+      dataRemote: {},
     };
     this.myVideo = React.createRef({});
     this.userVideo = React.createRef({});
@@ -30,6 +35,7 @@ class Room extends Component {
       port: "8080",
       path: "peerjs",
     });
+    this.conn = {};
   }
 
   componentDidMount() {
@@ -40,18 +46,42 @@ class Room extends Component {
     ) {
       this.setState({ roomId: this.props.match.params.id });
     }
-    console.log(this.state.roomId);
     if (this.props.userInfo && this.props.userInfo.id) {
       this.peer.on("open", (id) => {
         this.socket.emit("join-room", this.state.roomId, id);
         this.setState({ ended: false });
       });
 
-      this.answerCall();
       this.callVideo();
+      this.answerCall();
 
+      this.peer.on("connection", (conn) => {
+        this.conn = conn;
+        conn.on("data", (data) => {
+          let obj = this.state.friend;
+          if (data && data.firstName) {
+            obj = {
+              ...this.state.friend,
+              image: data.image,
+              name: data.firstName + " " + data.lastName,
+            };
+            this.setState({
+              friend: obj,
+            });
+          } else {
+            this.setState({
+              friend: {
+                ...this.state.friend,
+                ...data,
+              },
+            });
+            console.log(data);
+          }
+          conn.send(this.props.userInfo);
+        });
+      });
       this.socket.on("user-disconnected", (id) => {
-        if (Number(id) === Number(this.state.friendId)) {
+        if (Number(id) === Number(this.state.friend.id)) {
           this.setState({ ended: true });
         }
       });
@@ -63,15 +93,10 @@ class Room extends Component {
       navigator.mediaDevices
         .getUserMedia({ video: true, audio: true })
         .then((stream) => {
-          // this.myVideo.current.srcObject = stream;
           this.setState({ stream: stream });
-          if (stream) {
-            console.log("MyVideo of AnswerCall" + stream);
-          }
           call.answer(stream);
           call.on("stream", (remoteStream) => {
-            console.log("VideoRemote from answer: " + remoteStream);
-            // this.userVideo.current.srcObject = remoteStream;
+            console.log("remotestream in answer" + remoteStream);
             this.setState({ remoteStream: remoteStream });
             this.setState({ start: false });
           });
@@ -84,19 +109,35 @@ class Room extends Component {
     navigator.mediaDevices
       .getUserMedia({ video: true, audio: true })
       .then((currentStream) => {
-        if (this.myVideo && this.myVideo.current) {
-          this.myVideo.current.srcObject = currentStream;
-        }
         this.setState({ stream: currentStream });
-
         this.socket.on("user-connected", (userId) => {
-          console.log("Có user kết nối: " + userId);
-          this.setState({ friendId: userId });
+          this.setState({ friend: { ...this.state.friend, id: userId } });
+          this.conn = this.peer.connect(userId);
+          this.conn.on("open", () => {
+            this.conn.send(this.props.userInfo);
+            this.conn.on("data", (data) => {
+              if (data && data.firstName) {
+                this.setState({
+                  friend: {
+                    ...this.state.friend,
+                    image: data.image,
+                    name: data.firstName + " " + data.lastName,
+                  },
+                });
+              } else {
+                this.setState({
+                  friend: {
+                    ...this.state.friend,
+                    ...data,
+                  },
+                });
+                console.log(data);
+              }
+            });
+          });
           const call = this.peer.call(userId, this.state.stream);
           call.on("stream", (remoteStream) => {
-            if (remoteStream) {
-              console.log("VideoRemote from call: " + remoteStream);
-            }
+            console.log("remotestream in call" + remoteStream);
             this.setState({ remoteStream: remoteStream });
             this.setState({ start: false });
             this.setState({ ended: false });
@@ -108,17 +149,11 @@ class Room extends Component {
 
   disconnectVideo = async () => {
     this.endCall();
-    // this.myVideo.current.srcObject.getTracks().forEach(function (track) {
-    //   if (track.readyState === "live") {
-    //     track.stop();
-    //   }
-    // });
     this.state.stream.getTracks().forEach(function (track) {
       if (track.readyState === "live") {
         track.stop();
       }
     });
-    console.log(this.props.userInfo);
     const path =
       this.props.userInfo.roleId === USER_ROLE.DOCTOR
         ? "/doctor/manage-patient"
@@ -139,7 +174,7 @@ class Room extends Component {
 
   render() {
     return (
-      <div style={{ backgroundColor: "black" }}>
+      <div style={{ backgroundColor: "white" }}>
         <div
           style={{
             height: "100vh",
@@ -149,25 +184,31 @@ class Room extends Component {
           }}
         >
           <div className="minVideo" style={{ zIndex: 100 }}>
-            {/* <video
-              playsInline
-              autoPlay
-              muted
-              ref={this.myVideo}
-              style={{ height: "20vh" }}
-            ></video> */}
-            <View height={20} muted={true} stream={this.state.stream} />
+            <View
+              height={20}
+              muted={true}
+              video={this.state.camera}
+              audio={this.state.voice}
+              stream={this.state.stream}
+              image={
+                this.props.userInfo && this.props.userInfo.image
+                  ? this.props.userInfo.image
+                  : undefined
+              }
+              name={"You"}
+            />
           </div>
 
           {this.state.ended !== true && (
-            // <video
-            //   playsInline
-            //   autoPlay
-            //   ref={this.userVideo}
-            //   className={"mainVideo"}
-            // ></video>
             <div className="mainVideo">
-              <View stream={this.state.remoteStream} height={93} />
+              <View
+                stream={this.state.remoteStream}
+                height={93}
+                image={this.state.friend.image ? this.state.friend.image : null}
+                name={this.state.friend.name ? this.state.friend.name : null}
+                audio={this.state.friend.audio}
+                video={this.state.friend.video}
+              />
             </div>
           )}
 
@@ -185,6 +226,7 @@ class Room extends Component {
                 fontWeight: "bold",
                 fontSize: "30px",
                 flexDirection: "column",
+                backgroundColor: "black",
                 color: "white",
               }}
             >
@@ -195,14 +237,14 @@ class Room extends Component {
         </div>
         <div
           style={{
-            padding: "10px 20px",
-            height: "9vh",
+            padding: "0px 20px",
+            height: "8vh",
             display: "flex",
             justifyContent: "center",
             position: "fixed",
             bottom: 0,
             width: "100%",
-            backgroundColor: "transparent",
+            backgroundColor: "black",
           }}
         >
           <Row
@@ -233,16 +275,13 @@ class Room extends Component {
                 <Button
                   type="primary"
                   onClick={() => {
-                    // const enabled =
-                    //   this.myVideo.current.srcObject.getAudioTracks()[0]
-                    //     .enabled;
-                    // this.setState({ voice: !enabled });
-                    // this.myVideo.current.srcObject.getAudioTracks()[0].enabled =
-                    //   !enabled;
                     const enabled =
                       this.state.stream.getAudioTracks()[0].enabled;
                     this.setState({ voice: !enabled });
                     this.state.stream.getAudioTracks()[0].enabled = !enabled;
+                    if (this.conn && this.conn.send) {
+                      this.conn.send({ audio: !enabled });
+                    }
                   }}
                   style={{
                     backgroundColor: "transparent",
@@ -271,16 +310,13 @@ class Room extends Component {
                 <Button
                   type="primary"
                   onClick={() => {
-                    // const enabled =
-                    //   this.myVideo.current.srcObject.getVideoTracks()[0]
-                    //     .enabled;
-                    // this.setState({ camera: !enabled });
-                    // this.myVideo.current.srcObject.getVideoTracks()[0].enabled =
-                    //   !enabled;
                     const enabled =
                       this.state.stream.getVideoTracks()[0].enabled;
                     this.setState({ camera: !enabled });
                     this.state.stream.getVideoTracks()[0].enabled = !enabled;
+                    if (this.conn && this.conn.send) {
+                      this.conn.send({ video: !enabled });
+                    }
                   }}
                   style={{ backgroundColor: "transparent", fontSize: 20 }}
                 >
