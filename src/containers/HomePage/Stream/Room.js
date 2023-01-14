@@ -4,6 +4,7 @@ import { Col, Row, Button } from "antd";
 import { io } from "socket.io-client";
 import Peer from "peerjs";
 import { USER_ROLE } from "../../../utils/constant";
+import View from "./View";
 import "./Room.scss";
 class Room extends Component {
   constructor(props) {
@@ -12,6 +13,7 @@ class Room extends Component {
       zoomId: 1,
       bookingId: 1,
       stream: null,
+      streamVideo: null,
       ended: false,
       friendId: 1,
       voice: true,
@@ -20,8 +22,8 @@ class Room extends Component {
       connect: false,
       currentCall: null,
     };
-    this.myVideo = React.createRef();
-    this.userVideo = React.createRef();
+    this.myVideo = React.createRef({});
+    this.userVideo = React.createRef({});
     this.socket = io("http://localhost:8080");
     this.peer = new Peer(this.props.userInfo.id, {
       host: "localhost",
@@ -32,7 +34,12 @@ class Room extends Component {
 
   disconnectVideo = async () => {
     this.endCall();
-    this.myVideo.current.srcObject.getTracks().forEach(function (track) {
+    // this.myVideo.current.srcObject.getTracks().forEach(function (track) {
+    //   if (track.readyState === "live") {
+    //     track.stop();
+    //   }
+    // });
+    this.state.stream.getTracks().forEach(function (track) {
       if (track.readyState === "live") {
         track.stop();
       }
@@ -60,6 +67,7 @@ class Room extends Component {
     if (this.props.userInfo && this.props.userInfo.id) {
       this.peer.on("open", (id) => {
         this.socket.emit("join-room", 1, id);
+        this.setState({ ended: false });
       });
 
       this.answerCall();
@@ -67,7 +75,6 @@ class Room extends Component {
 
       this.socket.on("user-disconnected", (id) => {
         if (Number(id) === Number(this.state.friendId)) {
-          console.log(id);
           this.setState({ ended: true });
         }
       });
@@ -79,11 +86,16 @@ class Room extends Component {
       navigator.mediaDevices
         .getUserMedia({ video: true, audio: true })
         .then((stream) => {
-          this.myVideo.current.srcObject = stream;
-
+          // this.myVideo.current.srcObject = stream;
+          this.setState({ stream: stream });
+          if (stream) {
+            console.log("MyVideo of AnswerCall" + stream);
+          }
           call.answer(stream);
           call.on("stream", (remoteStream) => {
-            this.userVideo.current.srcObject = remoteStream;
+            console.log("VideoRemote from answer: " + remoteStream);
+            // this.userVideo.current.srcObject = remoteStream;
+            this.setState({ remoteStream: remoteStream });
             this.setState({ start: false });
           });
         });
@@ -95,23 +107,31 @@ class Room extends Component {
     navigator.mediaDevices
       .getUserMedia({ video: true, audio: true })
       .then((currentStream) => {
-        this.myVideo.current.srcObject = currentStream;
+        if (this.myVideo && this.myVideo.current) {
+          this.myVideo.current.srcObject = currentStream;
+        }
         this.setState({ stream: currentStream });
-      });
 
-    this.socket.on("user-connected", (userId) => {
-      console.log(userId);
-      this.setState({ friendId: userId });
-      const call = this.peer.call(userId, this.state.stream);
-      call.on("stream", (remoteStream) => {
-        this.userVideo.current.srcObject = remoteStream;
-        this.setState({ start: false });
+        this.socket.on("user-connected", (userId) => {
+          console.log("Có user kết nối: " + userId);
+          this.setState({ friendId: userId });
+          const call = this.peer.call(userId, this.state.stream);
+          call.on("stream", (remoteStream) => {
+            if (remoteStream) {
+              console.log("VideoRemote from call: " + remoteStream);
+            }
+            this.setState({ remoteStream: remoteStream });
+            this.setState({ start: false });
+            this.setState({ ended: false });
+          });
+          this.setState({ currentCall: call });
+        });
       });
-      this.setState({ currentCall: call });
-    });
   };
 
   render() {
+    console.log("Start " + this.state.start);
+    console.log("Ended " + this.state.ended);
     return (
       <div style={{ backgroundColor: "black" }}>
         <div
@@ -122,25 +142,27 @@ class Room extends Component {
             justifyContent: "center",
           }}
         >
-          <video
-            playsInline
-            autoPlay
-            muted
-            ref={this.myVideo}
-            className={
-              this.userVideo.current !== null ? "minVideo" : "mainVideo"
-            }
-            style={{ zIndex: 100 }}
-          ></video>
-          {this.state.ended !== true && (
-            <video
+          <div className="minVideo" style={{ zIndex: 100 }}>
+            {/* <video
               playsInline
               autoPlay
-              ref={this.userVideo}
-              className={
-                this.userVideo.current !== null ? "mainVideo" : "minVideo"
-              }
-            ></video>
+              muted
+              ref={this.myVideo}
+              style={{ height: "20vh" }}
+            ></video> */}
+            <View height={20} muted={true} stream={this.state.stream} />
+          </div>
+
+          {this.state.ended !== true && (
+            // <video
+            //   playsInline
+            //   autoPlay
+            //   ref={this.userVideo}
+            //   className={"mainVideo"}
+            // ></video>
+            <div className="mainVideo">
+              <View stream={this.state.remoteStream} height={93} />
+            </div>
           )}
 
           {(this.state.start === true || this.state.ended === true) && (
@@ -205,12 +227,16 @@ class Room extends Component {
                 <Button
                   type="primary"
                   onClick={() => {
+                    // const enabled =
+                    //   this.myVideo.current.srcObject.getAudioTracks()[0]
+                    //     .enabled;
+                    // this.setState({ voice: !enabled });
+                    // this.myVideo.current.srcObject.getAudioTracks()[0].enabled =
+                    //   !enabled;
                     const enabled =
-                      this.myVideo.current.srcObject.getAudioTracks()[0]
-                        .enabled;
+                      this.state.stream.getAudioTracks()[0].enabled;
                     this.setState({ voice: !enabled });
-                    this.myVideo.current.srcObject.getAudioTracks()[0].enabled =
-                      !enabled;
+                    this.state.stream.getAudioTracks()[0].enabled = !enabled;
                   }}
                   style={{
                     backgroundColor: "transparent",
@@ -239,13 +265,16 @@ class Room extends Component {
                 <Button
                   type="primary"
                   onClick={() => {
+                    // const enabled =
+                    //   this.myVideo.current.srcObject.getVideoTracks()[0]
+                    //     .enabled;
+                    // this.setState({ camera: !enabled });
+                    // this.myVideo.current.srcObject.getVideoTracks()[0].enabled =
+                    //   !enabled;
                     const enabled =
-                      this.myVideo.current.srcObject.getVideoTracks()[0]
-                        .enabled;
+                      this.state.stream.getVideoTracks()[0].enabled;
                     this.setState({ camera: !enabled });
-                    this.myVideo.current.srcObject.getVideoTracks()[0].enabled =
-                      !enabled;
-                    console.log(enabled);
+                    this.state.stream.getVideoTracks()[0].enabled = !enabled;
                   }}
                   style={{ backgroundColor: "transparent", fontSize: 20 }}
                 >
