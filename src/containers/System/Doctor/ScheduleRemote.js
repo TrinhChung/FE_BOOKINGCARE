@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Table, Button, Pagination } from "antd";
+import { Table, Button, Pagination, Row } from "antd";
 import DatePicker from "../../../components/Input/DatePicker";
 import { getAllPatientAllDoctorService } from "../../../services/userService";
 import { FormattedMessage } from "react-intl";
+import RemedyModal from "../Doctor/RemedyModal";
 
 class RemoteSchedules extends Component {
   constructor(props) {
@@ -14,6 +15,9 @@ class RemoteSchedules extends Component {
       countPage: 50,
       pageSize: 10,
       listPatients: [],
+      isOpenModal: false,
+      email: "",
+      id: 1,
     };
   }
 
@@ -61,7 +65,7 @@ class RemoteSchedules extends Component {
       const o = {};
       o.key = i + 1;
       o.index = i + 1;
-      o.nameDoctor = "Chung";
+      o.nameDoctor = arr[i].patientData.firstName;
       o.time =
         language === "vi"
           ? arr[i].timeTypeDataBooking.valueVi
@@ -69,10 +73,19 @@ class RemoteSchedules extends Component {
 
       o.reason = arr[i].reason ? arr[i].reason : "Khong ly do";
       o.bookingId = arr[i].id;
+      o.email = arr[i].patientData.email;
       data.push(o);
     }
 
     return data;
+  };
+  toggleUserModal = () => {
+    this.setState({ isOpenModal: false });
+  };
+
+  handleConfirm = (email, id) => {
+    console.log(id);
+    this.setState({ email: email, id: id, isOpenModal: true });
   };
 
   render() {
@@ -86,10 +99,9 @@ class RemoteSchedules extends Component {
         align: "center",
       },
       {
-        title: "Tên bác sĩ",
+        title: "Tên bệnh nhân",
         dataIndex: "nameDoctor",
         key: "nameDoctor",
-        width: 150,
         align: "center",
       },
       {
@@ -103,25 +115,35 @@ class RemoteSchedules extends Component {
         title: "Lý do khám bênh",
         dataIndex: "reason",
         key: "reason",
-        width: 150,
         align: "center",
       },
       {
         title: "Thao tác",
         dataIndex: "actions",
         key: "actions",
-        width: 150,
+        width: 250,
         align: "center",
         render: (text, record, index) => {
           return (
-            <Button
-              type="primary"
-              onClick={() => {
-                this.props.history.push(`/room/${record.bookingId}`);
-              }}
-            >
-              Xem
-            </Button>
+            <Row style={{ display: "flex", gap: 10 }}>
+              <Button
+                type="primary"
+                onClick={() => {
+                  this.props.history.push(`/room/${record.bookingId}`);
+                }}
+              >
+                Khám Online
+              </Button>
+              <Button
+                type="primary"
+                onClick={() =>
+                  this.handleConfirm(record.email, record.bookingId)
+                }
+                danger
+              >
+                Hoàn tất
+              </Button>
+            </Row>
           );
         },
       },
@@ -130,8 +152,16 @@ class RemoteSchedules extends Component {
     console.log(this.state.listPatients);
     const { countPage } = this.state;
     console.log(this.props.language);
+
     return (
       <>
+        <RemedyModal
+          isOpen={this.state.isOpenModal}
+          toggleFormParent={this.toggleUserModal}
+          email={this.state.email}
+          id={this.state.id}
+          reloadList={this.getAllPatientAllDoctor}
+        />
         <div className="col-4 form-group">
           <label>
             <FormattedMessage id="manage-patient.choose-day" />

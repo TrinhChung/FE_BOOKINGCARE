@@ -39,6 +39,7 @@ class RemoteSchedules extends Component {
 
       o.reason = arr[i].reason ? arr[i].reason : "Khong ly do";
       o.bookingId = arr[i].id;
+      o.date = arr[i].date;
       data.push(o);
     }
     return data;
@@ -58,6 +59,13 @@ class RemoteSchedules extends Component {
         title: "Tên bác sĩ",
         dataIndex: "nameDoctor",
         key: "nameDoctor",
+        width: 150,
+        align: "center",
+      },
+      {
+        title: "Ngày khám",
+        dataIndex: "date",
+        key: "date",
         width: 150,
         align: "center",
       },

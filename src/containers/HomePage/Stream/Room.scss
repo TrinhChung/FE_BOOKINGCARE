@@ -10,3 +10,55 @@
     height: 20% !important;
     cursor: pointer;
 }
+
+.your-chat div {
+    border-radius: 10px 10px 0 10px;
+    padding: 5px 5px;
+    background-color: #0084ff;
+    max-width: '100%';
+    height: auto;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    word-break: break-all;
+}
+
+.your-chat {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.friend-chat div {
+    border-radius: 10px 10px 10px 0;
+    padding: 5px 5px;
+    background-color: #cccccc;
+    max-width: '100%';
+    height: auto;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    word-break: break-all;
+}
+
+.friend-chat {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.name-your-chat {
+    font-size: 11px;
+    font-style: italic;
+    text-decoration: underline;
+    color: rgb(255, 103, 103);
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 10px;
+}
+
+.name-friend-chat {
+    font-size: 11px;
+    font-style: italic;
+    text-decoration: underline;
+    color: rgb(255, 103, 103);
+    display: flex;
+    justify-content: flex-start;
+    padding-right: 10px;
+}
