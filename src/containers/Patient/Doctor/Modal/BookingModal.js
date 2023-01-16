@@ -132,7 +132,6 @@ class BookingModal extends Component {
 
   handleConfirmBooking = async () => {
     let dataTime = this.props.dataTime;
-    console.log(dataTime.date);
     this.setState({ isLoading: true });
     let res = await postBookAppointment({
       reason: this.state.reason,
@@ -178,7 +177,6 @@ class BookingModal extends Component {
       { label: "Online", value: 0 },
       { label: "Offline", value: 1 },
     ];
-    console.log(this.state.timeData);
 
     return (
       <Modal
@@ -326,7 +324,6 @@ class BookingModal extends Component {
                       (type) => type.value === this.state.typeCheck
                     )}
                     onChange={(e) => {
-                      console.log(e);
                       this.setState({ typeCheck: e.value });
                     }}
                   />

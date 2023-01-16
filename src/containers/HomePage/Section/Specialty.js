@@ -14,7 +14,6 @@ class Specialty extends Component {
   }
 
   async componentDidMount() {
-    console.log("rerender");
     this.props.fetchTopSpecialty();
   }
 

@@ -26,6 +26,7 @@ import Home from "../routes/Home";
 import Login from "./Auth/Login";
 import Register from "./Auth/Register";
 import System from "../routes/System";
+import * as actions from "../store/actions";
 
 // import { CustomToastCloseButton } from "../components/CustomToast";
 import ConfirmModal from "../components/ConfirmModal";

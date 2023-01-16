@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Col, Row, Button, Layout, Badge } from "antd";
-import { io } from "socket.io-client";
+import { socket } from "../../../store/actions/socketActions";
 import Peer from "peerjs";
 import { USER_ROLE } from "../../../utils/constant";
 import View from "./View";
@@ -28,22 +28,34 @@ class Room extends Component {
       connect: false,
       currentCall: null,
       dataRemote: {},
-      collapsed: false,
+      collapsed: true,
       badge: false,
       chats: [],
+      // socket: io("http://localhost:8080"),
+      socket: socket,
+      peer: new Peer(this.props.userInfo.id, {
+        host: "localhost",
+        port: "8080",
+        path: "peerjs",
+      }),
     };
     this.myVideo = React.createRef({});
     this.userVideo = React.createRef({});
-    this.socket = io("http://localhost:8080");
-    this.peer = new Peer(this.props.userInfo.id, {
-      host: "localhost",
-      port: "8080",
-      path: "peerjs",
-    });
+    // this.socket = io("http://localhost:8080", { reconnect: true });
+    console.log(this.props.userInfo);
+    console.log(this.props.socket);
     this.conn = {};
   }
 
   componentDidMount() {
+    console.log("mount");
+    this.joinRoomCallVideo(this.state.socket);
+    console.log("mount end");
+  }
+
+  joinRoomCallVideo = (socket) => {
+    console.log("start join video");
+
     if (
       this.props.match &&
       this.props.match.params &&
@@ -51,63 +63,43 @@ class Room extends Component {
     ) {
       this.setState({ roomId: this.props.match.params.id });
     }
-    if (this.props.userInfo && this.props.userInfo.id) {
-      this.peer.on("open", (id) => {
-        this.socket.emit("join-room", this.state.roomId, id);
-        this.setState({ ended: false });
-        this.socket.on("newMessage", (data) => {
-          if (data.id && data.content) {
-            const messages = this.state.chats;
-            messages.push(data);
-            this.setState({ chats: messages });
-            if (this.state.collapsed === true) {
-              this.setState({ badge: true });
-            }
+    if (socket) {
+      socket.on("connect-success", (data) => console.log(data));
+      if (this.props.userInfo && this.props.userInfo.id) {
+        this.state.peer.on("open", (id) => {
+          console.log("peer connect");
+          socket.emit("join-room", this.state.roomId, id);
+          console.log("join-room");
+          this.setState({ ended: false });
+          this.receiverMessage(socket);
+        });
+
+        this.state.peer.on("error", (err) => console.log(err));
+
+        this.state.peer.on("disconnected", () => {
+          console.log("peer disconnect");
+        });
+
+        this.callVideo(socket);
+        this.answerCall();
+
+        this.answerSendData();
+
+        socket.on("user-disconnected", (id) => {
+          if (Number(id) === Number(this.state.friend.id)) {
+            this.setState({ ended: true });
           }
         });
-      });
-
-      this.callVideo();
-      this.answerCall();
-
-      this.peer.on("connection", (conn) => {
-        this.conn = conn;
-        conn.on("data", (data) => {
-          let obj = this.state.friend;
-          if (data && data.firstName) {
-            obj = {
-              ...this.state.friend,
-              image: data.image,
-              name: data.firstName + " " + data.lastName,
-            };
-            this.setState({
-              friend: obj,
-            });
-          } else {
-            this.setState({
-              friend: {
-                ...this.state.friend,
-                ...data,
-              },
-            });
-            console.log(data);
-          }
-          conn.send(this.props.userInfo);
-        });
-      });
-      this.socket.on("user-disconnected", (id) => {
-        if (Number(id) === Number(this.state.friend.id)) {
-          this.setState({ ended: true });
-        }
-      });
+      }
     }
-  }
+  };
 
   answerCall = () => {
-    this.peer.on("call", (call) => {
+    this.state.peer.on("call", (call) => {
       navigator.mediaDevices
         .getUserMedia({ video: true, audio: true })
         .then((stream) => {
+          console.log("answer call");
           this.setState({ stream: stream });
           call.answer(stream);
           call.on("stream", (remoteStream) => {
@@ -120,39 +112,19 @@ class Room extends Component {
     });
   };
 
-  callVideo = () => {
+  callVideo = (socket) => {
     navigator.mediaDevices
       .getUserMedia({ video: true, audio: true })
       .then((currentStream) => {
+        console.log(" call");
         this.setState({ stream: currentStream });
-        this.socket.on("user-connected", (userId) => {
+        socket.on("user-connected", (userId) => {
+          console.log("receiver id user-connected");
           this.setState({ friend: { ...this.state.friend, id: userId } });
-          this.conn = this.peer.connect(userId);
-          this.conn.on("open", () => {
-            this.conn.send(this.props.userInfo);
-            this.conn.on("data", (data) => {
-              if (data && data.firstName) {
-                this.setState({
-                  friend: {
-                    ...this.state.friend,
-                    image: data.image,
-                    name: data.firstName + " " + data.lastName,
-                  },
-                });
-              } else {
-                this.setState({
-                  friend: {
-                    ...this.state.friend,
-                    ...data,
-                  },
-                });
-                console.log(data);
-              }
-            });
-          });
-          const call = this.peer.call(userId, this.state.stream);
+          this.conn = this.state.peer.connect(userId);
+          this.callerSendData();
+          const call = this.state.peer.call(userId, this.state.stream);
           call.on("stream", (remoteStream) => {
-            console.log("remotestream in call" + remoteStream);
             this.setState({ remoteStream: remoteStream });
             this.setState({ start: false });
             this.setState({ ended: false });
@@ -160,6 +132,57 @@ class Room extends Component {
           this.setState({ currentCall: call });
         });
       });
+  };
+
+  callerSendData = () => {
+    this.conn.on("open", () => {
+      this.conn.send(this.props.userInfo);
+      this.conn.on("data", (data) => {
+        if (data && data.firstName) {
+          this.setState({
+            friend: {
+              ...this.state.friend,
+              image: data.image,
+              name: data.firstName + " " + data.lastName,
+            },
+          });
+        } else {
+          this.setState({
+            friend: {
+              ...this.state.friend,
+              ...data,
+            },
+          });
+        }
+      });
+    });
+  };
+
+  answerSendData = () => {
+    this.state.peer.on("connection", (conn) => {
+      this.conn = conn;
+      conn.on("data", (data) => {
+        let obj = this.state.friend;
+        if (data && data.firstName) {
+          obj = {
+            ...this.state.friend,
+            image: data.image,
+            name: data.firstName + " " + data.lastName,
+          };
+          this.setState({
+            friend: obj,
+          });
+        } else {
+          this.setState({
+            friend: {
+              ...this.state.friend,
+              ...data,
+            },
+          });
+        }
+        conn.send(this.props.userInfo);
+      });
+    });
   };
 
   disconnectVideo = async () => {
@@ -181,10 +204,31 @@ class Room extends Component {
     if (!this.state.currentCall) return;
     try {
       this.state.currentCall.close();
+      this.state.peer.destroy();
     } catch (error) {
       console.log(error);
     }
     this.setState({ currentCall: undefined });
+  };
+
+  receiverMessage = (socket) => {
+    socket.on("newMessage", (data) => {
+      if (data.id && data.content) {
+        const messages = this.state.chats;
+        messages.push(data);
+        this.setState({ chats: messages });
+        if (this.state.collapsed === true) {
+          this.setState({ badge: true });
+        }
+      }
+    });
+  };
+
+  sendMessage = (socket, value) => {
+    socket.emit("message", {
+      content: value,
+      id: this.props.userInfo.id,
+    });
   };
 
   render() {
@@ -493,11 +537,7 @@ class Room extends Component {
                   }}
                   onKeyDown={(e) => {
                     if (e.keyCode === 13) {
-                      console.log(e);
-                      this.socket.emit("message", {
-                        content: e.target.value,
-                        id: this.props.userInfo.id,
-                      });
+                      this.sendMessage(this.state.socket, e.target.value);
                       e.target.value = "";
                     }
                   }}
@@ -517,6 +557,8 @@ const mapStateToProps = (state) => {
     isLoggedIn: state.user.isLoggedIn,
     language: state.app.language,
     userInfo: state.user.userInfo,
+    socket: state.socket.socket,
+    peer: state.socket.peer,
   };
 };
 

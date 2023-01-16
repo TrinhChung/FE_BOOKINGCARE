@@ -36,7 +36,6 @@ class RemoteSchedules extends Component {
   }
 
   handleOnChangeDatePicker = (date) => {
-    console.log(date[0]);
     this.setState({ currentDate: date[0] });
   };
 
@@ -149,9 +148,7 @@ class RemoteSchedules extends Component {
       },
     ];
 
-    console.log(this.state.listPatients);
     const { countPage } = this.state;
-    console.log(this.props.language);
 
     return (
       <>
