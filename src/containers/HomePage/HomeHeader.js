@@ -8,6 +8,7 @@ import * as actions from "../../store/actions";
 import { changeLanguageApp } from "../../store/actions";
 import LogoutModal from "../Header/LogoutModal";
 import { Row, Col } from "antd";
+import { socket } from "../../store/actions/socketActions";
 
 class HomeHeader extends Component {
   constructor(props) {
@@ -46,6 +47,11 @@ class HomeHeader extends Component {
     document.addEventListener("mousedown", this.handleClickOutside);
     window.addEventListener("resize", this.resize.bind(this));
     this.resize();
+    console.log(socket);
+
+    socket.on("notification", (data) => {
+      console.log(data);
+    });
   }
 
   resize() {

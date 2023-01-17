@@ -26,3 +26,11 @@ export const setPeerReducer = (peer) => {
     }
   };
 };
+
+export const createNameSpace = (userId) => {
+  socket.emit("login", userId);
+};
+
+export const socketDisconnect = () => {
+  socket.disconnect();
+};

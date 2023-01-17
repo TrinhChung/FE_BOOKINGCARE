@@ -1,4 +1,5 @@
 import actionTypes from "../actions/actionTypes";
+import { socketDisconnect, createNameSpace } from "../actions";
 
 const initialState = {
   isLoggedIn: false,
@@ -8,6 +9,7 @@ const initialState = {
 const appReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.USER_LOGIN_SUCCESS:
+      createNameSpace(action.userInfo.id);
       return {
         ...state,
         isLoggedIn: true,
@@ -20,6 +22,7 @@ const appReducer = (state = initialState, action) => {
         userInfo: null,
       };
     case actionTypes.USER_REGISTER_SUCCESS:
+      createNameSpace(action.userInfo.id);
       return {
         ...state,
         isLoggedIn: true,
@@ -32,6 +35,7 @@ const appReducer = (state = initialState, action) => {
         userInfo: null,
       };
     case actionTypes.PROCESS_LOGOUT:
+      socketDisconnect();
       localStorage.removeItem("token");
       return {
         ...state,

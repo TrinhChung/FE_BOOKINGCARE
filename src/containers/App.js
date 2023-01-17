@@ -53,6 +53,17 @@ class App extends Component {
     this.handlePersistorState();
   }
 
+  // componentDidUpdate(prevProps) {
+  //   if (
+  //     this.props.userInfo !== prevProps.userInfo &&
+  //     this.props.userInfo &&
+  //     this.props.userInfo.id
+  //   ) {
+  //     // actions.createNameSpace(this.props.userInfo.id);
+  //     console.log(1);
+  //   }
+  // }
+
   render() {
     return (
       <Fragment>
@@ -153,6 +164,7 @@ const mapStateToProps = (state) => {
   return {
     started: state.app.started,
     isLoggedIn: state.user.isLoggedIn,
+    // userInfo: state.user.userInfo,
   };
 };
 
