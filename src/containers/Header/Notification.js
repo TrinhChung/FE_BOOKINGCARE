@@ -36,11 +36,9 @@ class Notification extends Component {
     }
   };
 
-  readNotifications = async () => {
-    if (this.state.notificationsNotRead) {
-      const res = await bulkReaderNotificationService(
-        this.state.notificationsNotRead
-      );
+  readNotifications = async (notifications) => {
+    if (notifications && notifications.length > 0) {
+      const res = await bulkReaderNotificationService(notifications);
       if (res.errCode === 0) {
         this.fetchNotifications();
       }
@@ -66,12 +64,30 @@ class Notification extends Component {
               span={24}
               style={{
                 display: "flex",
-                justifyContent: "flex-end",
+                justifyContent: "space-between",
                 paddingTop: "3px",
-                fontSize: "11px",
               }}
             >
-              <div style={{ fontStyle: "italic" }}>{data.time}</div>
+              {/* <Row style={{ display: "flex", justifyContent: "space-between" }}> */}
+              <div
+                style={{
+                  fontStyle: "italic",
+                  fontSize: "11px",
+                  paddingLeft: 3,
+                }}
+              >
+                {data.time}
+              </div>
+              <div
+                className="markdown"
+                style={{ color: "#45c3d2" }}
+                onClick={() => {
+                  this.readNotifications([data.id]);
+                }}
+              >
+                Đánh dấu đã xem
+              </div>
+              {/* </Row> */}
             </Col>
           </Row>
         </Badge>
@@ -83,17 +99,16 @@ class Notification extends Component {
     return (
       <Popover
         content={
-          <div style={{ paddingBottom: "10px" }}>
+          <div style={{ paddingBottom: "0" }}>
             <Row
               style={{
                 display: "flex",
                 justifyContent: "flex-end",
-                textDecoration: "underline",
-                color: "blue",
-                cursor: "pointer",
               }}
             >
               <div
+                style={{ color: "blue", cursor: "pointer" }}
+                className="markdown"
                 onClick={() => {
                   if (this.state.total > this.state.notifications.length) {
                     this.setState({ total: 7 });
@@ -101,7 +116,6 @@ class Notification extends Component {
                     this.setState({ total: this.state.total + 5 });
                   }
                   this.fetchNotifications();
-                  this.readNotifications();
                 }}
               >
                 {this.state.total > this.state.notifications.length
@@ -115,6 +129,15 @@ class Notification extends Component {
                   return this.ItemNotification(notification);
                 })}
             </div>
+            <Row
+              className={"markdown"}
+              style={{ color: "green", cursor: "pointer", fontSize: "14px" }}
+              onClick={() => {
+                this.readNotifications(this.state.notificationsNotRead);
+              }}
+            >
+              Đánh dấu đã xem tất cả
+            </Row>
           </div>
         }
         style={{
@@ -124,14 +147,24 @@ class Notification extends Component {
         title="Thông báo"
         trigger="click"
         // open={this.props.open}
-        onOpenChange={(e) => {
-          if (e === true) {
-            this.readNotifications();
-          }
-        }}
       >
         <Badge size="small" count={this.state.totalNotRead} overflowCount={9}>
-          {this.props.children}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              fontSize: "20px",
+              cursor: "pointer",
+              width: 38,
+              height: 38,
+              justifyContent: "center",
+              borderRadius: "30px",
+              color: "#ffc10e",
+              border: "1px solid #ffc10e",
+            }}
+          >
+            <i className="fas fa-bell"></i>
+          </div>
         </Badge>
       </Popover>
     );

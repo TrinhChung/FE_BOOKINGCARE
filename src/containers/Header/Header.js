@@ -12,6 +12,7 @@ import { withRouter } from "react-router";
 import LogoutModal from "./LogoutModal";
 import { socket } from "../../store/actions/socketActions";
 import { changeLanguageApp } from "../../store/actions";
+import Notification from "./Notification";
 
 class Header extends Component {
   constructor(props) {
@@ -84,6 +85,7 @@ class Header extends Component {
                 : "User"}
               !
             </div>
+            <Notification />
             <select
               className="form-select select-language"
               value={language}

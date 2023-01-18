@@ -178,25 +178,7 @@ class HomeHeader extends Component {
             </li>
           </ul>
         </div>
-        <Notification>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              fontSize: "20px",
-              cursor: "pointer",
-              width: 40,
-              height: 40,
-              justifyContent: "center",
-              borderRadius: "30px",
-              color: "#ffc10e",
-              border: "1px solid #ffc10e",
-            }}
-            onClick={() => this.setState()}
-          >
-            <i className="fas fa-bell"></i>
-          </div>
-        </Notification>
+        <Notification></Notification>
       </div>
     );
   };
