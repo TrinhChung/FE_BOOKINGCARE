@@ -10,7 +10,7 @@ import { FormattedMessage } from "react-intl";
 import _ from "lodash";
 import { withRouter } from "react-router";
 import LogoutModal from "./LogoutModal";
-
+import { socket } from "../../store/actions/socketActions";
 import { changeLanguageApp } from "../../store/actions";
 
 class Header extends Component {
@@ -27,6 +27,9 @@ class Header extends Component {
 
   componentDidMount() {
     this.getRoleMenu();
+    socket.on("notification", (data) => {
+      console.log(data);
+    });
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {

@@ -188,6 +188,10 @@ const getBookingsService = (typeCheck) => {
   return axios.get(`/api/patient/bookings/?typeCheck=${type}`);
 };
 
+const getAllNotificationsService = (limit) => {
+  return axios.get(`/api/notification/?limit=${limit}`);
+};
+
 export {
   loginByToken,
   handleLoginApi,
@@ -225,4 +229,5 @@ export {
   getCommentByFkId,
   sendCommentService,
   getBookingsService,
+  getAllNotificationsService,
 };

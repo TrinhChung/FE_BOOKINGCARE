@@ -8,7 +8,7 @@ import * as actions from "../../store/actions";
 import { changeLanguageApp } from "../../store/actions";
 import LogoutModal from "../Header/LogoutModal";
 import { Row, Col } from "antd";
-import { socket } from "../../store/actions/socketActions";
+import Notification from "../Header/Notification";
 
 class HomeHeader extends Component {
   constructor(props) {
@@ -26,6 +26,7 @@ class HomeHeader extends Component {
       keySearch: "",
       focus: false,
       isMobile: false,
+      isShowNotifications: false,
     };
 
     this.ref = React.createRef();
@@ -47,11 +48,6 @@ class HomeHeader extends Component {
     document.addEventListener("mousedown", this.handleClickOutside);
     window.addEventListener("resize", this.resize.bind(this));
     this.resize();
-    console.log(socket);
-
-    socket.on("notification", (data) => {
-      console.log(data);
-    });
   }
 
   resize() {
@@ -60,9 +56,6 @@ class HomeHeader extends Component {
 
   componentWillUnmount() {
     window.removeEventListener("resize", this.resize.bind(this));
-  }
-
-  componentWillUnmount() {
     document.removeEventListener("mousedown", this.handleClickOutside);
   }
 
@@ -115,6 +108,9 @@ class HomeHeader extends Component {
   nextPageBanner = (link) => {
     this.props.history.push(link);
   };
+  handleOpenChange = () => {
+    this.setState({ isShowNotifications: !this.state.isShowNotifications });
+  };
 
   UserInfo = (user) => {
     let language = this.props.language;
@@ -138,9 +134,11 @@ class HomeHeader extends Component {
           toggleFormParent={this.toggleUserModal}
           homeHeader={true}
         />
+
         <div className="name-user" htmlFor="dropdownMenuButton1">
           {nameUser}
         </div>
+
         <div className="dropdown">
           <button
             className="avatar-user btn btn-secondary "
@@ -180,6 +178,28 @@ class HomeHeader extends Component {
             </li>
           </ul>
         </div>
+        <Notification
+          handleOpenChange={this.handleOpenChange}
+          onOpen={this.state.isShowNotifications}
+        >
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              fontSize: "20px",
+              cursor: "pointer",
+              width: 40,
+              height: 40,
+              justifyContent: "center",
+              borderRadius: "30px",
+              color: "#ffc10e",
+              border: "1px solid #ffc10e",
+            }}
+            onClick={() => this.setState()}
+          >
+            <i className="fas fa-bell"></i>
+          </div>
+        </Notification>
       </div>
     );
   };
