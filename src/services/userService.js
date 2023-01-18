@@ -192,6 +192,10 @@ const getAllNotificationsService = (limit) => {
   return axios.get(`/api/notification/?limit=${limit}`);
 };
 
+const bulkReaderNotificationService = (notifications) => {
+  return axios.post("/api/notification/read", { notifications: notifications });
+};
+
 export {
   loginByToken,
   handleLoginApi,
@@ -230,4 +234,5 @@ export {
   sendCommentService,
   getBookingsService,
   getAllNotificationsService,
+  bulkReaderNotificationService,
 };

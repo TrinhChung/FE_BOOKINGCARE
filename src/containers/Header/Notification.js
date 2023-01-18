@@ -1,13 +1,17 @@
 import React, { Component } from "react";
 import { Popover, Row, Badge, Col } from "antd";
 import "./Notification.scss";
-import { getAllNotificationsService } from "../../services/userService";
+import {
+  getAllNotificationsService,
+  bulkReaderNotificationService,
+} from "../../services/userService";
 import { socket } from "../../store/actions/socketActions";
 class Notification extends Component {
   constructor(props) {
     super(props);
     this.state = {
       notifications: [],
+      notificationsNotRead: [],
       total: 7,
       totalNotRead: 0,
     };
@@ -18,12 +22,27 @@ class Notification extends Component {
     if (res.errCode === 0 && res.data) {
       this.setState({ notifications: res.data });
       if (res.data.length > 0) {
-        this.setState({ totalNotRead: 0 });
+        const arr = [];
         res.data.forEach((notification) => {
           if (notification.read === 0) {
-            this.setState({ totalNotRead: this.state.totalNotRead + 1 });
+            arr.push(notification.id);
           }
         });
+        if (arr.length > 0) {
+          this.setState({ notificationsNotRead: arr });
+        }
+        this.setState({ totalNotRead: arr.length });
+      }
+    }
+  };
+
+  readNotifications = async () => {
+    if (this.state.notificationsNotRead) {
+      const res = await bulkReaderNotificationService(
+        this.state.notificationsNotRead
+      );
+      if (res.errCode === 0) {
+        this.fetchNotifications();
       }
     }
   };
@@ -34,12 +53,6 @@ class Notification extends Component {
       socket.on("notification", (data) => {
         this.fetchNotifications();
       });
-    }
-  }
-
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    if (prevState.total !== this.state.total) {
-      this.fetchNotifications();
     }
   }
 
@@ -87,6 +100,8 @@ class Notification extends Component {
                   } else {
                     this.setState({ total: this.state.total + 5 });
                   }
+                  this.fetchNotifications();
+                  this.readNotifications();
                 }}
               >
                 {this.state.total > this.state.notifications.length
@@ -108,8 +123,12 @@ class Notification extends Component {
         }}
         title="Thông báo"
         trigger="click"
-        open={this.props.open}
-        onOpenChange={this.props.handleOpenChange}
+        // open={this.props.open}
+        onOpenChange={(e) => {
+          if (e === true) {
+            this.readNotifications();
+          }
+        }}
       >
         <Badge size="small" count={this.state.totalNotRead} overflowCount={9}>
           {this.props.children}

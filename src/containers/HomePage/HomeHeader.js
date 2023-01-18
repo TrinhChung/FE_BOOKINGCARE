@@ -178,10 +178,7 @@ class HomeHeader extends Component {
             </li>
           </ul>
         </div>
-        <Notification
-          handleOpenChange={this.handleOpenChange}
-          onOpen={this.state.isShowNotifications}
-        >
+        <Notification>
           <div
             style={{
               display: "flex",

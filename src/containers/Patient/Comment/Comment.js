@@ -35,15 +35,15 @@ class Comment extends Component {
       limit: 2,
       total: 0,
       maxCount: 0,
-      order: "ASC",
+      order: "DESC",
       countFavorites: 0,
       isFavorited: 0,
       changeFavorites: false,
     };
   }
   dataSelect = [
-    { value: "ASC", label: "Mới nhất" },
-    { value: "DESC", label: "Cũ nhất" },
+    { value: "ASC", label: "Cũ nhất" },
+    { value: "DESC", label: "Mới nhất" },
   ];
 
   async componentDidMount() {
